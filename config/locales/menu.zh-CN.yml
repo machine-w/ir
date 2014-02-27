@@ -1,0 +1,32 @@
+"zh-CN":
+  common:
+    help: "帮助"
+    about: "关于"
+    contact: "联系我们"
+    created: "天津大学图书馆"
+    login: "登录"
+    logup: "注册"
+    logout: "注销"
+    profile: "配置个人信息"
+    email: "电子邮件"
+    loginname: "用户名"
+    username: "真实姓名"
+    password: "密码"
+    password_confirmation: "确认密码"
+    forget_password: "忘记密码？"
+    remember_me: "记住我"
+    reset_password: "发送重置密码邮件"
+    change_password: "重置密码"
+    change_user: "修改用户信息"
+    change_user_note1: "(如果不想修改密码，请留空)"
+    password_cur: "当前密码"
+    del_user: "删除用户"
+    back: "返回"
+  menu:
+    logo: "学术文档云平台"
+    follow: "我的关注"
+    person: "个人门户"
+    panel: "管理后台"
+    search: "检索文档"
+    
+  

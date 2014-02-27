@@ -1,0 +1,35 @@
+<div class="log_container"> 
+<div class="hero-unit">
+<h1><%= t("common.change_user") %></h1>
+<br />
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+  <%= devise_error_messages! %>
+
+  <%= f.label t("common.email") %>
+  <%= f.email_field :email, :autofocus => true %>
+
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+  <% end %>
+  <%= f.label t("common.username") %>
+  <%= f.text_field :username %>
+ <%= f.label t("common.password") %> <i><%= f.label t("common.change_user_note1") %></i>
+  <%= f.password_field :password, :autocomplete => "off" %>
+
+  <%= f.label t("common.password_confirmation") %>
+  <%= f.password_field :password_confirmation %>
+
+  <%= f.label t("common.password_cur") %>
+  <%= f.password_field :current_password %>
+
+  <%= f.submit t("common.change_user"),  class: "btn btn-large btn-primary btn-block" %>
+<% end %>
+<br />
+<br />
+<h3><%= t("common.del_user") %></h3>
+
+<p> <%= button_to  t("common.del_user"), registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn-danger' %></p>
+
+<%= link_to t("common.back"), :back %>
+</div>
+</div>

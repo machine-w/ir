@@ -1,0 +1,23 @@
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="navbar-inner">
+     <div class="container">
+        <%= link_to t("menu.logo"), root_path, id: "logo" %>
+        <% if current_user %>
+        <nav>
+            <ul class="nav">
+              <li><%= link_to t("menu.follow"),    '#' %></li>
+              <li><%= link_to t("menu.person"),  user_path(current_user.loginname)  %></li>
+              <li><%= link_to t("menu.panel"),    admin_user_path(current_user.loginname) %></li>
+            </ul>
+        </nav>
+        <%else %>
+
+        <%end %>
+        <form action="/search" class="navbar-search pull-left" method="get">
+          <input type="text" name="q" class="search-query span3" value="" placeholder=<%=t("menu.search") %> />
+        </form>
+       <%= render "shared/user_nav" %>
+
+     </div>
+  </div>
+</header>

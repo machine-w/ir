@@ -1,0 +1,30 @@
+<div class="log_container"> 
+<div class="hero-unit">
+<h1><%=t("common.logup") %> </h1>
+<br />
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+  
+  <%= f.label t("common.loginname") %>
+  <%= f.text_field :loginname, :autofocus => true %>
+  
+  <%= f.label t("common.email") %>
+  <%= f.email_field :email %>
+  
+  <%= f.label t("common.username") %>
+  <%= f.text_field :username %>
+
+  <%= f.label t("common.password") %>
+  <%= f.password_field :password %>
+
+  <%= f.label t("common.password_confirmation") %>
+  <%= f.password_field :password_confirmation %>
+
+  <br />
+  <br />
+  <%= f.submit t("common.logup"), class: "btn btn-large btn-primary btn-block" %>
+<% end %>
+
+<%= render "devise/shared/links" %>
+  </div>
+</div>
