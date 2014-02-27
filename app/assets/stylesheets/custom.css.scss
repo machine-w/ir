@@ -1,9 +1,10 @@
-@import "bootstrap";
+
 
 /* mixins, variables, etc. */
 
 $grayMediumLight: #eaeaea;
-
+$blue: #ff0000;
+$grayLight: #ccc;
 @mixin box_sizing {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -131,7 +132,7 @@ h2 {
   margin-bottom: 30px;
   text-align: center;
   font-weight: normal;
-  color: $grayLight;
+  color: #ddd;
 }
 
 p {
@@ -163,12 +164,12 @@ p {
 footer {
   margin-top: 45px;
   padding-top: 5px;
-  border-top: 1px solid $grayMediumLight;
-  color: $grayLight;
+  border-top: 1px solid #ccc;
+  color: #ddd;
   a {
-    color: $gray;
+    color: #eee;
     &:hover {
-      color: $grayDarker;
+      color: #fff;
     }
   }
   small {
@@ -198,7 +199,7 @@ footer {
 aside {
   section {
     padding: 10px 0;
-    border-top: 1px solid $grayLighter;
+    border-top: 1px solid #333333;
     &:first-child {
       border: 0;
       padding-top: 0;
@@ -228,7 +229,7 @@ aside {
   a {
     float: left;
     padding: 0 10px;
-    border-left: 1px solid $grayLighter;
+    border-left: 1px solid #333333;
     color: gray;
     &:first-child {
       padding-left: 0;
@@ -286,9 +287,9 @@ input {
   li {
     overflow: auto;
     padding: 10px 0;
-    border-top: 1px solid $grayLighter;
+    border-top: 1px solid #333333;
     &:last-child {
-      border-bottom: 1px solid $grayLighter;
+      border-bottom: 1px solid #333333;
     }
   }
 }

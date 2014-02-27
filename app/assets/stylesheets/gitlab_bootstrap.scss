@@ -7,15 +7,15 @@ $baseLineHeight: 18px !default;
  */
 @import "bootstrap/variables";
 @import "bootstrap/mixins";
-@import "bootstrap/reset";
+//@import "bootstrap/reset";
 @import "bootstrap/scaffolding";
 @import "bootstrap/grid";
-@import "bootstrap/layouts";
+//@import "bootstrap/layouts";
 @import "bootstrap/type";
 @import "bootstrap/code";
 @import "bootstrap/forms";
 @import "bootstrap/tables";
-@import "bootstrap/sprites";
+//@import "bootstrap/sprites";
 @import "bootstrap/dropdowns";
 @import "bootstrap/wells";
 @import "bootstrap/component-animations";
@@ -32,14 +32,14 @@ $baseLineHeight: 18px !default;
 @import "bootstrap/popovers";
 @import "bootstrap/thumbnails";
 @import "bootstrap/media";
-@import "bootstrap/labels-badges";
+//@import "bootstrap/labels-badges";
 @import "bootstrap/progress-bars";
-@import "bootstrap/accordion";
+//@import "bootstrap/accordion";
 @import "bootstrap/carousel";
-@import "bootstrap/hero-unit";
+//@import "bootstrap/hero-unit";
 @import "bootstrap/utilities";
 @import "bootstrap/responsive-utilities";
-@import "bootstrap/responsive-1200px-min";
+//@import "bootstrap/responsive-1200px-min";
 
 /**
  * Font icons
