@@ -18,9 +18,10 @@ group :test do
   gem 'selenium-webdriver', '~> 2.35.1'
   gem 'capybara', '2.1.0'
   gem 'faker',"~> 1.1.2"
+  gem "rspec-cells"
 end
 
-gem 'sass-rails', '4.0.0'
+gem 'sass-rails'
 gem 'uglifier', '2.1.1'
 gem 'coffee-rails', '4.0.0'
 gem 'jquery-rails', '2.2.1'
@@ -28,11 +29,15 @@ gem 'turbolinks', '1.1.1'
 gem 'jbuilder', '1.0.2'
 gem 'rails-i18n', '~> 4.0.0.pre'
 
+# cell
+gem  "cells"
+
 # Mongoid 辅助插件
 gem "mongoid", github: 'mongoid/mongoid', ref: '11e45e5a30a45458b83db99ab6c9d9ccc337e66f'
 gem "bson_ext"
 #gem 'mongoid_auto_increment_id', "0.6.1"
 gem 'mongoid_rails_migrations', '1.0.0'
+gem "simple_enum"
 
 # 用户系统
 gem 'devise', '3.0.1'
@@ -46,10 +51,15 @@ gem 'kaminari-bootstrap', '~> 0.1.3'
 gem 'simple_form'
 
 # Bootstrap
-gem 'bootstrap-sass', '2.3.2.0'
-gem "font-awesome-rails"
-gem "font-awesome-sass-rails"
-gem 'bootstrap_helper', github: 'huacnlee/bootstrap-helper'
+gem 'bootstrap-sass', '~> 3.1.1'
+gem 'font-awesome-sass'
+gem 'bootstrap_helper'
+gem "select2-rails"
+gem 'tagmanager-rails'
+gem 'jquery-inputmask-rails'
+
+# html5 editor
+gem "summernote-rails", github: 'rorlab/summernote-rails'
 
 group :doc do
   gem 'sdoc', '0.3.20', require: false
