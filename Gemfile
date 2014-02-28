@@ -56,10 +56,13 @@ gem 'turbolinks', '1.1.1'
 gem 'font-awesome-sass'
 gem 'bootstrap-sass', '~> 3.1.1'
 gem 'bootstrap_helper'
+gem 'jquery-ui-rails'
+gem 'fullcalendar-rails'
+####################没有使用
 gem "select2-rails"
 gem 'tagmanager-rails'
 gem 'jquery-inputmask-rails'
-
+####################
 
 # html5 editor
 gem "summernote-rails", github: 'rorlab/summernote-rails'

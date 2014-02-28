@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_filter :find_user, :only => [:show, :index]
+  layout "admin_layout", :only => :admin
   def show
     
   end

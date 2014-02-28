@@ -10,9 +10,12 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
-//= require jquery_ujs
-//= require turbolinks
-//= require_tree .
+//= require jquery-min
 // Loads all Bootstrap javascripts
 //= require bootstrap
+//= require jquery.ui.all
+//= require app
+
+//= require fullcalendar/fullcalendar.min
+//= require iCheck/icheck.min
+//= require dashboard
