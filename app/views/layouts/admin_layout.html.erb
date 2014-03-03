@@ -252,7 +252,7 @@
                                         <a href="#" class="btn btn-default btn-flat">个人信息</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">退出</a>
+                                        <%= link_to(t("common.logout"), destroy_user_session_path, method: "delete",class: "btn btn-default btn-flat" ) %>
                                     </div>
                                 </li>
                             </ul>
@@ -402,12 +402,15 @@
 
                 <!-- Main content -->
                 <section class="content">
+                    <%= notice_message %>
                     <%= yield %>
                 </section><!-- /.content -->
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
 
         <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+        <%= javascript_include_tag "admincommon", "data-turbolinks-track" => true %>
+        <%= controller_javascript_include_tag %>
 
     </body>
 </html>

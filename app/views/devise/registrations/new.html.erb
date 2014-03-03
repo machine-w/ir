@@ -1,30 +1,30 @@
-<div class="log_container"> 
-<div class="hero-unit">
-<h1><%=t("common.logup") %> </h1>
-<br />
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
-  
-  <%= f.label t("common.loginname") %>
-  <%= f.text_field :loginname, :autofocus => true %>
-  
-  <%= f.label t("common.email") %>
-  <%= f.email_field :email %>
-  
-  <%= f.label t("common.username") %>
-  <%= f.text_field :username %>
-
-  <%= f.label t("common.password") %>
-  <%= f.password_field :password %>
-
-  <%= f.label t("common.password_confirmation") %>
-  <%= f.password_field :password_confirmation %>
-
-  <br />
-  <br />
-  <%= f.submit t("common.logup"), class: "btn btn-large btn-primary btn-block" %>
-<% end %>
-
-<%= render "devise/shared/links" %>
-  </div>
+<% provide(:title, '用于注册') %>
+<% provide(:bgclass, 'bg-black') %>
+<div class="form-box" id="login-box">
+    <div class="header"><%=t("common.logup") %> </div>
+    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+    <div class="body bg-gray">
+        <%= devise_error_messages! %>
+        <div class="form-group">
+            <%= f.text_field :loginname, :autofocus => true,:placeholder => '用户名',:class => 'form-control' %>
+        </div>
+        <div class="form-group">
+            <%= f.email_field :email,:placeholder => '电子邮件',:class => 'form-control' %>
+        </div>
+        <div class="form-group">
+            <%= f.text_field :username,:placeholder => '真实姓名',:class => 'form-control' %>
+        </div>
+        <div class="form-group">
+            <%= f.password_field :password,:placeholder => '密码',:class => 'form-control' %>
+        </div>
+        <div class="form-group">
+            <%= f.password_field :password_confirmation,:placeholder => '确认密码',:class => 'form-control' %>
+        </div>
+    </div>
+    <div class="footer">                    
+        <%= f.submit t("common.logup"), class: "btn bg-olive btn-block" %>
+        <%= render "devise/shared/links" %>
+    </div>
+    <% end %>
+    <%= render "shared/social_network_login" %>
 </div>

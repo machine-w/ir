@@ -20,7 +20,12 @@ class ApplicationController < ActionController::Base
       render :template => "/errors/unknown", :format => [:html], :handler => [:erb], :status => status, :layout => "application"
     end
   end
-  
+  def after_sign_in_path_for(resource)
+    admin_user_url(resource)
+  end
+  def after_sign_out_path_for(resource)
+    new_user_session_path
+  end
   protected
           def configure_permitted_parameters
             devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:loginname,:username, :email, :password,) }
