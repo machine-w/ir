@@ -29,6 +29,9 @@ gem 'rails-i18n', '~> 4.0.0.pre'
 # cell
 gem  "cells"
 
+# breadcrumb
+gem "breadcrumbs_on_rails", git: 'https://github.com/weppos/breadcrumbs_on_rails.git'
+
 # Mongoid 辅助插件
 gem "mongoid", github: 'mongoid/mongoid', ref: '11e45e5a30a45458b83db99ab6c9d9ccc337e66f'
 gem "bson_ext"

@@ -1,6 +1,7 @@
 class AdminSidebarCell < Cell::Rails
-
+	helper :users
 	def avatar(args)
+		@user=args[:user]
 		render
 	end
 	def folders(args)
@@ -10,7 +11,7 @@ class AdminSidebarCell < Cell::Rails
 		render
 	end
 	def tags(args)
-
+		render
 	end
 
 end

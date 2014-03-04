@@ -1,7 +1,14 @@
 class AdminHeaderCell < Cell::Rails
-
-  def userinfo
-    render
-  end
+	helper :users
+	def userinfo(args)
+		@user=args[:user]
+		render
+	end
+	def messages(args)
+		render
+	end
+	def notifications(args)
+		render		
+	end	
 
 end

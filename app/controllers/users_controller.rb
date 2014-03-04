@@ -3,11 +3,12 @@ class UsersController < ApplicationController
   before_filter :find_user, :only => [:show, :admin]
   before_filter :correct_user, :only => [:admin]
   layout "admin_layout", :only => :admin
+  #add_breadcrumb "主页", :root_path
   def show
     
   end
   def admin
-
+     drop_breadcrumb("后台", admin_user_path(@user.loginname))
   end
   def index
     @total_user_count = User.count

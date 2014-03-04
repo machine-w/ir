@@ -1,7 +1,39 @@
-<h1>
-  AdminHeader#userinfo
-</h1>
-
-<p>
-  Find me in app/cells/admin_header/userinfo.html.erb
-</p>
+<li class="dropdown user user-menu">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		<i class="glyphicon glyphicon-user"></i>
+		<span>	<%= @user.loginname %> <i class="caret"></i></span>
+	</a>
+	<ul class="dropdown-menu">
+		<!-- User image -->
+		<li class="user-header bg-light-blue">
+			
+			<%= gravatar_for @user %>
+			<p>
+				<%= @user.username %> - 天津大学
+				<small>单位：计算机工程与技术学院</small>
+				<small>学科：计算机，图书情报学，电子</small>
+			</p>
+		</li>
+		<!-- Menu Body -->
+		<li class="user-body">
+			<div class="col-xs-4 text-center">
+				<a href="#">关注</a>
+			</div>
+			<div class="col-xs-4 text-center">
+				<a href="#">被关注</a>
+			</div>
+			<div class="col-xs-4 text-center">
+				<a href="#">好友</a>
+			</div>
+		</li>
+		<!-- Menu Footer-->
+		<li class="user-footer">
+			<div class="pull-left">
+				<a href="#" class="btn btn-default btn-flat">个人信息</a>
+			</div>
+			<div class="pull-right">
+				<%= link_to(t("common.logout"), destroy_user_session_path, method: "delete",class: "btn btn-default btn-flat" ) %>
+			</div>
+		</li>
+	</ul>
+</li>

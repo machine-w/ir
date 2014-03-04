@@ -1,10 +1,9 @@
 <div class="user-panel">
 	<div class="pull-left image">
-		<%= image_tag "avatar9.jpg",:class => 'img-circle' %>
+		<%= gravatar_for @user %>
 	</div>
 	<div class="pull-left info">
-		<p>你好，马胜</p>
-
-		<a href="#"><i class="fa fa-male text-success"></i> 天津大学－图书馆</a>
+		<p>你好，	<%= @user.username %></p>
+		<a href="#"><i class="fa fa-male text-success"></i> 教师</a>
 	</div>
 </div>
