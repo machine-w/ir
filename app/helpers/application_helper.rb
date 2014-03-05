@@ -18,6 +18,14 @@ module ApplicationHelper
       bgclass
     end
   end
+  # 返回页面名称
+  def show_page_name(page_name)
+    page_name.empty? ? "仪表盘" : page_name
+  end
+  # 返回页面名称
+  def show_page_summary(page_summary)
+    page_summary.empty? ? "后台管理界面" : page_summary
+  end
   #显示提示信息
   def notice_message
     flash_messages = []

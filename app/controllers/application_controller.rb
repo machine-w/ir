@@ -34,8 +34,14 @@ class ApplicationController < ActionController::Base
     end
   end
   protected
-          def configure_permitted_parameters
-            devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:loginname,:username, :email, :password,) }
-            devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:email, :password, :remember_me) }
-          end
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:loginname,:username, :email, :password,) }
+    devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:email, :password, :remember_me) }
+  end
+  private
+  #设置每页中的用户对象
+  def set_user
+    @user=current_user
+  end
+
 end

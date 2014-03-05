@@ -69,8 +69,8 @@
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        仪表盘
-                        <small>个人空间管理</small>
+                        <%= show_page_name(yield(:page_name)) %>
+                        <small><%= show_page_summary(yield(:page_summary)) %></small>
                     </h1>
                     <%= render_breadcrumb  %>
                     <!-- <ol class="breadcrumb">

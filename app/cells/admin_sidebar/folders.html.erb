@@ -2,7 +2,7 @@
 	<li class="parents">
 		<a href="index.html">
 			<span style="font-size: 20px">我的目录</span> 
-			<button class="btn btn-mini btn-success" type="button" style="float: right">新建</button>
+				<button class="btn btn-mini btn-success" onclick="window.location.href='<%= new_user_admin_folder_path(@user.loginname) %>';return false;" type="button" style="float: right">新建</button>
 		</a>
 	</li>
 	<li>
