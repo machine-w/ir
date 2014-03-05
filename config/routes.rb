@@ -8,25 +8,34 @@ InstitutionalRepos::Application.routes.draw do
   # 比如 http://localhost/huacnlee
   #get "users/city/:id" => "users#city", as: 'location_users'
   #get "users" => "users#index", as: 'users'
-  shallow do  
+  #shallow do  
     resources :users, :path => "",:only => :show do
       member do
         get :admin
       end
-      resources :folders do
-        resources :properties
-        resources :documents do
-          resources :attritubes
-        end
-      end
+      resources :folders, only: [:index, :new, :create]
       namespace 'admin' do
-        resources :folders do
-          resources :properties
-          resources :documents do
-            resources :attritubes
-          end
-        end
+        resources :folders, only: [:index, :new, :create]
       end
     end
-  end
+
+
+    resources :folders, only: [:show, :edit, :update, :destroy] do
+      resources :properties
+      resources :documents, only: [:index, :new, :create]
+    end
+    resources :documents, only: [:show, :edit, :update, :destroy] do
+      resources :attritubes
+    end
+    #######
+    namespace 'admin' do
+      resources :folders, only: [:show, :edit, :update, :destroy] do
+          resources :properties
+          resources :documents, only: [:index, :new, :create]
+      end
+      resources :documents, only: [:show, :edit, :update, :destroy] do
+          resources :attritubes
+      end
+    end
+  #end
 end
