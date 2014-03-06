@@ -32,7 +32,7 @@ module ApplicationHelper
 
     flash.each do |type, message|
       case type
-      when :notice
+      when :notice,:success
         view_type = :success
         icon = :check
       when :alert
@@ -56,8 +56,10 @@ module ApplicationHelper
     case controller_name
     when "users"
       stylesheet_link_tag controller_name
-    when "documents"
-      stylesheet_link_tag "documents"
+    when "folders"
+      stylesheet_link_tag "admin/folders"
+    else
+      stylesheet_link_tag controller_name
     end
   end
   #添加每个控制器自己的脚本
@@ -65,8 +67,10 @@ module ApplicationHelper
     case controller_name
     when "users"
       javascript_include_tag controller_name
-    when "documents"
-      javascript_include_tag "documents"
+    when "folders"
+      javascript_include_tag "admin/folders"
+    else
+      javascript_include_tag controller_name
     end
   end
 end

@@ -2,71 +2,41 @@
 <% provide(:page_name, '新建目录') %>
 <% provide(:page_summary, '新建目录及管理目录集合') %>
 <div class="row">
-	<div class="col-md-6">
+	<div class="col-md-12">
 		<div class="box box-primary">
 			<div class="box-header">
 				<h3 class="box-title">新建目录</h3>
 			</div><!-- /.box-header -->
-			<!-- form start -->
-			<form role="form">
+			<%= form_for @folder, url: user_admin_folders_path(@user.loginname), html: {role: "form"} do |f| %>
 				<div class="box-body">
 					<div class="form-group">
-						<label for="exampleInputEmail1">Email address</label>
-						<input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+						<label for="add_folder_name">目录名(必填)</label>
+						<%= f.text_field :name,class: "form-control",id: "add_folder_name", placeholder: "我的目录", required: "" %>
 					</div>
-					<div class="form-group">
-						<label for="exampleInputPassword1">Password</label>
-						<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-					</div>
-					<div class="form-group">
-						<label for="exampleInputFile">File input</label>
-						<input type="file" id="exampleInputFile">
-						<p class="help-block">Example block-level help text here.</p>
-					</div>
-					<div class="checkbox">
-						<label>
-							<input type="checkbox"> Check me out
-						</label>
-					</div>
-				</div><!-- /.box-body -->
 
-				<div class="box-footer">
-					<button type="submit" class="btn btn-primary">Submit</button>
-				</div>
-			</form>
-		</div>
-	</div>
-	<div class="col-md-6">
-		<div class="box box-info">
-			<div class="box-header">
-				<h3 class="box-title">管理目录集</h3>
-			</div>
-			<form role="form">
-				<div class="box-body">
-					<div class="form-group has-error">
-						<label for="exampleInputEmail1">Email address</label>
-						<input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" >
-					</div>
 					<div class="form-group">
-						<label for="exampleInputPassword1">Password</label>
-						<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+						<label for="add_folder_type">目录类型(必填)</label>
+							<%= f.collection_select :folder_type, FolderType.all, :id, :name, {},{class: "form-control select2",id:"add_folder_type"} %>
 					</div>
-					<div class="form-group">
-						<label for="exampleInputFile">File input</label>
-						<input type="file" id="exampleInputFile">
-						<p class="help-block">Example block-level help text here.</p>
-					</div>
-					<div class="checkbox">
-						<label>
-							<input type="checkbox"> Check me out
-						</label>
-					</div>
-				</div>
 
-				<div class="box-footer">
-					<button type="submit" class="btn btn-primary">Submit</button>
+					<div class="form-group">
+						<label for="add_folder_group">目录集</label>
+							<input type='hidden' id='add_folder_group' class='form-control'/>
+							<input type='hidden' id='add_folder_group_data' value='<%= @folder_group_json %>'/>
+
+
+					</div>
+
+					<div class="form-group">
+						<label for="add_folder_des">目录说明</label>
+							<%= f.text_area :description,class: "form-control",id: "add_folder_des", placeholder: "简单介绍一些吧" %>
+					</div>
+					<div class="box-footer">
+						<%= f.button "新建目录", class: "btn btn-primary" %>
+					</div>
 				</div>
-			</form>
+			<% end %>
+			
 		</div>
 	</div>
 </div>

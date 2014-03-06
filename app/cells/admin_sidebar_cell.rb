@@ -6,7 +6,7 @@ class AdminSidebarCell < Cell::Rails
 	end
 	def folders(args)
 		@user=args[:user]
-		@folder = args[:user].folders.build
+		#@folder = args[:user].folders.build
 		@folders = args[:user].folders.all
 		render
 	end

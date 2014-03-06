@@ -60,5 +60,6 @@ class User
   ## start customs
   belongs_to :department
   has_many :folders, :dependent => :destroy
+  has_many :folder_groups, :dependent => :destroy
   has_and_belongs_to_many :third_disciplines
 end

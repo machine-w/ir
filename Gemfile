@@ -61,8 +61,9 @@ gem 'bootstrap-sass', '~> 3.1.1'
 gem 'bootstrap_helper'
 gem 'jquery-ui-rails'
 gem 'fullcalendar-rails'
-####################没有使用
+gem 'bootstrap-select-rails'
 gem "select2-rails"
+####################没有使用
 gem 'tagmanager-rails'
 gem 'jquery-inputmask-rails'
 ####################

@@ -14,8 +14,8 @@ class Folder
   belongs_to :user
   belongs_to :folder_type
   belongs_to :folder_group
-  embeds_many :properties
-  has_many :ducuments, :dependent => :destroy
+  #embeds_many :properties
+  has_many :documents, :dependent => :destroy
 
   validates_presence_of :name
 end
