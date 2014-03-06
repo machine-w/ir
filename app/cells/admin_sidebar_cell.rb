@@ -7,10 +7,12 @@ class AdminSidebarCell < Cell::Rails
 	def folders(args)
 		@user=args[:user]
 		#@folder = args[:user].folders.build
-		@folders = args[:user].folders.all
+		@folder_groups=args[:user].folder_groups.all
+		@folders = args[:user].folders.where(:folder_group => nil)
 		render
 	end
 	def tags(args)
+		@user=args[:user]
 		render
 	end
 

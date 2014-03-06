@@ -21,7 +21,7 @@
 
 					<div class="form-group">
 						<label for="add_folder_group">目录集</label>
-							<input type='hidden' id='add_folder_group' class='form-control'/>
+							<%= f.hidden_field :folder_group,class: "form-control",id: "add_folder_group" %>
 							<input type='hidden' id='add_folder_group_data' value='<%= @folder_group_json %>'/>
 
 
