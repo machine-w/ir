@@ -18,10 +18,10 @@
             <nav class="navbar navbar-static-top" role="navigation">
             </nav>
         </header>
-        <%= notice_message %>
+        
         <%= yield %>
 
         <%= javascript_include_tag "application", "data-turbolinks-track" => true %>    
-
+        <%= notice_message_with_js %>
     </body>
 </html>

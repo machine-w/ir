@@ -82,7 +82,7 @@
 
                 <!-- Main content -->
                 <section class="content">
-                    <%= notice_message %>
+                    
                     <%= yield %>
                 </section><!-- /.content -->
             </aside><!-- /.right-side -->
@@ -91,6 +91,6 @@
         <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
         <%= javascript_include_tag "admincommon", "data-turbolinks-track" => true %>
         <%= controller_javascript_include_tag %>
-
+        <%= notice_message_with_js %>
     </body>
 </html>

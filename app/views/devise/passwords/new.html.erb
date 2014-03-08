@@ -2,16 +2,15 @@
 <% provide(:bgclass, 'bg-black') %>
 <div class="form-box" id="login-box">
   <div class="header"><%=t("common.forget_password") %></div>
-  <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
+  <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post,:class => 'form_w_val'}) do |f| %>
   <div class ="body bg-gray">
-    <%= devise_error_messages! %>
     <div class="form-group">
-      <%= f.email_field :email, :autofocus => true,:placeholder => '确认邮箱',:class => 'form-control' %>
+      <%= f.email_field :email, :autofocus => true,:placeholder => '确认邮箱',:class => 'form-control','check-type' => "required mail", 'required-message' => "邮箱不可以为空" %>
     </div>       
   </div>
   <div class="footer">                                                               
     <!-- <button type="submit" class="btn bg-olive btn-block">Sign me in</button>  --> 
-    <%=f.submit t("common.reset_password"), class: "btn bg-olive btn-block" %>
+    <%=f.submit t("common.reset_password"), class: "btn bg-olive btn-block",onclick: "if($(this).parent().parent().valid() == false){return false;}" %>
     <%= render "devise/shared/links" %>
   </div>
   <% end %>

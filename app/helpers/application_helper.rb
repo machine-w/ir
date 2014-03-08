@@ -20,16 +20,15 @@ module ApplicationHelper
   end
   # 返回页面名称
   def show_page_name(page_name)
-    page_name.empty? ? "仪表盘" : page_name
+    page_name.empty? ? "标题" : page_name
   end
   # 返回页面名称
   def show_page_summary(page_summary)
-    page_summary.empty? ? "后台管理界面" : page_summary
+    page_summary.empty? ? "无详细信息" : page_summary
   end
   #显示提示信息
   def notice_message
     flash_messages = []
-
     flash.each do |type, message|
       case type
       when :notice,:success
@@ -51,6 +50,39 @@ module ApplicationHelper
 
     flash_messages.join("\n").html_safe
   end
+  #新的提示信息函数（使用messanger）
+  def notice_message_with_js
+   flash_messages = []
+  if devise_controller?
+     unless resource.errors.empty?
+      error_msg = ""
+      resource.errors.full_messages.each do |msg| 
+        error_msg += "#{msg}|"
+      end
+      flash.now['error']=error_msg
+    end
+  end
+  flash.each do |type, message|
+    case type
+    when :notice,:success
+      view_type = :success
+    when :alert
+      view_type = :error
+    else
+      view_type = :info
+    end
+    text = <<EOF
+    Messenger().post({
+      message: \'#{message}\',
+      type: \'#{view_type}\',
+      showCloseButton: true
+      });
+EOF
+flash_messages << text if message
+end
+javascript_tag flash_messages.join("\n")
+end
+
   #添加每个控制器自己的样式表
   def controller_stylesheet_link_tag
     case controller_name

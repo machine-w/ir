@@ -15,3 +15,17 @@
 # Loads all Bootstrap javascripts
 #= require bootstrap
 #= require jquery.ui.all
+# load pace 
+#= require pace/pace
+# load validation tool
+#= require bootstrap3-validation
+# load messanger
+#= require messenger
+#= require messenger-theme-future
+
+$ ->
+	$('.form_w_val').validation();
+	#Messenger.options = {
+    #extraClasses: 'messenger-fixed messenger-on-top',
+    #theme: 'block'
+    #}

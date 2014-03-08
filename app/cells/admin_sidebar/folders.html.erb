@@ -18,6 +18,11 @@
 				<a href="<%= admin_folder_path(item.id) %>">
 					<i class="fa <%= item.folder_type.image_path %>"></i> <%= item.name %>
 					<small class="badge bg-yellow"><%= item.doc_count %></small>
+					<div class="btn-group pull-right">
+						<button type="button" class="btn btn-default btn-xs btn-flat" onclick="window.location.href='<%= edit_admin_folder_path(item.id) %>';return false;">
+							<i class="fa fa-cog"></i>
+						</button>
+					</div>
 				</a>
 			</li>	
 			<% end %>
@@ -32,6 +37,11 @@
 		<a href="<%= admin_folder_path(f.id) %>">
 			<i class="fa <%= f.folder_type.image_path %>"></i> <span><%= f.name %></span>
 			<small class="badge bg-yellow"><%= f.doc_count %></small>
+			<div class="btn-group pull-right">
+				<button type="button" class="btn btn-default btn-sm btn-flat" onclick="window.location.href='<%= edit_admin_folder_path(f.id) %>';return false;">
+					<i class="fa fa-cog"></i>
+				</button>
+			</div>
 		</a>
 	</li>
 	<% end -%>

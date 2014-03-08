@@ -2,14 +2,14 @@
 <% provide(:bgclass, 'bg-black') %>
 <div class="form-box" id="login-box">
   <div class="header"><%=t("common.login") %></div>
-  <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+  <%= form_for(resource, :as => resource_name, :url => session_path(resource_name),:html => {:class => 'form_w_val'}) do |f| %>
   <div class ="body bg-gray">
     <%= devise_error_messages! %>
     <div class="form-group">
-      <%= f.email_field :email, :autofocus => true, :placeholder => '电子邮件',:class => 'form-control' %>
+      <%= f.text_field :email, :autofocus => true, :placeholder => '电子邮件',:class => 'form-control','check-type' => "required mail", 'required-message' => "登录名不可以为空" %>
     </div>
     <div class="form-group">
-      <%= f.password_field :password,:placeholder => '密码',:class => 'form-control' %>
+      <%= f.password_field :password,:placeholder => '密码',:class => 'form-control','check-type' => "required", 'required-message' => "密码不可以为空" %>
     </div>          
     <% if devise_mapping.rememberable? -%>
     <div class="form-group">
@@ -19,7 +19,7 @@
   </div>
   <div class="footer">                                                               
     <!-- <button type="submit" class="btn bg-olive btn-block">Sign me in</button>  --> 
-    <%=f.submit t("common.login"), class: "btn bg-olive btn-block" %>
+    <%=f.submit t("common.login"), class: "btn bg-olive btn-block",onclick: "if($(this).parent().parent().valid() == false){return false;}" %>
     <%= render "devise/shared/links" %>
   </div>
   <% end %>

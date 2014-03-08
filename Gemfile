@@ -63,6 +63,8 @@ gem 'jquery-ui-rails'
 gem 'fullcalendar-rails'
 gem 'bootstrap-select-rails'
 gem "select2-rails"
+gem 'pace-rails'
+gem "messengerjs-rails", "~> 1.3.6.2"
 ####################没有使用
 gem 'tagmanager-rails'
 gem 'jquery-inputmask-rails'

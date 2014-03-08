@@ -7,15 +7,15 @@
 			<div class="box-header">
 				<h3 class="box-title">新建目录</h3>
 			</div><!-- /.box-header -->
-			<%= form_for @folder, url: user_admin_folders_path(@user.loginname), html: {role: "form"} do |f| %>
+			<%= form_for @folder, url: user_admin_folders_path(@user.loginname), html: {role: "form",class: "form_w_val"} do |f| %>
 				<div class="box-body">
 					<div class="form-group">
-						<label for="add_folder_name">目录名(必填)</label>
-						<%= f.text_field :name,class: "form-control",id: "add_folder_name", placeholder: "我的目录", required: "" %>
+						<label for="add_folder_name" class="control-label">目录名</label>
+						<%= f.text_field :name,class: "form-control",id: "add_folder_name", placeholder: "我的目录", 'check-type' => "required", 'required-message' => "请填写目录名。", maxlength: "8" %>
 					</div>
 
 					<div class="form-group">
-						<label for="add_folder_type">目录类型(必填)</label>
+						<label for="add_folder_type" class="control-label">目录类型</label>
 							<%= f.collection_select :folder_type, FolderType.all, :id, :name, {},{class: "form-control select2",id:"add_folder_type"} %>
 					</div>
 
@@ -23,16 +23,14 @@
 						<label for="add_folder_group">目录集</label>
 							<%= f.hidden_field :folder_group,class: "form-control",id: "add_folder_group" %>
 							<input type='hidden' id='add_folder_group_data' value='<%= @folder_group_json %>'/>
-
-
 					</div>
 
 					<div class="form-group">
-						<label for="add_folder_des">目录说明</label>
+						<label for="add_folder_des" class="control-label">目录说明</label>
 							<%= f.text_area :description,class: "form-control",id: "add_folder_des", placeholder: "简单介绍一些吧" %>
 					</div>
 					<div class="box-footer">
-						<%= f.button "新建目录", class: "btn btn-primary" %>
+						<%= f.button "新建目录", class: "btn btn-primary",id: "add_folder_submit" %>
 					</div>
 				</div>
 			<% end %>

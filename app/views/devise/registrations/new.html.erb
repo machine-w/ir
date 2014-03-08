@@ -2,27 +2,26 @@
 <% provide(:bgclass, 'bg-black') %>
 <div class="form-box" id="login-box">
     <div class="header"><%=t("common.logup") %> </div>
-    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name),:html => {:class => 'form_w_val'}) do |f| %>
     <div class="body bg-gray">
-        <%= devise_error_messages! %>
         <div class="form-group">
-            <%= f.text_field :loginname, :autofocus => true,:placeholder => '用户名',:class => 'form-control' %>
+            <%= f.text_field :loginname,:placeholder => '用户名',:class => 'form-control','check-type' => "required", 'required-message' => "用户名不可以为空" %>
         </div>
         <div class="form-group">
-            <%= f.email_field :email,:placeholder => '电子邮件',:class => 'form-control' %>
+            <%= f.email_field :email,:placeholder => '电子邮件',:class => 'form-control','check-type' => "required mail", 'required-message' => "电子邮件不可以为空" %>
         </div>
         <div class="form-group">
-            <%= f.text_field :username,:placeholder => '真实姓名',:class => 'form-control' %>
+            <%= f.text_field :username,:placeholder => '真实姓名',:class => 'form-control','check-type' => "required", 'required-message' => "真实姓名不可以为空" %>
         </div>
         <div class="form-group">
-            <%= f.password_field :password,:placeholder => '密码',:class => 'form-control' %>
+            <%= f.password_field :password,:placeholder => '密码',:class => 'form-control','check-type' => "required", 'required-message' => "密码不可以为空",mixlength: "8" %>
         </div>
         <div class="form-group">
-            <%= f.password_field :password_confirmation,:placeholder => '确认密码',:class => 'form-control' %>
+            <%= f.password_field :password_confirmation,:placeholder => '确认密码',:class => 'form-control','check-type' => "required", 'required-message' => "确认密码不可以为空",mixlength: "8" %>
         </div>
     </div>
     <div class="footer">                    
-        <%= f.submit t("common.logup"), class: "btn bg-olive btn-block" %>
+        <%= f.submit t("common.logup"), class: "btn bg-olive btn-block",onclick: "if($(this).parent().parent().valid() == false){return false;}" %>
         <%= render "devise/shared/links" %>
     </div>
     <% end %>

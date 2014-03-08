@@ -33,9 +33,16 @@ class Admin::FoldersController < ApplicationController
 		@folder_group_json=@user.folder_groups.all.to_json(:only => [ :_id, :name ])
 	end
 	def index
+
 	end
 	def show
-		
+		@folder = Folder.find(params[:id])
+		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
+	end
+	def edit
+		@folder = Folder.find(params[:id])
+		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
+		drop_breadcrumb("配置", edit_admin_folder_path(@folder))
 	end
 
 	private 

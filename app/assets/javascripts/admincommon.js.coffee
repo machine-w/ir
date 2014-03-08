@@ -3,3 +3,7 @@
 #= require select2
 #= require select2_locale_zh-CN
 #= require app
+
+$ -> 
+	$('.select2').select2();
+	
