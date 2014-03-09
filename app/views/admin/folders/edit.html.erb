@@ -1,4 +1,47 @@
 <% provide(:title, "配置:"+@folder.name) %>
 <% provide(:page_name, "配置:"+@folder.name) %>
 <% provide(:page_summary, @folder.description) %>
+<% provide(:tab_one, "基本信息") %>
 <%= render 'admin/folders/config_navbar' %>
+<%= config_tab(0) %>
+<div class="row">
+	<div class="col-md-12">
+		<div class="nav-tabs-custom">
+			<div class="tab-content">
+				<div class="box-header">
+					<h3 class="box-title">修改目录基本信息</h3>
+				</div><!-- /.box-header -->
+				<%= form_for @folder, url: admin_folder_path(@folder), html: {role: "form",class: "form_w_val"} do |f| %>
+				<div class="box-body">
+					<div class="form-group">
+						<label for="edit_folder_name" class="control-label">目录名</label>
+						<%= f.text_field :name,class: "form-control",id: "edit_folder_name", placeholder: "我的目录", 'check-type' => "required", 'required-message' => "请填写目录名。", maxlength: "8" %>
+					</div>
+
+					<div class="form-group">
+						<label for="edit_folder_type" class="control-label">目录类型</label>
+						<%= f.collection_select :folder_type, FolderType.all, :id, :name, {:selected => @folder.folder_type._id},{class: "form-control select2",id:"edit_folder_type"} %>
+					</div>
+
+					<div class="form-group">
+						<label for="edit_folder_group">目录集</label>
+						<%= f.hidden_field :folder_group,class: "form-control",id: "edit_folder_group" %>
+						<input type='hidden' id='edit_folder_group_data' value='<%= @folder_group_json %>'/>
+						<input type='hidden' id='edit_folder_group_value' value='<%= @folder_group_value %>'/>
+					</div>
+
+					<div class="form-group">
+						<label for="edit_folder_des" class="control-label">目录说明</label>
+						<%= f.text_area :description,class: "form-control",id: "edit_folder_des", placeholder: "简单介绍一些吧" %>
+					</div>
+					<div class="box-footer">
+						<%= f.button "修改目录", class: "btn btn-primary",id: "edit_folder_submit" %>
+						<%= link_to '删除目录',admin_folder_path(@folder) , method: :delete, data: { confirm: '目录中所有文档将被删除' },class: "btn btn-danger pull-right" %>
+					</div>
+				</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+

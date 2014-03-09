@@ -7,6 +7,7 @@
         <%= stylesheet_link_tag "application", media: "all","data-turbolinks-track" => true %>
         <%= csrf_meta_tags %>
         <%= render 'layouts/shim' %>
+        <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
     </head>
     <body class="skin-blue">
         <!-- header logo: style can be found in header.less -->
@@ -88,7 +89,7 @@
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
 
-        <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+        
         <%= javascript_include_tag "admincommon", "data-turbolinks-track" => true %>
         <%= controller_javascript_include_tag %>
         <%= notice_message_with_js %>

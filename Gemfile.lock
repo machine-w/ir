@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/ifad/data-confirm-modal.git
+  revision: 60af41a47e7edc6dc64eba185a894a067a256ee9
+  specs:
+    data-confirm-modal (1.0.1)
+      railties (>= 3.0)
+
+GIT
   remote: git://github.com/mongoid/mongoid.git
   revision: 11e45e5a30a45458b83db99ab6c9d9ccc337e66f
   ref: 11e45e5a30a45458b83db99ab6c9d9ccc337e66f
@@ -252,6 +259,7 @@ DEPENDENCIES
   capybara (= 2.1.0)
   cells
   coffee-rails (= 4.0.0)
+  data-confirm-modal!
   database_cleaner
   devise (= 3.0.1)
   devise-encryptable (= 0.1.2)

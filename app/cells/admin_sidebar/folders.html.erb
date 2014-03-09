@@ -6,7 +6,6 @@
 		</a>
 	</li>
 	<% @folder_groups.each do |f| %>
-	<% if f.folders.count != 0 %>
 	<li class="treeview">
 		<a href="#">
 			<strong><%= f.name %></strong>
@@ -28,7 +27,6 @@
 			<% end %>
 		</ul>
 	</li>
-	<% end -%>
 	<% end %>
 	
 
