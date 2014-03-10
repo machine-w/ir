@@ -25,6 +25,7 @@
 # load confirm
 #= require data-confirm-modal
 
+
 $ ->
 	$('.form_w_val').validation(); #所有的form_w_val类的表单全部使用验证
 

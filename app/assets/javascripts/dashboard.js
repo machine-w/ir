@@ -13,6 +13,7 @@ $(function() {
         connectWith: ".connectedSortable",
         handle: ".box-header, .nav-tabs",
         forcePlaceholderSize: true,
+        dropOnEmpty: true,
         zIndex: 999999
     }).disableSelection();
     $(".box-header, .nav-tabs").css("cursor","move");

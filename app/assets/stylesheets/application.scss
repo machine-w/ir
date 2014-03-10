@@ -17,10 +17,12 @@
  *= require messenger
  *= require messenger-spinner
  *= require messenger-theme-future
+ *= require tagmanager
  */
 //@import "font-awesome";
 @import 'bootstrap';
 @import 'ionicons.min';
+@import "switch/bootstrap-switch.min.css";
 @import 'fullcalendar/fullcalendar.css';
 @import 'AdminLTE';
 

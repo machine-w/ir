@@ -33,8 +33,8 @@ class Property
 	field :embed_html_markdown, :type => Boolean, :default => true #扩展内容使用markdown还是富文本，预设，先不用
 	field :enum_option, :type => Array
 	field :file_type, :type => Array
-	field :data_x, :type => Integer, :default => 10 #数据表类型的列数
-	field :data_y, :type => Integer, :default => 10 #数据表类型的行数
+	field :data_x, :type => Integer #数据表类型的列数
+	field :data_y, :type => Integer #数据表类型的行数
 
 
 	embedded_in :folder

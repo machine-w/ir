@@ -66,8 +66,9 @@ gem "select2-rails"
 gem 'pace-rails'
 gem "messengerjs-rails", "~> 1.3.6.2"
 gem 'data-confirm-modal', github: 'ifad/data-confirm-modal'
-####################没有使用
+
 gem 'tagmanager-rails'
+####################没有使用
 gem 'jquery-inputmask-rails'
 ####################
 
