@@ -30,6 +30,9 @@ InstitutionalRepos::Application.routes.draw do
     #######
     namespace 'admin' do
       resources :folders, only: [:show, :edit, :update, :destroy] do
+          member do
+            get :config_property
+          end
           resources :properties
           resources :documents, only: [:index, :new, :create]
       end

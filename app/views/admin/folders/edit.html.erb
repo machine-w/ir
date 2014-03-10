@@ -1,8 +1,7 @@
 <% provide(:title, "配置:"+@folder.name) %>
 <% provide(:page_name, "配置:"+@folder.name) %>
-<% provide(:page_summary, @folder.description) %>
-<% provide(:tab_one, "基本信息") %>
-<%= render 'admin/folders/config_navbar' %>
+<% provide(:page_summary, "配置目录的基本信息") %>
+<%= render partial: 'config_navbar',locals: {folder: @folder} %>
 <%= config_tab(0) %>
 <div class="row">
 	<div class="col-md-12">

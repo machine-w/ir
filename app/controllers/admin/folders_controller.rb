@@ -1,7 +1,7 @@
 class Admin::FoldersController < ApplicationController
 	before_filter :authenticate_user!
 	before_filter :set_user
-	before_filter :set_folder, only: [:show, :edit, :update, :destroy]
+	before_filter :set_folder, only: [:show, :edit, :update, :destroy, :config_property]
 	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
 	layout "admin_layout"
 	def create
@@ -46,7 +46,13 @@ class Admin::FoldersController < ApplicationController
 		@folder_group_value = @folder.folder_group ? @folder.folder_group._id : ""
 		@folder_group_json=@user.folder_groups.all.to_json(:only => [ :_id, :name ])
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
-		drop_breadcrumb("配置", edit_admin_folder_path(@folder))
+		drop_breadcrumb("配置基本信息", edit_admin_folder_path(@folder))
+	end
+	def config_property
+		@property=@folder.properties.build
+		@properties=@folder.properties.all
+		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
+		drop_breadcrumb("配置文档属性", config_property_admin_folder_path(@folder))
 	end
 	def update
 		get_data = folders_params
