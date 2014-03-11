@@ -1,207 +1,228 @@
-<% provide(:title, "配置:"+@folder.name) %>
-<% provide(:page_name, "配置:"+@folder.name) %>
-<% provide(:page_summary, "配置目录中文档的共有属性") %>
-<%= render partial: 'config_navbar',locals: {folder: @folder} %>
-<%= config_tab(1) %>
-<h4 class="page-header">
-	<form action="#" method="get" class="sidebar-form">
-		<div class="input-group">
-			<input type="text" name="q" class="form-control" placeholder="Search...">
-			<span class="input-group-btn">
-				<button type="submit" name="seach" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-			</span>
-		</div>
-	</form>
-</h4>
-<div class="row connectedSortable">
-	<div class="col-md-4 ">
-		<!-- Default box -->
-		<div class="box box-solid box-danger">
-			<div class="box-header">
-				<h3 class="box-title">新建属性</h3>
-				<div class="box-tools pull-right">
-					<button class="btn btn-default btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
-				</div>
+	<% provide(:title, "配置:"+@folder.name) %>
+	<% provide(:page_name, "配置:"+@folder.name) %>
+	<% provide(:page_summary, "配置目录中文档的共有属性") %>
+	<%= render partial: 'config_navbar',locals: {folder: @folder} %>
+	<%= config_tab(1) %>
+	<h4 class="page-header">
+		<form action="#" method="get" class="sidebar-form">
+			<div class="input-group">
+				<input type="text" name="q" class="form-control" placeholder="Search...">
+				<span class="input-group-btn">
+					<button type="submit" name="seach" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+				</span>
 			</div>
-			<%= form_for @property, url: admin_folder_properties_path(@folder.id) do |f| %>
-			<div class="box-body">
-				<div class="form-group">
-					<%= f.text_field :name, placeholder: "属性名（建议使用英文字母组合）", class: "form-control", id: "add_property_name" %>
-				</div>
-				<div class="form-group">
-					<%= f.text_field :show_name, placeholder: "属性显示名称", class: "form-control", id: "add_property_showname" %>
-				</div>
-				<div class="form-group">
-					<%= f.collection_select :type, PropertyType.all, :type_view, :name, {},{id: "add_property_type",class: "select2 form-control" } %>
-				</div>
-				<div class="control-group">
-					<label class="control-label push-left">属性类型选项:</label>
-					<input type="checkbox" class="switch switch-small pull-right" data-on="danger" data-off="default" data-on-label="打开" data-off-label="关闭" id="add_property_custom" />				
-				</div>
-				<hr>
-				<div id="add_property_custom_pane" style="-moz-border-radius: 5px;  -webkit-border-radius: 5px; border: 1.5px solid #600; padding: 10px;">
-					<div id="add_property_maxmin_pane" class="form-group">
-						<div class="row" >
-							<div class="col-xs-6">
-								<%= f.text_field :min_value,placeholder: "最小值（长度）",class: "form-control" %>
+		</form>
+	</h4>
+	<div class="row connectedSortable">
+		<% @properties.each_with_index do |p,i| %>
+			<div class="col-md-4 col-lg-3 col-sm-6 ">
+				<div class="box box-solid box-danger">
+					<div class="box-header">
+						<h3 class="box-title">修改属性</h3>
+						<div class="box-tools pull-right">
+							<button class="btn btn-default btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+						</div>
+					</div>
+					<%= form_for p, url: admin_folder_property_path(@folder,p), method: :put do |f| %>
+					<div class="box-body">
+						<div class="form-group">
+							<%= f.text_field :name, placeholder: "属性名（建议使用英文字母组合）", class: "form-control" %>
+						</div>
+						<div class="form-group">
+							<%= f.text_field :show_name, placeholder: "属性显示名称", class: "form-control" %>
+						</div>
+						<div class="form-group">
+							<%= f.collection_select :type, PropertyType.all, :type_view, :name, {},{class: "select2 form-control" } %>
+						</div>
+						<div class="control-group">
+							<label class="control-label push-left">属性类型选项:</label>
+							<input type="checkbox" class="switch switch-small pull-right" data-on="danger" data-off="default" data-on-label="打开" data-off-label="关闭" id="add_property_custom" />				
+						</div>
+						<hr>
+						<div id="modify_property_custom_pane" style="-moz-border-radius: 5px;  -webkit-border-radius: 5px; border: 1.5px solid #600; padding: 10px;">
+							<div id="modify_property_maxmin_pane" class="form-group">
+								<div class="row" >
+									<div class="col-xs-6">
+										<%= f.text_field :min_value,placeholder: "最小值",class: "form-control" %>
+									</div>
+									<div class="col-xs-6">
+										<%= f.text_field :max_value,placeholder: "最大值",class: "form-control" %>
+									</div>
+								</div>
 							</div>
-							<div class="col-xs-6">
-								<%= f.text_field :max_value,placeholder: "最大值（长度）",class: "form-control" %>
+							<div id="modify_property_ext_pane" class="form-group">
+								<div class="row" >
+									<div class="col-xs-6">
+										<%= f.text_field :front_ext,placeholder: "前导字符",class: "form-control" %>
+									</div>
+									<div class="col-xs-6">
+										<%= f.text_field :back_ext,placeholder: "后导字符",class: "form-control" %>
+									</div>
+								</div>
+							</div>
+							<div id="modify_property_strformat_pane" class="form-group">
+								<%= f.text_field :string_format,placeholder: "字符串匹配格式",class: "form-control"%>
+							</div>
+							<div id="modify_property_options_pane" class="form-group">
+								<%= f.text_field :enum_option,placeholder: "选择项（回车分割）",id: "enum_options",class: "form-control"%>
+							</div>
+							<div id="modify_property_filetype_pane" class="form-group">
+								<%= f.text_field :file_type,placeholder: "可以接受的文件后缀",id: "file_type",class: "form-control"%>
+							</div>
+							<div id="modify_property_xy_pane" class="form-group">
+								<div class="row" >
+									<div class="col-xs-6">
+										<%= f.text_field :data_x,placeholder: "列数",class: "form-control" %>
+									</div>
+									<div class="col-xs-6">
+										<%= f.text_field :data_y,placeholder: "行数",class: "form-control" %>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label push-left">高级选项:</label>
+							<input type="checkbox" class="switch switch-small pull-right" data-on="danger" data-off="default" data-on-label="打开" data-off-label="关闭" id="add_property_adv" />				
+						</div>
+						<hr>
+						<div id="add_property_adv_pane" style="-moz-border-radius: 5px;  -webkit-border-radius: 5px; border: 1.5px solid #600; padding: 10px;">	
+							<div class="control-group">								
+								<label class="checkbox">
+									<%= f.check_box :require, {:checked =>false}%>
+									必填属性
+								</label>
+								<label class="checkbox">
+									<%= f.check_box :static, {:checked =>false}%>
+									静态属性
+								</label>
+								<label class="checkbox">
+									<%= f.check_box :view_in_grid, {:checked =>false}%>
+									数据库列表可见
+								</label>
+								<label class="checkbox">
+									<%= f.check_box :onlyread, {:checked =>false} %>
+									只读属性
+								</label>
+								<label class="checkbox">
+									<%= f.check_box :disable, {:checked =>false} %>
+									禁用属性
+								</label>
+							</div>
+							<div class="control-group">
+								<%= f.text_area :description, placeholder: "属性说明",class: "form-control" %>
 							</div>
 						</div>
 					</div>
-					<div id="add_property_ext_pane" class="form-group">
-						<div class="row" >
-							<div class="col-xs-6">
-								<%= f.text_field :front_ext,placeholder: "前导字符",class: "form-control" %>
-							</div>
-							<div class="col-xs-6">
-								<%= f.text_field :back_ext,placeholder: "后导字符",class: "form-control" %>
-							</div>
-						</div>
+					<div class="box-footer">
+						<button type="submit" class="btn btn-lg btn-danger btn-block">新增属性</button>
 					</div>
-					<div id="add_property_strformat_pane" class="form-group">
-						<%= f.text_field :string_format,placeholder: "字符串匹配格式",class: "form-control"%>
-					</div>
-					<div id="add_property_options_pane" class="form-group">
-						<%= f.text_field :enum_option,placeholder: "选择项（回车分割）",id: "enum_options",class: "form-control"%>
-					</div>
-					<div id="add_property_filetype_pane" class="form-group">
-						<%= f.text_field :file_type,placeholder: "可以接受的文件后缀",id: "file_type",class: "form-control"%>
-					</div>
-					<div id="add_property_xy_pane" class="form-group">
-						<div class="row" >
-							<div class="col-xs-6">
-								<%= f.text_field :data_x,placeholder: "数据表列数",class: "form-control" %>
-							</div>
-							<div class="col-xs-6">
-								<%= f.text_field :data_y,placeholder: "数据表行数",class: "form-control" %>
-							</div>
-						</div>
+					<% end %>
+				</div><!-- /.box -->
+			</div><!-- /.col -->
+		<% end %>
+		<div class="col-md-4 col-lg-3 col-sm-6 ">
+			<!-- Default box -->
+			<div class="box box-solid box-danger">
+				<div class="box-header">
+					<h3 class="box-title">新建属性</h3>
+					<div class="box-tools pull-right">
+						<button class="btn btn-default btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
 					</div>
 				</div>
-				<div class="control-group">
-					<label class="control-label push-left">高级选项:</label>
-					<input type="checkbox" class="switch switch-small pull-right" data-on="danger" data-off="default" data-on-label="打开" data-off-label="关闭" id="add_property_adv" />				
-				</div>
-				<hr>
-				<div id="add_property_adv_pane" style="-moz-border-radius: 5px;  -webkit-border-radius: 5px; border: 1.5px solid #600; padding: 10px;">	
-					<div class="control-group">								
-						<label class="checkbox">
-							<%= f.check_box :require, {:checked =>false}%>
-							必填属性
-						</label>
-						<label class="checkbox">
-							<%= f.check_box :static, {:checked =>false}%>
-							静态属性
-						</label>
-						<label class="checkbox">
-							<%= f.check_box :view_in_grid, {:checked =>false}%>
-							数据库列表可见
-						</label>
-						<label class="checkbox">
-							<%= f.check_box :onlyread, {:checked =>false} %>
-							只读属性
-						</label>
-						<label class="checkbox">
-							<%= f.check_box :disable, {:checked =>false} %>
-							禁用属性
-						</label>
+				<%= form_for @property, url: admin_folder_properties_path(@folder.id) do |f| %>
+				<div class="box-body">
+					<div class="form-group">
+						<%= f.text_field :name, placeholder: "属性名（建议使用英文字母组合）", class: "form-control", id: "add_property_name" %>
+					</div>
+					<div class="form-group">
+						<%= f.text_field :show_name, placeholder: "属性显示名称", class: "form-control", id: "add_property_showname" %>
+					</div>
+					<div class="form-group">
+						<%= f.collection_select :type, PropertyType.all, :type_view, :name, {},{id: "add_property_type",class: "select2 form-control" } %>
 					</div>
 					<div class="control-group">
-						<%= f.text_area :description, placeholder: "属性说明",class: "form-control" %>
+						<label class="control-label push-left">属性类型选项:</label>
+						<input type="checkbox" class="switch switch-small pull-right" data-on="danger" data-off="default" data-on-label="打开" data-off-label="关闭" id="add_property_custom" />				
+					</div>
+					<hr>
+					<div id="add_property_custom_pane" style="-moz-border-radius: 5px;  -webkit-border-radius: 5px; border: 1.5px solid #600; padding: 10px;">
+						<div id="add_property_maxmin_pane" class="form-group">
+							<div class="row" >
+								<div class="col-xs-6">
+									<%= f.text_field :min_value,placeholder: "最小值",class: "form-control" %>
+								</div>
+								<div class="col-xs-6">
+									<%= f.text_field :max_value,placeholder: "最大值",class: "form-control" %>
+								</div>
+							</div>
+						</div>
+						<div id="add_property_ext_pane" class="form-group">
+							<div class="row" >
+								<div class="col-xs-6">
+									<%= f.text_field :front_ext,placeholder: "前导字符",class: "form-control" %>
+								</div>
+								<div class="col-xs-6">
+									<%= f.text_field :back_ext,placeholder: "后导字符",class: "form-control" %>
+								</div>
+							</div>
+						</div>
+						<div id="add_property_strformat_pane" class="form-group">
+							<%= f.text_field :string_format,placeholder: "字符串匹配格式",class: "form-control"%>
+						</div>
+						<div id="add_property_options_pane" class="form-group">
+							<%= f.text_field :enum_option,placeholder: "选择项（回车分割）",id: "enum_options",class: "form-control"%>
+						</div>
+						<div id="add_property_filetype_pane" class="form-group">
+							<%= f.text_field :file_type,placeholder: "可以接受的文件后缀",id: "file_type",class: "form-control"%>
+						</div>
+						<div id="add_property_xy_pane" class="form-group">
+							<div class="row" >
+								<div class="col-xs-6">
+									<%= f.text_field :data_x,placeholder: "列数",class: "form-control" %>
+								</div>
+								<div class="col-xs-6">
+									<%= f.text_field :data_y,placeholder: "行数",class: "form-control" %>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label push-left">高级选项:</label>
+						<input type="checkbox" class="switch switch-small pull-right" data-on="danger" data-off="default" data-on-label="打开" data-off-label="关闭" id="add_property_adv" />				
+					</div>
+					<hr>
+					<div id="add_property_adv_pane" style="-moz-border-radius: 5px;  -webkit-border-radius: 5px; border: 1.5px solid #600; padding: 10px;">	
+						<div class="control-group">								
+							<label class="checkbox">
+								<%= f.check_box :require, {:checked =>false}%>
+								必填属性
+							</label>
+							<label class="checkbox">
+								<%= f.check_box :static, {:checked =>false}%>
+								静态属性
+							</label>
+							<label class="checkbox">
+								<%= f.check_box :view_in_grid, {:checked =>false}%>
+								数据库列表可见
+							</label>
+							<label class="checkbox">
+								<%= f.check_box :onlyread, {:checked =>false} %>
+								只读属性
+							</label>
+							<label class="checkbox">
+								<%= f.check_box :disable, {:checked =>false} %>
+								禁用属性
+							</label>
+						</div>
+						<div class="control-group">
+							<%= f.text_area :description, placeholder: "属性说明",class: "form-control" %>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="box-footer">
-				<button type="submit" class="btn btn-lg btn-danger btn-block">新增属性</button>
-			</div>
-			<% end %>
-		</div><!-- /.box -->
-	</div><!-- /.col -->
-
-	<div class="col-md-4">
-		<!-- Primary box -->
-		<div class="box box-solid box-primary">
-			<div class="box-header">
-				<h3 class="box-title">Primary Solid Box</h3>
-				<div class="box-tools pull-right">
-					<button class="btn btn-primary btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
-					<button class="btn btn-primary btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
+				<div class="box-footer">
+					<button type="submit" class="btn btn-lg btn-danger btn-block">新增属性</button>
 				</div>
-			</div>
-			<div class="box-body">
-				Box class: <code>.box.box-solid.box-primary</code>
-				<p>
-					amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel.
-					berliner weisse wort chiller adjunct hydrometer alcohol aau!
-					sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.
-				</p>
-			</div><!-- /.box-body -->
-		</div><!-- /.box -->
-	</div><!-- /.col -->
-
-	<div class="col-md-4">
-		<!-- Info box -->
-		<div class="box box-solid box-info">
-			<div class="box-header">
-				<h3 class="box-title">Info Solid Box</h3>
-				<div class="box-tools pull-right">
-					<button class="btn btn-info btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
-					<button class="btn btn-info btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
-				</div>
-			</div>
-			<div class="box-body">
-				Box class: <code>.box.box-solid.box-info</code>
-				<p>
-					amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel.
-					berliner weisse wort chiller adjunct hydrometer alcohol aau!
-					sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.
-				</p>
-			</div><!-- /.box-body -->
-		</div><!-- /.box -->
-	</div><!-- /.col -->
-
-
-	<div class="col-md-4">
-		<!-- Success box -->
-		<div class="box box-solid box-success">
-			<div class="box-header">
-				<h3 class="box-title">Success Solid Box</h3>
-				<div class="box-tools pull-right">
-					<button class="btn btn-success btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
-					<button class="btn btn-success btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
-				</div>
-			</div>
-			<div class="box-body">
-				Box class: <code>.box.box-solid.box-success</code>
-				<p>
-					amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel.
-					berliner weisse wort chiller adjunct hydrometer alcohol aau!
-					sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.
-				</p>
-			</div><!-- /.box-body -->
-		</div><!-- /.box -->
-	</div><!-- /.col -->
-
-	<div class="col-md-4">
-		<!-- Warning box -->
-		<div class="box box-solid box-warning">
-			<div class="box-header">
-				<h3 class="box-title">Warning Solid Box</h3>
-				<div class="box-tools pull-right">
-					<button class="btn btn-warning btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
-					<button class="btn btn-warning btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
-				</div>
-			</div>
-			<div class="box-body">
-				Box class: <code>.box.box-solid.box-warning</code>
-				<p>
-					amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel.
-					berliner weisse wort chiller adjunct hydrometer alcohol aau!
-					sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.
-				</p>
-			</div><!-- /.box-body -->
-		</div><!-- /.box -->
-	</div><!-- /.col -->
-</div>
+				<% end %>
+			</div><!-- /.box -->
+		</div><!-- /.col -->
+	</div>

@@ -66,7 +66,7 @@ module ApplicationHelper
     case type
     when :notice,:success
       view_type = :success
-    when :alert
+    when :alert,:error
       view_type = :error
     else
       view_type = :info

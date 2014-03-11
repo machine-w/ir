@@ -1,4 +1,5 @@
 InstitutionalRepos::Application.routes.draw do
+  get "properties/create"
   get "users/index"
   devise_for :users, :path => "account"
   root :to => "home#index"
