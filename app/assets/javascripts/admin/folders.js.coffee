@@ -81,6 +81,12 @@ $ ->
 			when "array"
 				$("#add_property_maxmin_pane").slideDown();
 			else
+	fill_modify_enum_options = (arg) ->
+    if(arg.attr('value')=='[]')
+        arg.val("")
+        return []
+    else
+        JSON.parse(arg.attr('value'))
 
 	$("#enum_options").tagsManager hiddenTagListName: "addhidden-property[enum_option]"
 	$("#file_type").tagsManager hiddenTagListName: "addhidden-property[file_type]"
@@ -96,6 +102,20 @@ $ ->
 
     $("#add_property_type").on 'change', (e)->
     	fix_custom_option(e.val)
+
+    $('.modify_property_adv_pane').hide();
+	$('.modify_property_adv').on "switch-change", (e, data) ->
+		$(data.el).parent().parent().parent().parent().next().next("div").slideToggle()
+
+	$(".modify_property_enum_options").each ->
+        $(this).tagsManager({prefilled: fill_modify_enum_options($(this))})
+
+	$(".modify_porperty_file_type").each ->
+        $(this).tagsManager({prefilled: fill_modify_enum_options($(this))})
+
+    #收起所有属性
+   $(".property-box").hide();
+   $(".property-box-g").addClass("collapsed-box");
 	
 	
 
