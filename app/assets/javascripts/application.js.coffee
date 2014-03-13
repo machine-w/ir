@@ -24,11 +24,22 @@
 #= require messenger-theme-future
 # load confirm
 #= require data-confirm-modal
+# load inputmask
+#= require jquery.inputmask
+#= require jquery.inputmask.extensions
+#= require jquery.inputmask.numeric.extensions
+#= require jquery.inputmask.date.extensions
+# load colorpicker
+#= require bootstrap-colorpicker
 
 
 $ ->
 	$('.form_w_val').validation(); #所有的form_w_val类的表单全部使用验证
-
+	# 所有的类型为下类的录入框都验证
+	$('.inputmask').inputmask();
+	$('.inputnumber').inputmask("integer");
+	# 所有sel_color类的录入框全都选颜色
+	$(".sel_color").colorpicker();
 	#设置提示信息的位置和样式
 	#Messenger.options = {
     #extraClasses: 'messenger-fixed messenger-on-top',

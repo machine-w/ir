@@ -1,0 +1,27 @@
+<!-- Small boxes (Stat box) -->
+<div class="row connectedSortable">
+    <% folders.each_with_index do |p,i| %>
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box" style="background-color: <%= p.tile_color %> !important;">
+                    <div class="inner">
+                        <a href="<%= admin_folder_path(p) %>">
+                            <h3>
+                                <%= p.doc_count %><sup style="font-size: 20px"><i class="fa fa-bookmark"></i>10</sup>
+                            </h3>
+                            <p>
+                                <%= p.name %>
+                            </p>
+                        </a>
+                    </div>
+                    <div class="icon">
+                        <i class="fa <%= p.folder_type.image_path %>"></i>
+                    </div>
+                    <a href="<%= edit_admin_folder_path(p) %>" class="small-box-footer">
+                        配置目录 <i class="fa fa-cog"></i>
+                    </a>
+                </div>
+            </div>
+    <% end %>
+
+</div><!-- /.row -->

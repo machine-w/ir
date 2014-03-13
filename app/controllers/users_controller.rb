@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   end
   def admin
      drop_breadcrumb("后台", admin_user_path(@user.loginname))
+     @tile_folders=@user.folders.has_tile
   end
   def index
     @total_user_count = User.count

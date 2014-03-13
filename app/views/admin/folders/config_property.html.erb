@@ -16,7 +16,7 @@
 	<div class="row connectedSortable">
 		<% @properties.each_with_index do |p,i| %>
 			<% unless p.name.blank? %>
-				<div class="col-md-4 col-lg-3 col-sm-6 ">
+				<div class="col-md-3 col-sm-6 ">
 					<div class="box box-solid box-primary property-box-g">
 						<div class="box-header">
 							<h3 class="box-title"><i class='fa <%= p.type_image() %>'></i>|<%= p.name %></h3>
@@ -27,23 +27,23 @@
 								 <%= form_for p, url: admin_folder_property_path(@folder,p), method: :delete do |f| %><% end %>
 							</div>
 						</div>
-						<%= form_for p, url: admin_folder_property_path(@folder,p), method: :put do |f| %>
+						<%= form_for p, url: admin_folder_property_path(@folder,p), method: :put, html: {role: "form",class: "form_w_val"} do |f| %>
 						<div class="box-body property-box">
 							<div class="form-group">
-								<%= f.text_field :name, placeholder: "属性名（建议使用英文字母组合）", class: "form-control" %>
+								<%= f.text_field :name, placeholder: "属性名（建议使用英文字母组合）", class: "form-control", 'check-type' => "required", 'required-message' => "请填写属性名", maxlength: "15" %>
 							</div>
 							<div class="form-group">
-								<%= f.text_field :show_name, placeholder: "属性显示名称", class: "form-control" %>
+								<%= f.text_field :show_name, placeholder: "属性显示名称", class: "form-control", maxlength: "50" %>
 							</div>
 							<div style="-moz-border-radius: 5px;  -webkit-border-radius: 5px; border: 1.5px solid #600; padding: 10px;">
 								<% if [:string, :text, :integer,:number,:file,:array].include? p.type %>
 								<div class="form-group">
 									<div class="row" >
 										<div class="col-xs-6">
-											<%= f.text_field :min_value,placeholder: "最小值",class: "form-control" %>
+											<%= f.text_field :min_value,placeholder: "最小值",class: "form-control inputnumber",maxlength: "6" %>
 										</div>
 										<div class="col-xs-6">
-											<%= f.text_field :max_value,placeholder: "最大值",class: "form-control" %>
+											<%= f.text_field :max_value,placeholder: "最大值",class: "form-control inputnumber",maxlength: "6" %>
 										</div>
 									</div>
 								</div>
@@ -52,37 +52,37 @@
 								<div class="form-group">
 									<div class="row" >
 										<div class="col-xs-6">
-											<%= f.text_field :front_ext,placeholder: "前导字符",class: "form-control" %>
+											<%= f.text_field :front_ext,placeholder: "前导字符",class: "form-control",maxlength: "6" %>
 										</div>
 										<div class="col-xs-6">
-											<%= f.text_field :back_ext,placeholder: "后导字符",class: "form-control" %>
+											<%= f.text_field :back_ext,placeholder: "后导字符",class: "form-control",maxlength: "6" %>
 										</div>
 									</div>
 								</div>
 								<% end %>
 								<% if [:string,:text].include? p.type %>
 								<div class="form-group">
-									<%= f.text_field :string_format,placeholder: "字符串匹配格式",class: "form-control"%>
+									<%= f.text_field :string_format,placeholder: "字符串匹配格式",class: "form-control",maxlength: "500"%>
 								</div>
 								<% end %>
 								<% if [:enum,:muli_enum].include? p.type %>
 								<div class="form-group">
-									<%= f.text_field :enum_option,placeholder: "选择项（逗号或回车分割）",class: "form-control modify_property_enum_options"%>
+									<%= f.text_field :enum_option,placeholder: "选择项（逗号或回车分割）",class: "form-control modify_property_enum_options",maxlength: "20"%>
 								</div>
 								<% end %>
 								<% if :file == p.type %>
 								<div class="form-group">
-									<%= f.text_field :file_type,placeholder: "可以接受的文件后缀",class: "form-control modify_property_file_type"%>
+									<%= f.text_field :file_type,placeholder: "可以接受的文件后缀",class: "form-control modify_property_file_type",maxlength: "10"%>
 								</div>
 								<% end %>
 								<% if :data_sheet == p.type %>
 								<div class="form-group">
 									<div class="row" >
 										<div class="col-xs-6">
-											<%= f.text_field :data_x,placeholder: "列数",class: "form-control" %>
+											<%= f.text_field :data_x,placeholder: "列数",class: "form-control inputnumber",maxlength: "4" %>
 										</div>
 										<div class="col-xs-6">
-											<%= f.text_field :data_y,placeholder: "行数",class: "form-control" %>
+											<%= f.text_field :data_y,placeholder: "行数",class: "form-control inputnumber",maxlength: "4" %>
 										</div>
 									</div>
 								</div>
@@ -117,22 +117,22 @@
 									</label>
 								</div>
 								<div class="control-group">
-									<%= f.text_area :description, placeholder: "属性说明",class: "form-control" %>
+									<%= f.text_area :description, placeholder: "属性说明",class: "form-control",maxlength: "1000" %>
 								</div>
 							</div>
 						</div>
 						<div class="box-footer property-box">
-							<button type="submit" class="btn btn-lg btn-primary btn-block">修改属性</button>
+							<button type="submit" class="btn btn-lg btn-primary btn-block" onclick = "if($(this).parent().parent().valid() == false){return false;}">修改属性</button>
 						</div>
 						<% end %>
 					</div><!-- /.box -->
 				</div><!-- /.col -->
 			<% end %>
-			<% if ((i+1) % 4) ==0 %>
+			<% if ((i+1) % 4) == 0 %>
 			</div><div class="row connectedSortable">
 			<% end %>
 		<% end %>
-		<div class="col-md-4 col-lg-3 col-sm-6 ">
+		<div class="col-md-3 col-sm-6 ">
 			<!-- Default box -->
 			<div class="box box-solid box-danger">
 				<div class="box-header">
@@ -141,13 +141,13 @@
 						<button class="btn btn-default btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
 					</div>
 				</div>
-				<%= form_for @property, url: admin_folder_properties_path(@folder.id) do |f| %>
+				<%= form_for @property, url: admin_folder_properties_path(@folder.id), html: {role: "form",class: "form_w_val"} do |f| %>
 				<div class="box-body">
 					<div class="form-group">
-						<%= f.text_field :name, placeholder: "属性名（建议使用英文字母组合）", class: "form-control", id: "add_property_name" %>
+						<%= f.text_field :name, placeholder: "属性名（建议使用英文字母组合）", class: "form-control", id: "add_property_name", 'check-type' => "required", 'required-message' => "请填写属性名", maxlength: "15" %>
 					</div>
 					<div class="form-group">
-						<%= f.text_field :show_name, placeholder: "属性显示名称", class: "form-control", id: "add_property_showname" %>
+						<%= f.text_field :show_name, placeholder: "属性显示名称", class: "form-control", id: "add_property_showname", maxlength: "50" %>
 					</div>
 					<div class="form-group">
 						<%= f.collection_select :type, PropertyType.all, :type_view, :name, {},{id: "add_property_type",class: "select2 form-control" } %>
@@ -161,39 +161,39 @@
 						<div id="add_property_maxmin_pane" class="form-group">
 							<div class="row" >
 								<div class="col-xs-6">
-									<%= f.text_field :min_value,placeholder: "最小值",class: "form-control" %>
+									<%= f.text_field :min_value,placeholder: "最小值",class: "form-control inputnumber",  maxlength: "6" %>
 								</div>
 								<div class="col-xs-6">
-									<%= f.text_field :max_value,placeholder: "最大值",class: "form-control" %>
+									<%= f.text_field :max_value,placeholder: "最大值",class: "form-control inputnumber", maxlength: "6" %>
 								</div>
 							</div>
 						</div>
 						<div id="add_property_ext_pane" class="form-group">
 							<div class="row" >
 								<div class="col-xs-6">
-									<%= f.text_field :front_ext,placeholder: "前导字符",class: "form-control" %>
+									<%= f.text_field :front_ext,placeholder: "前导字符",class: "form-control", maxlength: "6" %>
 								</div>
 								<div class="col-xs-6">
-									<%= f.text_field :back_ext,placeholder: "后导字符",class: "form-control" %>
+									<%= f.text_field :back_ext,placeholder: "后导字符",class: "form-control", maxlength: "6" %>
 								</div>
 							</div>
 						</div>
 						<div id="add_property_strformat_pane" class="form-group">
-							<%= f.text_field :string_format,placeholder: "字符串匹配格式",class: "form-control"%>
+							<%= f.text_field :string_format,placeholder: "字符串匹配格式",class: "form-control", maxlength: "500"%>
 						</div>
 						<div id="add_property_options_pane" class="form-group">
-							<%= f.text_field :enum_option,placeholder: "选择项（回车分割）",id: "enum_options",class: "form-control"%>
+							<%= f.text_field :enum_option,placeholder: "选择项（回车分割）",id: "enum_options",class: "form-control", maxlength: "20"%>
 						</div>
 						<div id="add_property_filetype_pane" class="form-group">
-							<%= f.text_field :file_type,placeholder: "可以接受的文件后缀",id: "file_type",class: "form-control"%>
+							<%= f.text_field :file_type,placeholder: "可以接受的文件后缀",id: "file_type",class: "form-control", maxlength: "10"%>
 						</div>
 						<div id="add_property_xy_pane" class="form-group">
 							<div class="row" >
 								<div class="col-xs-6">
-									<%= f.text_field :data_x,placeholder: "列数",class: "form-control" %>
+									<%= f.text_field :data_x,placeholder: "列数",class: "form-control inputnumber", maxlength: "4" %>
 								</div>
 								<div class="col-xs-6">
-									<%= f.text_field :data_y,placeholder: "行数",class: "form-control" %>
+									<%= f.text_field :data_y,placeholder: "行数",class: "form-control inputnumber", maxlength: "4" %>
 								</div>
 							</div>
 						</div>
@@ -227,12 +227,12 @@
 							</label>
 						</div>
 						<div class="control-group">
-							<%= f.text_area :description, placeholder: "属性说明",class: "form-control" %>
+							<%= f.text_area :description, placeholder: "属性说明",class: "form-control", maxlength: "1000"%>
 						</div>
 					</div>
 				</div>
 				<div class="box-footer">
-					<button type="submit" class="btn btn-lg btn-danger btn-block">新增属性</button>
+					<button type="submit" class="btn btn-lg btn-danger btn-block" onclick = "if($(this).parent().parent().valid() == false){return false;}">新增属性</button>
 				</div>
 				<% end %>
 			</div><!-- /.box -->

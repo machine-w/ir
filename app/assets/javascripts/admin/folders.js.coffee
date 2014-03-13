@@ -26,17 +26,24 @@ $ ->
 				li.push({id: item['_id']['$oid'],text: item['name'] })
 			return { text:'text', results: li }
 	$("#edit_folder_group").select2 "val", $("#edit_folder_group_value").val()
+	# $("#add_folder_submit").click  (event) ->
+ #  		if $(this).parent().parent().parent().valid() is false
+ #    		#$("#error-text").text "填写信息不完整。"
+ #    		return false
 
-	
-	$("#add_folder_submit").click  (event) ->
-  		if $(this).parent().parent().parent().valid() is false
-    		#$("#error-text").text "填写信息不完整。"
-    		false
-    $("#edit_folder_submit").click  (event) ->
-  		if $(this).parent().parent().parent().valid() is false
-    		#$("#error-text").text "填写信息不完整。"
-    		false
+    # $("#edit_folder_submit").click  (event) ->
+  		# if $(this).parent().parent().parent().valid() is false
+    # 		#$("#error-text").text "填写信息不完整。"
+    # 		return false
+	$("#add_folder_tile_color_group").hide()
+	$('#add_folder_tile').on "ifChanged", (event) ->
+    	$("#add_folder_tile_color_group").slideToggle()
 
+    if !$('#modify_folder_tile').parent().hasClass("checked")
+    	$("#modify_folder_tile_color_group").hide()
+    	
+	$('#modify_folder_tile').on "ifChanged", (event) ->
+    	$("#modify_folder_tile_color_group").slideToggle()
     #Make the dashboard widgets sortable Using jquery UI
 	$(".connectedSortable").sortable(
 	  placeholder: "sort-highlight"

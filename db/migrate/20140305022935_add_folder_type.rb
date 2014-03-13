@@ -10,6 +10,7 @@ class AddFolderType < Mongoid::Migration
 	FolderType.create(name: "音乐",list_view: "music", image_path: "fa-music",user_can_select: true)
 	FolderType.create(name: "文件",list_view: "file", image_path: "fa-folder-o",user_can_select: true)
 	FolderType.create(name: "数据",list_view: "data", image_path: "fa-table",user_can_select: true)
+	
   end
   def self.down
   	FolderType.delete_all()

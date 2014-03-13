@@ -27,11 +27,11 @@ class Admin::PropertiesController < ApplicationController
 			@property.enum_option=tags_params['enum_option'].split(',') if tags_params.has_key?('enum_option')
 			@property.file_type=tags_params['file_type'].split(',') if tags_params.has_key?('file_type')
 		end 
-		if @property.update_attributes!(properties_params)
+		if @property.update_attributes(properties_params)
 			flash[:success] = "修改属性成功"
 		else
 			@property.errors.full_messages.each do |msg|
-   				error_msg += msg + ','
+   				error_msg += msg + '|'
    			end
    			flash[:error]=error_msg
 		end

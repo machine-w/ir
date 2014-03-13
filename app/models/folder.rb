@@ -11,6 +11,11 @@ class Folder
   field :doc_default_content #目录文档的默认内容
   field :folder_item_view #目录在发布页面的中列表中每个item的内容
 
+  field :tile, :type => Boolean, :default => false #是否显示到主页动态磁贴
+  field :tile_color, :default => '#00c0ef'
+
+  scope :has_tile, where(tile: true)
+
   belongs_to :user
   belongs_to :folder_type
   belongs_to :folder_group

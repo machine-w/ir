@@ -15,7 +15,11 @@ class Admin::FoldersController < ApplicationController
 			new_folder_group = @user.folder_groups.create(name: get_data[:folder_group])
 			get_data[:folder_group] = new_folder_group._id
 		end
-
+		if folders_params['tile'] == '1'
+			get_data['tile'] = true
+		else
+			get_data['tile'] = false
+		end
 		@folder = @user.folders.build(get_data)
 		error_msg='错误：'
 		if @folder.save
@@ -71,12 +75,19 @@ class Admin::FoldersController < ApplicationController
 				get_data[:folder_group] = @user.folder_groups.find(get_data[:folder_group])
 			end
 		end
+		if folders_params['tile'] == '1'
+			get_data['tile'] = true
+		else
+			get_data['tile'] = false
+		end
 		#@folder = @user.folders.build(get_data)
 		error_msg='错误：'
 		@folder.name=get_data[:name]
 		@folder.description=get_data[:description]
 		@folder.folder_type=FolderType.find(get_data[:folder_type])
 		@folder.folder_group=get_data[:folder_group]
+		@folder.tile = get_data[:tile]
+		@folder.tile_color = get_data[:tile_color]
 		if @folder.save
 			flash[:success] = "修改目录成功"
 		else
@@ -112,6 +123,6 @@ class Admin::FoldersController < ApplicationController
 		@folder = @user.folders.find(params[:id])
 	end
 	def folders_params
-		params.require(:folder).permit(:name,:folder_type,:folder_group,:description)
+		params.require(:folder).permit(:name,:folder_type,:folder_group,:tile,:tile_color,:description)
 	end
 end

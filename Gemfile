@@ -66,11 +66,9 @@ gem "select2-rails"
 gem 'pace-rails'
 gem "messengerjs-rails", "~> 1.3.6.2"
 gem 'data-confirm-modal', github: 'ifad/data-confirm-modal'
-
 gem 'tagmanager-rails'
-####################没有使用
 gem 'jquery-inputmask-rails'
-####################
+gem 'bootstrap-colorpicker-rails', :require => 'bootstrap-colorpicker-rails',:git => 'git://github.com/alessani/bootstrap-colorpicker-rails.git'
 
 # html5 editor
 gem "summernote-rails", github: 'rorlab/summernote-rails'
