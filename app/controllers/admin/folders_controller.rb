@@ -42,7 +42,7 @@ class Admin::FoldersController < ApplicationController
 	end
 	def show
 		#@folder = Folder.find(params[:id])
-
+		@document=@folder.documents.new
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
 	end
 	def edit

@@ -1,0 +1,14 @@
+<%= simple_form_for @document,url: admin_folder_documents_path(document.folder) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-group">
+    <%= f.input :title, input_html:{class:'form-control'} %>
+  </div>
+  <div class="form-group">
+    <%= f.input :content_have_attr, class:'summernote' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.button :submit, class: "btn btn-default" %>
+  </div>
+<% end %>

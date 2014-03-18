@@ -31,6 +31,8 @@
 #= require jquery.inputmask.date.extensions
 # load colorpicker
 #= require bootstrap-colorpicker
+# load summernote
+#= require summernote.min
 
 
 $ ->
