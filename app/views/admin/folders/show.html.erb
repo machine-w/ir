@@ -1,16 +1,18 @@
 <% provide(:title, @folder.name) %>
 <% provide(:page_name, @folder.name) %>
 <% provide(:page_summary, @folder.description) %>
+<%= render partial: 'show_navbar',locals: {folder: @folder} %>
+<%= config_tab(0) %>
 <div class="mailbox row">
 	<div class="col-xs-12">
 		<div class="box box-solid">
-			<div class="box-header">
+<!-- 			<div class="box-header">
 					<i class="fa fa-lightbulb-o"></i>
 					<h3 class="box-title">文档内容</h3>
 					<div class="box-tools pull-right">
 						<button class="btn btn-default btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
 					</div>
-				</div>
+			</div> -->
 			<div class="box-body">
 				<div class="row">
 					<div class="col-md-3 col-sm-4">
