@@ -1,14 +1,17 @@
-<%= simple_form_for @document,url: admin_folder_documents_path(document.folder) do |f| %>
-  <%= f.error_notification %>
+<%= form_for @document,url: admin_folder_documents_path(document.folder),html: {role: "form",class: "form_w_val"}  do |f| %>
 
-  <div class="form-group">
-    <%= f.input :title, input_html:{class:'form-control'} %>
-  </div>
-  <div class="form-group">
-    <%= f.input :content_have_attr, class:'summernote' %>
-  </div>
+<div class="form-group">
+  <input type="checkbox" class="switch" id="switch_content_attr" data-on="warning" data-off="info" data-off-label="内容" data-on-label="字段" />
+  <%= f.button "保存", class: "btn btn-primary pull-right",onclick: "if($(this).parent().parent().valid() == false){return false;}" %>
+</div>
+<div class="form-group">
+  <%= f.text_field :title,class: "form-control",placeholder: "文档题目", 'check-type' => "required", 'required-message' => "请填写文档题目。", maxlength: "30" %>
+</div>
+<div class="form-group" id="add_document_content">
+  <%= f.text_field :content_have_attr, class: 'summernote form-control' %>
+</div>
 
-  <div class="form-group">
-    <%= f.button :submit, class: "btn btn-default" %>
-  </div>
+<div class="form-group">
+  
+</div>
 <% end %>
