@@ -48,7 +48,7 @@ class Admin::PropertiesController < ApplicationController
 		@folder = @user.folders.find(params[:folder_id])
 	end
 	def properties_params
-		params.require(:property).permit(:name,:show_name,:type,:require,:static,:view_in_grid,:onlyread,:disable,:description,:max_value,:min_value,:front_ext,:back_ext,:string_format,:data_x,:data_y)
+		params.require(:property).permit(:name,:show_name,:type,:require,:static,:view_in_grid,:edit_in_grid,:onlyread,:disable,:description,:max_value,:min_value,:front_ext,:back_ext,:string_format,:data_x,:data_y)
 	end
 	def add_tags_params
 		params.require("addhidden-property").permit(:enum_option,:file_type)

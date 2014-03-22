@@ -15,11 +15,11 @@ class Admin::FoldersController < ApplicationController
 			new_folder_group = @user.folder_groups.create(name: get_data[:folder_group])
 			get_data[:folder_group] = new_folder_group._id
 		end
-		if folders_params['tile'] == '1'
-			get_data['tile'] = true
-		else
-			get_data['tile'] = false
-		end
+		# if folders_params['tile'] == '1'
+		# 	get_data['tile'] = true
+		# else
+		# 	get_data['tile'] = false
+		# end
 		@folder = @user.folders.build(get_data)
 		error_msg='错误：'
 		if @folder.save
@@ -75,11 +75,11 @@ class Admin::FoldersController < ApplicationController
 				get_data[:folder_group] = @user.folder_groups.find(get_data[:folder_group])
 			end
 		end
-		if folders_params['tile'] == '1'
-			get_data['tile'] = true
-		else
-			get_data['tile'] = false
-		end
+		# if folders_params['tile'] == '1'
+		# 	get_data['tile'] = true
+		# else
+		# 	get_data['tile'] = false
+		# end
 		#@folder = @user.folders.build(get_data)
 		error_msg='错误：'
 		@folder.name=get_data[:name]

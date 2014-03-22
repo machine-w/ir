@@ -1,0 +1,11 @@
+<div id="add_document_property">
+	<% if !document.all_properties.blank? %>
+	  <% for item in document.all_properties %>
+	    <div class="form-group">
+	    	<%= get_property_form_view(item) %>
+	    </div>
+	  <% end %>
+	<% else %>
+	  
+	<% end %>
+</div>

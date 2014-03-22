@@ -108,6 +108,10 @@
 										数据库列表可见
 									</label>
 									<label class="checkbox">
+										<%= f.check_box :edit_in_grid%>
+										数据库列表可编辑
+									</label>
+									<label class="checkbox">
 										<%= f.check_box :onlyread %>
 										只读属性
 									</label>
@@ -217,6 +221,10 @@
 							<label class="checkbox">
 								<%= f.check_box :view_in_grid, {:checked =>false}%>
 								数据库列表可见
+							</label>
+							<label class="checkbox">
+								<%= f.check_box :edit_in_grid, {:checked =>false}%>
+								数据库列表可编辑
 							</label>
 							<label class="checkbox">
 								<%= f.check_box :onlyread, {:checked =>false} %>

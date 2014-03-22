@@ -16,4 +16,7 @@ class Document
 
   validates_presence_of :title
 
+  def all_properties
+    self.folder.properties.enable_not_static
+  end
 end

@@ -23,4 +23,9 @@ class Folder
   has_many :documents, :dependent => :destroy
 
   validates_presence_of :name
+
+  before_save do |folder|
+    folder.tile = (folder.tile == "1") ? true : false
+    true
+  end
 end

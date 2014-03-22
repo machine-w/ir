@@ -35,12 +35,22 @@ class Property
 	field :file_type, :type => Array
 	field :data_x, :type => Integer #数据表类型的列数
 	field :data_y, :type => Integer #数据表类型的行数
-
+	scope :enable_not_static, where(static: false,disable: false)
 
 	embedded_in :folder
 
 	validates_presence_of :name,:type,:static,:require,:disable,:view_in_grid,:inherit_type
 	validates_uniqueness_of :name,message: "同一目录属性不可以重名！"
+
+	before_save do |property|
+		property.static = (property.static == "1") ? true : false
+		property.disable = (property.disable == "1") ? true : false
+		property.require = (property.require == "1") ? true : false
+		property.onlyread = (property.onlyread == "1") ? true : false
+		property.view_in_grid = (property.view_in_grid == "1") ? true : false
+		property.edit_in_grid = (property.edit_in_grid == "1") ? true : false
+		true
+	end
 	def type_name
 		PropertyType.where(type_view_cd: self.type_cd).first.name
 	end
