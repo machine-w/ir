@@ -135,12 +135,20 @@ $ ->
      summer_note.val summer_note.code()
      true
 
-   $('#switch_content_attr').on "switch-change", (e, data) ->
-   		$("#add_document_content").stop(true,true);
-   		if $('#add_document_content').is(":hidden")
-   			$('#add_document_content').show('slide', {direction: 'right'}, 1000);
-   		else
-        	$('#add_document_content').hide('slide', {direction: 'right'}, 1000);
+     
+   # $("#add_document_property").hide();
+   # $('#switch_content_attr').on "switch-change", (e, data) ->
+   # 		$("#add_document_content").stop(true,true);
+   # 		if $('#add_document_content').is(":hidden")
+   # 			$('#add_document_content').show('slide', {direction: 'right'}, 1000);
+   # 		else
+   #      	$('#add_document_content').hide('slide', {direction: 'right'}, 1000);
+
+   #      $("#add_document_property").stop(true,true);
+   # 		if $('#add_document_property').is(":hidden")
+   # 			$('#add_document_property').show('slide', {direction: 'right'}, 1000);
+   # 		else
+   #      	$('#add_document_property').hide('slide', {direction: 'right'}, 1000);
 
 
 	

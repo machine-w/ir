@@ -40,6 +40,7 @@ $ ->
 	# 所有的类型为下类的录入框都验证
 	$('.inputmask').inputmask();
 	$('.inputnumber').inputmask("integer");
+	$('.inputdecimal').inputmask("decimal");
 	# 所有sel_color类的录入框全都选颜色
 	$(".sel_color").colorpicker();
 	#设置提示信息的位置和样式

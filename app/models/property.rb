@@ -61,4 +61,19 @@ class Property
 	def only_name?(name)
 		!self.folder.properties.where(name: name).exists?
 	end
+	def req?
+		self.require
+	end
+	def have_max?
+		!self.max_value.nil?
+	end
+	def have_min?
+		!self.min_value.nil?
+	end
+	def have_front?
+		!self.front_ext.blank?
+	end
+	def have_back?
+		!self.back_ext.blank?
+	end
 end

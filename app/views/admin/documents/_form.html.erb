@@ -1,16 +1,43 @@
 <%= form_for document,url: admin_folder_documents_path(document.folder),html: {role: "form",class: "form_w_val"}  do |f| %>
 
 <div class="form-group">
-  <input type="checkbox" class="switch" id="switch_content_attr" data-on="warning" data-off="info" data-off-label="内容" data-on-label="字段" />
-  <%= f.button "保存", class: "btn btn-primary pull-right",onclick: "if($(this).parent().parent().valid() == false){return false;}" %>
+	<%= f.button "保存", class: "btn btn-success btn-lg",onclick: "if($(this).parent().parent().valid() == false){return false;}" %>
 </div>
+<hr>
 <div class="form-group">
-  <%= f.text_field :title,class: "form-control",placeholder: "文档题目", 'check-type' => "required", 'required-message' => "请填写文档题目。", maxlength: "30" %>
-</div>
-<div class="form-group" id="add_document_content">
-  <%= f.text_field :content_have_attr, class: 'summernote form-control' %>
+	<%= f.text_field :title,class: "form-control",placeholder: "文档题目", 'check-type' => "required", 'required-message' => "请填写文档题目。", maxlength: "30" %>
 </div>
 
-<%= render partial: "admin/documents/form_property_list", locals: {document: document} %>
-
+<div class="box-group" id="accordion">
+	<div class="panel box box-primary">
+		<div class="box-header">
+			<h4 class="box-title">
+				<a data-toggle="collapse" data-parent="#accordion" href="#add_document_content">
+					文档内容
+				</a>
+			</h4>
+		</div>
+		<div id="add_document_content" class="panel-collapse collapse in">
+			<div class="box-body">
+				<div class="form-group">
+					<%= f.text_field :content_have_attr, class: 'summernote form-control' %>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel box box-success">
+		<div class="box-header">
+			<h4 class="box-title">
+				<a data-toggle="collapse" data-parent="#accordion" href="#add_document_property">
+					文档属性
+				</a>
+			</h4>
+		</div>
+		<div id="add_document_property" class="panel-collapse collapse">
+			<div class="box-body">
+				<%= render partial: "admin/documents/form_property_list", locals: {document: document} %>
+			</div>
+		</div>
+	</div>
+</div>
 <% end %>
