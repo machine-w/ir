@@ -33,6 +33,7 @@
 #= require bootstrap-colorpicker
 # load summernote
 #= require summernote.min
+#= require lang/summernote-zh-CN
 
 
 $ ->

@@ -43,7 +43,7 @@
 						<%= f.text_area :description,class: "form-control",id: "edit_folder_des", placeholder: "简单介绍一些吧" %>
 					</div>
 					<div class="box-footer">
-						<%= f.button "修改目录", class: "btn btn-primary",id: "edit_folder_submit",onclick: "if($(this).parent().parent().parent().valid() == false){return false;}" %>
+						<%= f.button "修改目录", class: "btn btn-primary",id: "edit_folder_submit",onclick: "if($(this).closest('form').valid() == false){return false;}" %>
 						<%= link_to '删除目录',admin_folder_path(@folder) , method: :delete, data: { confirm: '目录中所有文档将被删除' },class: "btn btn-danger pull-right" %>
 					</div>
 				</div>

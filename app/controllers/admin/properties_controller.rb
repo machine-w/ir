@@ -1,4 +1,5 @@
 class Admin::PropertiesController < ApplicationController
+	include ActionView::Helpers::TextHelper
 	before_filter :authenticate_user!
 	before_filter :set_user
 	before_filter :set_folder, only: [:create,:update,:destroy]
@@ -6,8 +7,8 @@ class Admin::PropertiesController < ApplicationController
 	def create
 		@property = @folder.properties.build(properties_params)
 		if params.has_key?('addhidden-property')
-			@property.enum_option=add_tags_params['enum_option'].split(',') if add_tags_params.has_key?('enum_option')
-			@property.file_type=add_tags_params['file_type'].split(',') if add_tags_params.has_key?('file_type')
+			@property.enum_option=strip_tags(add_tags_params['enum_option']).split(',') if add_tags_params.has_key?('enum_option')
+			@property.file_type=strip_tags(add_tags_params['file_type']).split(',') if add_tags_params.has_key?('file_type')
 		end 
 		error_msg='错误：'
 		if @property.save
@@ -24,8 +25,8 @@ class Admin::PropertiesController < ApplicationController
 		@property=@folder.properties.find(params[:id])
 		error_msg='错误：'
 		if params.has_key?('hidden-property')
-			@property.enum_option=tags_params['enum_option'].split(',') if tags_params.has_key?('enum_option')
-			@property.file_type=tags_params['file_type'].split(',') if tags_params.has_key?('file_type')
+			@property.enum_option=strip_tags(tags_params['enum_option']).split(',') if tags_params.has_key?('enum_option')
+			@property.file_type=strip_tags(tags_params['file_type']).split(',') if tags_params.has_key?('file_type')
 		end 
 		if @property.update_attributes(properties_params)
 			flash[:success] = "修改属性成功"

@@ -1,7 +1,7 @@
 class Property
 	include Mongoid::Document
 	include SimpleEnum::Mongoid
-
+	include ActionView::Helpers::TextHelper
 	field :name
 	field :show_name #属性显示名称
 	field :description
@@ -49,6 +49,14 @@ class Property
 		property.onlyread = (property.onlyread == "1") ? true : false
 		property.view_in_grid = (property.view_in_grid == "1") ? true : false
 		property.edit_in_grid = (property.edit_in_grid == "1") ? true : false
+		#html_safe
+		property.name = strip_tags property.name
+		property.show_name = strip_tags property.show_name
+		property.description = strip_tags property.description
+		property.front_ext = strip_tags property.front_ext
+		property.back_ext = strip_tags property.back_ext
+		property.string_format =  strip_tags property.string_format
+		
 		true
 	end
 	def type_name

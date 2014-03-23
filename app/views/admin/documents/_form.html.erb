@@ -1,11 +1,11 @@
 <%= form_for document,url: admin_folder_documents_path(document.folder),html: {role: "form",class: "form_w_val"}  do |f| %>
 
 <div class="form-group">
-	<%= f.button "保存", class: "btn btn-success btn-lg",onclick: "if($(this).parent().parent().valid() == false){return false;}" %>
+	<%= f.button "保存", class: "btn btn-success btn-lg",onclick: "if($(this).closest('form').valid() == false){return false;}" %>
+	<%= f.button "删除", class: "btn btn-danger btn-lg" %>
 </div>
-<hr>
 <div class="form-group">
-	<%= f.text_field :title,class: "form-control",placeholder: "文档题目", 'check-type' => "required", 'required-message' => "请填写文档题目。", maxlength: "30" %>
+	<%= f.text_field :title,class: "form-control input-lg",placeholder: "文档题目", 'check-type' => "required", 'required-message' => "请填写文档题目。", maxlength: "30" %>
 </div>
 
 <div class="box-group" id="accordion">
@@ -36,6 +36,9 @@
 		<div id="add_document_property" class="panel-collapse collapse">
 			<div class="box-body">
 				<%= render partial: "admin/documents/form_property_list", locals: {document: document} %>
+				<div class="form-group">
+					<%= f.button "保存", class: "btn btn-success btn-lg",onclick: "if($(this).closest('form').valid() == false){return false;}" %>
+				</div>
 			</div>
 		</div>
 	</div>

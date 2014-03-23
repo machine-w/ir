@@ -126,7 +126,7 @@
 							</div>
 						</div>
 						<div class="box-footer property-box">
-							<button type="submit" class="btn btn-lg btn-primary btn-block" onclick = "if($(this).parent().parent().valid() == false){return false;}">修改属性</button>
+							<button type="submit" class="btn btn-lg btn-primary btn-block" onclick = "if($(this).closest('form').valid() == false){return false;}">修改属性</button>
 						</div>
 						<% end %>
 					</div><!-- /.box -->
@@ -241,7 +241,7 @@
 					</div>
 				</div>
 				<div class="box-footer">
-					<button type="submit" class="btn btn-lg btn-danger btn-block" onclick = "if($(this).parent().parent().valid() == false){return false;}">新增属性</button>
+					<button type="submit" class="btn btn-lg btn-danger btn-block" onclick = "if($(this).closest('form').valid() == false){return false;}">新增属性</button>
 				</div>
 				<% end %>
 			</div><!-- /.box -->

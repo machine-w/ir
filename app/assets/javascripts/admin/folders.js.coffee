@@ -128,12 +128,26 @@ $ ->
    summer_note = $('#document_content_have_attr')
    summer_note.summernote
      height: ($(window).height() - 450),
-    #lang: 'ko-KR',
+     lang: 'zh-CN',
      style: 'cosmo'
    summer_note.code summer_note.val()
    summer_note.closest('form').submit ->
      summer_note.val summer_note.code()
      true
+
+   # to set summernote object
+   #summer_note = $('.summernote-input')
+   $('.summernote-input').each ->
+   	$(this).summernote
+    	lang: 'zh-CN',
+    	#height: 100
+    	#style: 'flatly'
+   	$(this).code $(this).val()
+   	$(this).closest('form').submit ->
+     $(this).val $(this).code()
+     true
+  	return
+   
 
      
    # $("#add_document_property").hide();

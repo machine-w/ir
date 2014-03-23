@@ -29,6 +29,8 @@ gem 'rails-i18n', '~> 4.0.0.pre'
 # cell
 gem  "cells"
 
+# 安全
+
 # breadcrumb
 gem "breadcrumbs_on_rails", git: 'https://github.com/weppos/breadcrumbs_on_rails.git'
 

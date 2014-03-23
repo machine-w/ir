@@ -39,7 +39,7 @@
 					<%= f.text_area :description,class: "form-control",id: "add_folder_des", placeholder: "简单介绍一些吧" %>
 				</div>
 				<div class="box-footer">
-					<%= f.button "新建目录", class: "btn btn-primary",id: "add_folder_submit",onclick: "if($(this).parent().parent().parent().valid() == false){return false;}" %>
+					<%= f.button "新建目录", class: "btn btn-primary",id: "add_folder_submit",onclick: "if($(this).closest('form').valid() == false){return false;}" %>
 				</div>
 			</div>
 			<% end %>

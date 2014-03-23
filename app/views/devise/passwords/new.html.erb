@@ -10,7 +10,7 @@
   </div>
   <div class="footer">                                                               
     <!-- <button type="submit" class="btn bg-olive btn-block">Sign me in</button>  --> 
-    <%=f.submit t("common.reset_password"), class: "btn bg-olive btn-block",onclick: "if($(this).parent().parent().valid() == false){return false;}" %>
+    <%=f.submit t("common.reset_password"), class: "btn bg-olive btn-block",onclick: "if($(this).closest('form').valid() == false){return false;}" %>
     <%= render "devise/shared/links" %>
   </div>
   <% end %>
