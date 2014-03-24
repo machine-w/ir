@@ -3,6 +3,7 @@ module Admin::DocumentsHelper
 		label = "<label for='#{property._id}' class='control-label'>#{property.show_name.blank? ? property.name : property.show_name}: </label>"
 		req = "check-type='required' required-message='#{property.show_name}为必填字段'" if property.req? || ((property.string? || property.text?) && property.have_min?)
 		req_num = "check-type='#{'required ' if property.req? }number' required-message='#{property.show_name}为必填字段'"
+		req_mail = "check-type='#{'required ' if property.req? }mail' required-message='#{property.show_name}为必填字段'"
 		maxlength = "maxlength = '#{property.max_value}' " if property.have_max?
 		minlength = "minlength = '#{property.min_value}' " if property.have_min?
 		num_range = "range='#{property.have_min? ? property.min_value : 'min'}~#{property.have_max? ? property.max_value : 'max'}'"
@@ -30,6 +31,18 @@ module Admin::DocumentsHelper
 						select_tag("properties[#{property.name}]", options,{id: property._id, class: "form-control select2",multiple: true,placeholder:"#{property.description}..."})
 					when :array #客户端验证没有做
 						"<input type='text' name='properties[#{property.name}]' class='form-control tm-input tm-input-success tm-input-small tags' id='#{property._id}' placeholder='#{property.description}...'/>"
+					when :email
+						"<input type='text' #{req_mail} name='properties[#{property.name}]' class='form-control' id='#{property._id}' placeholder='#{property.description}...'/>"
+					when :file #客户端验证没有做
+						file_field_tag "properties[#{property.name}]", id: property._id
+					when :pdf
+						file_field_tag "properties[#{property.name}]", id: property._id, accept: 'application/pdf'
+					when :picture
+						file_field_tag "properties[#{property.name}]", id: property._id, accept: 'image/png,image/gif,image/jpeg'
+					when :video
+						file_field_tag "properties[#{property.name}]", id: property._id, accept: 'video/mpeg,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv'
+					when :music
+						file_field_tag "properties[#{property.name}]", id: property._id, accept: 'audio/basic,auido/L24,audio/mpeg,audio/mid,audio/mp4,audio/x-aiff,audio/x-mpegurl,audio/vnd.rn-realaudio,audio/ogg,audio/vorbis,audio/vnd.wav'
 					else
 						"不支持的字段类型"
 				 end
