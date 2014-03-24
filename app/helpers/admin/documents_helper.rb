@@ -20,7 +20,16 @@ module Admin::DocumentsHelper
 					when :embed_html #必填属性客户端不验证
 						"<input type='text' name='properties[#{property.name}]' class='form-control summernote-input' id='#{property._id}' placeholder='#{property.description}...'/>"
 					when :bool
-						"<input type='checkbox' #{"checked='checked'" if property.req?} name='properties[#{property.name}]' class='switch switch-small' data-on='primary' data-off='default' data-on-label='是' data-off-label='否' />"	
+						"<input type='checkbox' #{"checked='checked'" if property.req?} name='properties[#{property.name}]' class='switch switch-small' data-on='primary' data-off='default' data-on-label='是' data-off-label='否' />"
+					when :enum
+						options = property.req? ? property.enum_option.map { |i| [i,i]  } : property.enum_option.map { |i| [i,i]  }.unshift(['',''])
+						select_tag("properties[#{property.name}]", options_for_select(options),{id: property._id, class: "form-control select2",placeholder:"#{property.description}..."})
+					when :muli_enum
+						options = property.req? ? options_for_select(property.enum_option.map { |i| [i,i]  },property.enum_option) : 
+												  options_for_select(property.enum_option.map { |i| [i,i]  })
+						select_tag("properties[#{property.name}]", options,{id: property._id, class: "form-control select2",multiple: true,placeholder:"#{property.description}..."})
+					when :array #客户端验证没有做
+						"<input type='text' name='properties[#{property.name}]' class='form-control tm-input tm-input-success tm-input-small tags' id='#{property._id}' placeholder='#{property.description}...'/>"
 					else
 						"不支持的字段类型"
 				 end
