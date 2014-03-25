@@ -43,6 +43,11 @@ module Admin::DocumentsHelper
 						file_field_tag "properties[#{property.name}]", id: property._id, accept: 'video/mpeg,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv'
 					when :music
 						file_field_tag "properties[#{property.name}]", id: property._id, accept: 'audio/basic,auido/L24,audio/mpeg,audio/mid,audio/mp4,audio/x-aiff,audio/x-mpegurl,audio/vnd.rn-realaudio,audio/ogg,audio/vorbis,audio/vnd.wav'
+					when :date
+						"<input type='text' #{req} name='properties[#{property.name}]' class='form-control sel_date' id='#{property._id}'/>"
+					when :time
+						"<input type='text' #{req} name='properties[#{property.name}]' class='form-control sel_time' id='#{property._id}' data-format='hh:mm A'/>"
+						
 					else
 						"不支持的字段类型"
 				 end

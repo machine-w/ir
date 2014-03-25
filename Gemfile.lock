@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/Nerian/bootstrap-datepicker-rails.git
+  revision: 7e394137813970fa7c8044f1d0b69322b77af5f6
+  specs:
+    bootstrap-datepicker-rails (1.3.0.1)
+      railties (>= 3.0)
+
+GIT
   remote: git://github.com/alessani/bootstrap-colorpicker-rails.git
   revision: fc32b46d4449bb594ba744b84820fdfdad903973
   specs:
@@ -261,6 +268,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootstrap-colorpicker-rails!
+  bootstrap-datepicker-rails!
   bootstrap-sass (~> 3.1.1)
   bootstrap-select-rails
   bootstrap_helper

@@ -19,6 +19,7 @@
  *= require messenger-theme-future
  *= require tagmanager
  *= require bootstrap-colorpicker
+ *= require bootstrap-datepicker
  *= require summernote
  */
 //@import "font-awesome";
@@ -26,6 +27,7 @@
 @import 'ionicons.min';
 @import "switch/bootstrap-switch.min.css";
 @import 'fullcalendar/fullcalendar.css';
+@import 'clockface/clockface.css';
 @import 'AdminLTE';
 
 //以前的前台css

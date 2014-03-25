@@ -71,7 +71,7 @@ gem 'data-confirm-modal', github: 'ifad/data-confirm-modal'
 gem 'tagmanager-rails'
 gem 'jquery-inputmask-rails'
 gem 'bootstrap-colorpicker-rails', :require => 'bootstrap-colorpicker-rails',:git => 'git://github.com/alessani/bootstrap-colorpicker-rails.git'
-
+gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
 # html5 editor
 gem "summernote-rails", github: 'rorlab/summernote-rails'
 

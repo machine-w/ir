@@ -31,9 +31,14 @@
 #= require jquery.inputmask.date.extensions
 # load colorpicker
 #= require bootstrap-colorpicker
+# load datepicker
+#= require bootstrap-datepicker
+#= require bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN
 # load summernote
 #= require summernote.min
 #= require lang/summernote-zh-CN
+# load clockface
+#= require clockface/clockface
 
 
 $ ->
@@ -44,6 +49,10 @@ $ ->
 	$('.inputdecimal').inputmask("decimal");
 	# 所有sel_color类的录入框全都选颜色
 	$(".sel_color").colorpicker();
+	# 所有sel_date类的录入框全都选日期
+	$('.sel_date').datepicker({language: 'zh-CN',todayHighlight: true});
+	# 所有sel_time类的录入框全都选时间
+	$('.sel_time').clockface({});
 	#设置提示信息的位置和样式
 	#Messenger.options = {
     #extraClasses: 'messenger-fixed messenger-on-top',
