@@ -10,7 +10,7 @@ module Admin::DocumentsHelper
 		front = "<span class='input-group-addon'>#{property.front_ext}</span>" if property.have_front?
 		back = "<span class='input-group-addon'>#{property.back_ext}</span>" if property.have_back?
 		input = case property.type
-					when :string
+					when :string #格式字符串没有做客户端验证
 						"#{front}<input type='text' #{req} #{maxlength} #{minlength} name='properties[#{property.name}]' class='form-control' id='#{property._id}' placeholder='#{property.description}...'/> #{back}"
 					when :integer 
 						"#{front}<input type='text' #{req_num} #{num_range} name='properties[#{property.name}]' class='form-control inputnumber' id='#{property._id}' placeholder='#{property.description}...'/> #{back}"
@@ -47,7 +47,10 @@ module Admin::DocumentsHelper
 						"<input type='text' #{req} name='properties[#{property.name}]' class='form-control sel_date' id='#{property._id}'/>"
 					when :time
 						"<input type='text' #{req} name='properties[#{property.name}]' class='form-control sel_time' id='#{property._id}' data-format='hh:mm A'/>"
-						
+					when :link #暂时没有做格式过滤，和普通字符串没有区别
+						"<input type='text' #{req} name='properties[#{property.name}]' class='form-control' id='#{property._id}' placeholder='#{property.description}...'/>"
+					when :data_sheet
+						"<div class='handsontable'></div>"
 					else
 						"不支持的字段类型"
 				 end

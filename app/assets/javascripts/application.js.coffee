@@ -39,6 +39,8 @@
 #= require lang/summernote-zh-CN
 # load clockface
 #= require clockface/clockface
+# load handsontable
+#= require handsontable/jquery.handsontable.full
 
 
 $ ->
@@ -53,6 +55,10 @@ $ ->
 	$('.sel_date').datepicker({language: 'zh-CN',todayHighlight: true});
 	# 所有sel_time类的录入框全都选时间
 	$('.sel_time').clockface({});
+
+	$(".handsontable").each ->
+		$(this).handsontable();
+
 	#设置提示信息的位置和样式
 	#Messenger.options = {
     #extraClasses: 'messenger-fixed messenger-on-top',
