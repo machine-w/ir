@@ -28,4 +28,7 @@ class Folder
     folder.tile = (folder.tile == "1") ? true : false
     true
   end
+  def all_properties
+    self.properties.enable_not_static
+  end
 end

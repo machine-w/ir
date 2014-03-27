@@ -56,9 +56,21 @@ $ ->
 	# 所有sel_time类的录入框全都选时间
 	$('.sel_time').clockface({});
 
-	$(".handsontable").each ->
-		$(this).handsontable();
-
+	$('.summernote-input').each ->
+		$(this).summernote
+   			lang: 'zh-CN'
+   		$(this).code $(this).val()
+   		$(this).closest('form').submit ->
+   			$(this).val $(this).code()
+   			true
+   		return
+	# to set handsontable 
+	$(".handsontable-input").each ->
+		$(this).handsontable({startRows: $(this).next().val(),startCols: $(this).next().next().val()});
+		table_data = $(this).data('handsontable');
+		$(this).closest('form').submit ->
+	     $(this).prev().val table_data.getData()
+	     true
 	#设置提示信息的位置和样式
 	#Messenger.options = {
     #extraClasses: 'messenger-fixed messenger-on-top',

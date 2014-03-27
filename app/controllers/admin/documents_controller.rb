@@ -19,4 +19,7 @@ class Admin::DocumentsController < ApplicationController
 	def document_params
 		params.require(:document).permit(:title,:content_have_attr)
 	end
+	def property_params
+		params.require(:properties).permit(@folder.all_properties.map { |i| i.name })
+	end
 end

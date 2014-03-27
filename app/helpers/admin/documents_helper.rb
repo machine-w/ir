@@ -49,8 +49,8 @@ module Admin::DocumentsHelper
 						"<input type='text' #{req} name='properties[#{property.name}]' class='form-control sel_time' id='#{property._id}' data-format='hh:mm A'/>"
 					when :link #暂时没有做格式过滤，和普通字符串没有区别
 						"<input type='text' #{req} name='properties[#{property.name}]' class='form-control' id='#{property._id}' placeholder='#{property.description}...'/>"
-					when :data_sheet
-						"<div class='handsontable'></div>"
+					when :data_sheet #值还没有传回
+						"<input type='hidden' name='properties[#{property.name}]' class='form-control'/><div class='handsontable-input'></div><input type='hidden' value='#{property.data_y || 10}'/><input type='hidden' value='#{property.data_x || 10}'/>"
 					else
 						"不支持的字段类型"
 				 end
