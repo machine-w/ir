@@ -13,6 +13,7 @@ class Document
   belongs_to :folder
   has_and_belongs_to_many :third_disciplines
   has_and_belongs_to_many :tags
+  embeds_many :attritubes
 
   validates_presence_of :title
 

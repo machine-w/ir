@@ -17,7 +17,7 @@ module Admin::DocumentsHelper
 					when :number 
 						"#{front}<input type='text' #{req_num} #{num_range} name='properties[#{property.name}]' class='form-control inputdecimal' id='#{property._id}' placeholder='#{property.description}...'/> #{back}"
 					when :text 
-						"<textarea type='text' rows='6' #{req} #{maxlength} #{minlength} class='form-control' placeholder='#{property.description}...'></textarea>"
+						"<textarea type='text' rows='6' #{req} #{maxlength} #{minlength} name='properties[#{property.name}]' class='form-control' id='#{property._id}' placeholder='#{property.description}...'></textarea>"
 					when :embed_html #必填属性客户端不验证
 						"<input type='text' name='properties[#{property.name}]' class='form-control summernote-input' id='#{property._id}' placeholder='#{property.description}...'/>"
 					when :bool
