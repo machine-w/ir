@@ -12,10 +12,11 @@ class Admin::DocumentsController < ApplicationController
 			 	attritube=@doc.attritubes.build(property_id: property._id,property_name: property.name,type: property.type)
 			 	error_msg += attritube.save_value(property,property_params[property.name])
 			else
+				@doc.attritubes.build(property_id: property._id,property_name: property.name,type: property.type,bool_value: false) if property.bool? #如果类型类bool特殊对待，设定属性为否
 				error_msg += "#{property.show_name}为必填字段\n" if property.req?
 			end 
 		end
-		if @doc.save && error_msg == ''
+		if  error_msg == '' && @doc.save
 			redirect_to admin_folder_path(@folder), notice: '成功新建文档。'
 		else
 			redirect_to admin_folder_path(@folder), alert: error_msg
