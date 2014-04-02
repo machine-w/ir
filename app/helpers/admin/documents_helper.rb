@@ -46,7 +46,7 @@ module Admin::DocumentsHelper
 					when :date
 						"<input type='text' #{req} name='properties[#{property.name}]' class='form-control sel_date' id='#{property._id}'/>"
 					when :time
-						"<input type='text' #{req} name='properties[#{property.name}]' class='form-control sel_time' id='#{property._id}' data-format='hh:mm A'/>"
+						"<input type='text' #{req} name='properties[#{property.name}]' class='form-control sel_time' id='#{property._id}' data-format='hh:mm A' value='#{Time.now.strftime("%I:%M %p")}'/>"
 					when :link #暂时没有做格式过滤，和普通字符串没有区别
 						"<input type='text' #{req} name='properties[#{property.name}]' class='form-control' id='#{property._id}' placeholder='#{property.description}...'/>"
 					when :data_sheet #值还没有传回

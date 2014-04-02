@@ -14,7 +14,7 @@ class Attritube
   field :int_value, :type => Integer
   field :bool_value, :type => Boolean
   field :array_value, :type => Array
-  field :data_value, :type => Date
+  field :date_value, :type => Date
   field :time_value, :type => Time
 
   embedded_in :document
@@ -22,59 +22,59 @@ class Attritube
   def save_value(property,val)
   	msg=''
   	msg =  case property.type
-		  	when :string
-		  		if val.blank? && property.req?
-		  			"#{property.show_name}不可以为空字符串"
+		  	when :string,:email,:link
+		  		if val.blank?
+		  			property.req? ? "#{property.show_name}不可以为空字符串;" : ''
 		  		elsif property.max_value && (val.length > property.max_value)
-					"#{property.show_name}长度大于规定长度"
+					"#{property.show_name}长度大于规定长度;"
 				elsif property.min_value && (val.length < property.min_value)
-					"#{property.show_name}长度小于规定长度"
+					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
 		  			self.string_value= property.front_ext + val +property.back_ext
 					''
 		  		end
 			when :integer #没有测试
 				begin
-					if val.blank? && property.req?
-		  				"#{property.show_name}不可以为空"
+					if val.blank?
+		  				property.req? ? "#{property.show_name}不可以为空;" : ''
 		  			elsif ( property.max_value && val.to_i > property.max_value) ||
 					   ( property.min_value && val.to_i < property.min_value)
-					    "#{property.show_name}超出规定范围" 
+					    "#{property.show_name}超出规定范围;" 
 					else
 						self.int_value=val.to_i
 						''
 					end
 				rescue
-					"#{property.show_name}不可以转换为整数"
+					"#{property.show_name}不可以转换为整数;"
 				end
 			when :number #没有测试
 				begin
-					if val.blank? && property.req?
-		  				"#{property.show_name}不可以为空"
+					if val.blank?
+		  				property.req? ? "#{property.show_name}不可以为空;" : ''
 		  			elsif ( property.max_value && val.to_f > property.max_value) ||
 					   ( property.min_value && val.to_f < property.min_value)
-					    "#{property.show_name}超出规定范围" 
+					    "#{property.show_name}超出规定范围;" 
 					else
 						self.float_value=val.to_f
 						''
 					end
 				rescue
-					"#{property.show_name}不可以转换为实数"
+					"#{property.show_name}不可以转换为实数;"
 				end
 			when :text #没有测试
-				if val.blank? && property.req?
-		  			"#{property.show_name}不可以为空字符串"
+				if val.blank?
+		  			property.req? ? "#{property.show_name}不可以为空字符串;" : ''
 		  		elsif property.max_value && (val.length > property.max_value)
-					"#{property.show_name}长度大于规定长度"
+					"#{property.show_name}长度大于规定长度;"
 				elsif property.min_value && (val.length < property.min_value)
-					"#{property.show_name}长度小于规定长度"
+					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
 		  			self.string_value = val
 					''
 		  		end
 			when :embed_html
-				if val.blank? && property.req?
-		  			"#{property.show_name}不可以为空字符串"
+				if val.blank?
+		  			property.req? ? "#{property.show_name}不可以为空字符串;" : ''
 		  		else #缺少匹配字符串验证
 		  			self.string_value = val
 					''
@@ -87,24 +87,34 @@ class Attritube
 					self.bool_value = false
 					''
 				else
-					"#{property.show_name}为非法字符"
+					"#{property.show_name}为非法字符;"
 				end
 			when :enum
-				if val.blank? && property.req?
-		  			"#{property.show_name}不可以为空字符串"
-		  		elsif property.enum_option && !val.blank? && !property.enum_option.include?(val)
-					"#{property.show_name}只能选择已有选项"
+				if val.blank?
+		  			property.req? ? "#{property.show_name}不可以为空字符串;" : ''
+		  		elsif property.enum_option && !property.enum_option.include?(val)
+					"#{property.show_name}只能选择已有选项;"
 		  		else #没有测试
 		  			self.string_value = val
 					''
 		  		end
 			when :muli_enum
-				self.string_value=val
-			when :array 
-				self.string_value=val
-			when :email
-				self.string_value=val
-			when :file 
+				if val.empty?
+		  			property.req? ? "#{property.show_name}不可以为空字符串;" : ''
+		  		elsif property.enum_option && (property.enum_option & val) != val
+					"#{property.show_name}只能选择已有选项;"
+		  		else #没有测试
+		  			self.array_value = val
+					''
+		  		end
+			when :array
+				if val.blank?
+		  			property.req? ? "#{property.show_name}不可以为空;" : ''
+		  		else #没有测试
+		  			self.array_value = val.split(',')
+					''
+		  		end
+			when :file
 				self.string_value=val
 			when :pdf
 				self.string_value=val
@@ -115,11 +125,27 @@ class Attritube
 			when :music
 				self.string_value=val
 			when :date
-				self.string_value=val
+				if val.blank?
+		  			property.req? ? "#{property.show_name}不可以为空字符串;" : ''
+		  		else
+		  			begin
+		  				self.date_value=Date.strptime(val, "%Y年%m月%d日")
+						''
+		  			rescue
+					"#{property.show_name}日期格式错误;"
+		  			end
+		  		end
 			when :time
-				self.string_value=val
-			when :link 
-				self.string_value=val
+				if val.blank?
+					property.req? ? "#{property.show_name}不可以为空字符串;" : ''
+		  		else
+		  			begin
+		  				self.time_value=Time.strptime(val, "%I:%M %p")
+		  				''
+		  			rescue
+		  				"#{property.show_name}时间格式错误;"
+		  			end
+		  		end
 			when :data_sheet 
 				self.string_value=val
 			else

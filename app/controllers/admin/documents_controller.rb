@@ -13,7 +13,7 @@ class Admin::DocumentsController < ApplicationController
 			 	error_msg += attritube.save_value(property,property_params[property.name])
 			else
 				@doc.attritubes.build(property_id: property._id,property_name: property.name,type: property.type,bool_value: false) if property.bool? #如果类型类bool特殊对待，设定属性为否
-				error_msg += "#{property.show_name}为必填字段\n" if property.req?
+				error_msg += "#{property.show_name}为必填字段;" if property.req?
 			end 
 		end
 		if  error_msg == '' && @doc.save
@@ -31,6 +31,21 @@ class Admin::DocumentsController < ApplicationController
 		params.require(:document).permit(:title,:content_have_attr)
 	end
 	def property_params
-		params.require(:properties).permit(@folder.all_properties.map { |i| i.name })
+		all_array=@folder.all_properties.map { |i| i.muli_enum? ? {i.name => [] } : i.name }
+		result_hash=if params.has_key?(:properties)
+					 	params.require(:properties).permit(all_array) 
+					else 
+						{}
+					end
+		hidden_array=@folder.all_properties.map { |i| i.name if i.array? }
+		logger.info hidden_array.to_s
+		hidden_hash=if params.has_key?('hidden-properties')
+						params.require('hidden-properties').permit(hidden_array.compact)
+					else
+						{}
+					end
+		logger.info hidden_hash.to_s
+		hidden_hash.each { |k,v| result_hash[k] = v unless v.blank? }
+		result_hash
 	end
 end

@@ -5,7 +5,7 @@ $ ->
   # to call summernote editor
   summer_note.summernote
     # to set options
-    height: ($(window).height() - 450),
+    height: ($(window).height() - 500),
     #lang: 'ko-KR',
     style: 'cosmo'
     # toolbar: [

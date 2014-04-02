@@ -32,7 +32,7 @@
 # load colorpicker
 #= require bootstrap-colorpicker
 # load datepicker
-#= require bootstrap-datepicker
+#= require bootstrap-datepicker/core
 #= require bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN
 # load summernote
 #= require summernote.min
@@ -55,7 +55,8 @@ $ ->
 	$('.sel_date').datepicker({language: 'zh-CN',todayHighlight: true});
 	# 所有sel_time类的录入框全都选时间
 	$('.sel_time').clockface({});
-
+	$(".tags").each ->
+		$(this).tagsManager()
 	$('.summernote-input').each ->
 		$(this).summernote
    			lang: 'zh-CN'
