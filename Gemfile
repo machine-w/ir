@@ -40,6 +40,10 @@ gem "bson_ext"
 #gem 'mongoid_auto_increment_id', "0.6.1"
 gem 'mongoid_rails_migrations', '1.0.0'
 gem "simple_enum"
+gem 'mongoid-grid_fs'
+gem 'carrierwave', :git => "git://github.com/jnicklas/carrierwave.git"  
+gem 'carrierwave-mongoid', git: "git://github.com/jnicklas/carrierwave-mongoid.git" 
+#gem 'mini_magick', :git => 'git://github.com/probablycorey/mini_magick.git'
 
 # 用户系统
 gem 'devise', '3.0.1'
@@ -53,7 +57,7 @@ gem 'kaminari-bootstrap', '~> 0.1.3'
 gem 'simple_form'
 
 # Bootstrap
-gem 'sass-rails'
+gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '2.1.1'
 gem 'coffee-rails', '4.0.0'
 gem 'jquery-rails', '2.2.1'
@@ -72,6 +76,7 @@ gem 'tagmanager-rails'
 gem 'jquery-inputmask-rails'
 gem 'bootstrap-colorpicker-rails', :require => 'bootstrap-colorpicker-rails',:git => 'git://github.com/alessani/bootstrap-colorpicker-rails.git'
 gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
+gem 'fine-uploader-rails', '~> 3.2'
 # html5 editor
 gem "summernote-rails", github: 'rorlab/summernote-rails'
 

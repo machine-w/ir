@@ -16,6 +16,7 @@ class Attritube
   field :array_value, :type => Array
   field :date_value, :type => Date
   field :time_value, :type => Time
+  mount_uploader :file_value, FileUploader
 
   embedded_in :document
 
@@ -115,7 +116,12 @@ class Attritube
 					''
 		  		end
 			when :file
-				self.string_value=val
+				# logger.info val.size
+				# logger.info val.content_type
+				# logger.info val.path
+				# logger.info val.original_filename
+				self.file_value = val
+				''
 			when :pdf
 				self.string_value=val
 			when :picture
