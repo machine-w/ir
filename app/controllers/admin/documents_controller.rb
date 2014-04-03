@@ -38,13 +38,13 @@ class Admin::DocumentsController < ApplicationController
 						{}
 					end
 		hidden_array=@folder.all_properties.map { |i| i.name if i.array? }
-		logger.info hidden_array.to_s
+		#logger.info hidden_array.to_s
 		hidden_hash=if params.has_key?('hidden-properties')
 						params.require('hidden-properties').permit(hidden_array.compact)
 					else
 						{}
 					end
-		logger.info hidden_hash.to_s
+		#logger.info hidden_hash.to_s
 		hidden_hash.each { |k,v| result_hash[k] = v unless v.blank? }
 		result_hash
 	end

@@ -61,16 +61,18 @@ $ ->
 		$(this).summernote
    			lang: 'zh-CN'
    		$(this).code $(this).val()
+   		this_summernote = $(this)
    		$(this).closest('form').submit ->
-   			$(this).val $(this).code()
+   			this_summernote.val this_summernote.code()
    			true
    		return
 	# to set handsontable 
 	$(".handsontable-input").each ->
 		$(this).handsontable({startRows: $(this).next().val(),startCols: $(this).next().next().val()});
 		table_data = $(this).data('handsontable');
+		this_handsontable = $(this)
 		$(this).closest('form').submit ->
-	     $(this).prev().val table_data.getData()
+	    	this_handsontable.prev().val table_data.getData()
 	     true
 	#设置提示信息的位置和样式
 	#Messenger.options = {

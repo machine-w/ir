@@ -147,7 +147,12 @@ class Attritube
 		  			end
 		  		end
 			when :data_sheet 
-				self.string_value=val
+				if val.delete(",").blank?
+		  			property.req? ? "#{property.show_name}不可以为空;" : ''
+		  		else #没有测试
+		  			self.array_value = val.split(',')
+					''
+		  		end
 			else
 				"不支持的字段类型" 		
 		  	end
