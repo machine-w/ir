@@ -1,7 +1,7 @@
 class Admin::DocumentsController < ApplicationController
 	before_filter :authenticate_user!
 	before_filter :set_user
-	before_filter :set_folder, only: [:index,:create]
+	before_filter :set_folder, only: [:index,:create,:new]
 	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
 	layout "admin_layout"
 	def create
@@ -25,6 +25,9 @@ class Admin::DocumentsController < ApplicationController
 	end
 	def index
 		
+	end
+	def new
+		@document=@folder.documents.new
 	end
 	private 
 	def set_folder

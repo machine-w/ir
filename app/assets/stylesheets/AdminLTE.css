@@ -2432,25 +2432,25 @@ Component: timeline
     ---------
 */
 /* skin-blue navbar */
-.skin-blue .navbar {
+.skin-blue .header > .navbar {
   background-color: #3c8dbc;
 }
-.skin-blue .navbar .nav a {
+.skin-blue .header > .navbar .nav a {
   color: #acd0e5;
 }
-.skin-blue .navbar .nav > li > a:hover,
-.skin-blue .navbar .nav > li > a:active,
-.skin-blue .navbar .nav > li > a:focus,
-.skin-blue .navbar .nav .open > a,
-.skin-blue .navbar .nav .open > a:hover,
-.skin-blue .navbar .nav .open > a:focus {
+.skin-blue .header > .navbar .nav > li > a:hover,
+.skin-blue .header > .navbar .nav > li > a:active,
+.skin-blue .header > .navbar .nav > li > a:focus,
+.skin-blue .header > .navbar .nav .open > a,
+.skin-blue .header > .navbar .nav .open > a:hover,
+.skin-blue .header > .navbar .nav .open > a:focus {
   background: #307095;
   color: #f6f6f6;
 }
-.skin-blue .navbar .navbar-right > .nav {
+.skin-blue .header > .navbar .navbar-right > .nav {
   margin-right: 10px;
 }
-.skin-blue .navbar .sidebar-toggle .icon-bar {
+.skin-blue .header > .navbar .sidebar-toggle .icon-bar {
   background: #acd0e5;
 }
 /* skin-blue logo */

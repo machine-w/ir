@@ -1,7 +1,7 @@
 	<% provide(:title, "配置:"+@folder.name) %>
 	<% provide(:page_name, "配置:"+@folder.name) %>
 	<% provide(:page_summary, "配置目录中文档的共有属性") %>
-	<%= render partial: 'config_navbar',locals: {folder: @folder} %>
+	<%= render partial: 'shared/config_navbar',locals: {folder: @folder} %>
 	<%= config_tab(1) %>
 	<h4 class="page-header">
 		<form action="#" method="get" class="sidebar-form">

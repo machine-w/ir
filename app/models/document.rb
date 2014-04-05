@@ -20,4 +20,8 @@ class Document
   def all_properties
     self.folder.properties.enable_not_static
   end
+  #暂时只返回填入的内容
+  def get_content
+    self.content_have_attr
+  end
 end

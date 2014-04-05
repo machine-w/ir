@@ -1,0 +1,57 @@
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#"> </a>
+  </div>
+    <%= link_to("新建文档", new_admin_folder_document_path(folder),class: "btn btn-success navbar-btn navbar-left" ) %>
+    <form class="navbar-form navbar-left" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="关键词">
+        </div>
+        <button type="submit" class="btn btn-default">查找文档</button>
+    </form>
+    
+    <ul class="nav navbar-nav navbar-right">
+      <li class="active"><a href="#">全部状态</a></li>
+      <li><a href="#">状态一</a></li>
+      <li><a href="#">状态一</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">状态<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">状态一</a></li>
+          <li><a href="#">状态一</a></li>
+          <li><a href="#">状态一</a></li>
+          <li class="divider"></li>
+          <li><a href="#">状态一</a></li>
+      </ul>
+  </li>
+    </ul>
+</nav>
+<%= paginate @documents, :theme => 'twitter-bootstrap-3' %>
+<% @documents.each do |doc| %>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header">
+                <h3 class="box-title"><a href=""><%= doc.title %></a></h3>
+                <div class="box-tools pull-right">
+                    <div class="label bg-green">sci</div>
+                    <div class="label bg-aqua">IE</div>
+                </div>
+            </div>
+            <div class="box-body">
+                <%= raw doc.get_content %>
+            </div>
+            <div class="box-footer">
+                <code>作者</code>
+            </div>
+        </div>
+    </div>
+</div>
+<% end %>
+<%= paginate @documents, :theme => 'twitter-bootstrap-3' %>

@@ -51,8 +51,9 @@ gem 'devise-encryptable', '0.1.2'
 
 # 分页
 gem 'kaminari'
-gem 'kaminari-bootstrap', '~> 0.1.3'
-
+#gem 'kaminari-bootstrap', '~> 0.1.3'
+#gem 'bootstrap3-kaminari-views'
+gem 'bootstrap-kaminari-views'
 #表单
 gem 'simple_form'
 
