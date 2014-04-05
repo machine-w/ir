@@ -2,6 +2,7 @@ class Admin::DocumentsController < ApplicationController
 	before_filter :authenticate_user!
 	before_filter :set_user
 	before_filter :set_folder, only: [:index,:create,:new]
+	before_filter :set_document, only: [:edit,:update,:show]
 	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
 	layout "admin_layout"
 	def create
@@ -24,15 +25,32 @@ class Admin::DocumentsController < ApplicationController
 		end
 	end
 	def index
-		
+		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
 	end
 	def new
 		@document=@folder.documents.new
+		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
+		drop_breadcrumb("新建文档", new_admin_folder_document_path(@folder))
+	end
+	def edit
+		drop_breadcrumb(@document.folder.name, admin_folder_path(@document.folder))
+		drop_breadcrumb(@document.title, admin_document_path(@document))
+		drop_breadcrumb("修改文档", edit_admin_document_path(@document))
+	end
+	def update
+		redirect_to edit_admin_document_path(@document), notice: '成功修改文档。'
+	end
+	def show
+		drop_breadcrumb(@document.folder.name, admin_folder_path(@document.folder))
+		drop_breadcrumb(@document.title, admin_document_path(@document))
 	end
 	private 
 	def set_folder
 		@folder = @user.folders.find(params[:folder_id])
 		@properties =@folder.all_properties
+	end
+	def set_document
+		@document = Document.find(params[:id])
 	end
 	def document_params
 		params.require(:document).permit(:title,:content_have_attr)

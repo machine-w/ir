@@ -1,0 +1,8 @@
+<% provide(:title, "修改文档(#{@document.title})") %>
+<% provide(:page_name, "修改文档(#{@document.title})") %>
+<% provide(:page_summary, "修改当前文档") %>
+<div class="row">
+<div class="col-md-12">
+	<%= render partial: "admin/documents/form", locals: {document: @document} %>
+</div>
+</div>

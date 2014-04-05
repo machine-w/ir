@@ -24,4 +24,20 @@ class Document
   def get_content
     self.content_have_attr
   end
+  def notice_content?
+    case self.folder.folder_type.list_view
+    when :thesis,:book,:patent,:picture,:video,:music,:file,:data
+      false
+    when :blog,:note
+      true
+    end
+  end
+  def notice_property?
+    case self.folder.folder_type.list_view
+    when :thesis,:book,:patent,:picture,:video,:music,:file,:data
+      true
+    when :blog,:note
+      false
+    end
+  end
 end

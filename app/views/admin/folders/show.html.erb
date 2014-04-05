@@ -5,6 +5,6 @@
 <%= config_tab(0) %>
 <% case @folder.folder_type.list_view
      when :thesis %><%= render partial: 'show_thesis',locals: {folder: @folder,document: @document,documents: @documents} %>
-  <% when :book %><%= render partial: 'show_note',locals: {folder: @folder,document: @document,documents: @documents} %>
+  <% when :book %><%= render partial: 'show_thesis',locals: {folder: @folder,document: @document,documents: @documents} %>
   <% when :note %><%= render partial: 'show_note',locals: {folder: @folder,document: @document,documents: @documents} %>
 <% end %>
