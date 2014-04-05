@@ -17,10 +17,14 @@ class Admin::DocumentsController < ApplicationController
 			end 
 		end
 		if  error_msg == '' && @doc.save
+			@folder.update_attribute(:doc_count, @folder.doc_count + 1 )
 			redirect_to admin_folder_path(@folder), notice: '成功新建文档。'
 		else
 			redirect_to admin_folder_path(@folder), alert: error_msg
 		end
+	end
+	def index
+		
 	end
 	private 
 	def set_folder

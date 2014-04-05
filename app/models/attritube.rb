@@ -93,7 +93,7 @@ class Attritube
 			when :enum
 				if val.blank?
 		  			property.req? ? "#{property.show_name}不可以为空字符串;" : ''
-		  		elsif property.enum_option && !property.enum_option.include?(val)
+		  		elsif !property.enum_option.empty? && !property.enum_option.include?(val)
 					"#{property.show_name}只能选择已有选项;"
 		  		else #没有测试
 		  			self.string_value = val
@@ -102,7 +102,7 @@ class Attritube
 			when :muli_enum
 				if val.empty?
 		  			property.req? ? "#{property.show_name}不可以为空字符串;" : ''
-		  		elsif property.enum_option && (property.enum_option & val) != val
+		  		elsif !property.enum_option.empty? && (property.enum_option & val) != val
 					"#{property.show_name}只能选择已有选项;"
 		  		else #没有测试
 		  			self.array_value = val
@@ -116,20 +116,57 @@ class Attritube
 					''
 		  		end
 			when :file
+				if property.max_value && (val.size > property.max_value)
+					"#{property.show_name}长度大于规定长度;"
+				elsif property.min_value && (val.size < property.min_value)
+					"#{property.show_name}长度小于规定长度;"
+				elsif !property.file_type.empty? && !property.file_type.include?(val.original_filename[1+(val.original_filename.rindex('.') || -2) ..-1])
+					#logger.info val.original_filename[/\.(.*)$/]
+					"#{property.show_name}文件类型不合法;"
+		  		else #缺少匹配字符串验证
+		  			self.file_value = val
+					''
+		  		end
 				# logger.info val.size
 				# logger.info val.content_type
 				# logger.info val.path
-				# logger.info val.original_filename
-				self.file_value = val
-				''
+				# logger.info val.original_filename	
 			when :pdf
-				self.string_value=val
+				if property.max_value && (val.size > property.max_value)
+					"#{property.show_name}长度大于规定长度;"
+				elsif property.min_value && (val.size < property.min_value)
+					"#{property.show_name}长度小于规定长度;"
+		  		else #缺少匹配字符串验证
+		  			self.file_value = val
+					''
+		  		end
 			when :picture
-				self.string_value=val
+				if property.max_value && (val.size > property.max_value)
+					"#{property.show_name}长度大于规定长度;"
+				elsif property.min_value && (val.size < property.min_value)
+					"#{property.show_name}长度小于规定长度;"
+		  		else #缺少匹配字符串验证
+		  			self.file_value = val
+					''
+		  		end
 			when :video
-				self.string_value=val
+				if property.max_value && (val.size > property.max_value)
+					"#{property.show_name}长度大于规定长度;"
+				elsif property.min_value && (val.size < property.min_value)
+					"#{property.show_name}长度小于规定长度;"
+		  		else #缺少匹配字符串验证
+		  			self.file_value = val
+					''
+		  		end
 			when :music
-				self.string_value=val
+				if property.max_value && (val.size > property.max_value)
+					"#{property.show_name}长度大于规定长度;"
+				elsif property.min_value && (val.size < property.min_value)
+					"#{property.show_name}长度小于规定长度;"
+		  		else #缺少匹配字符串验证
+		  			self.file_value = val
+					''
+		  		end
 			when :date
 				if val.blank?
 		  			property.req? ? "#{property.show_name}不可以为空字符串;" : ''

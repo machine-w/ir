@@ -36,7 +36,7 @@
 								<%= f.text_field :show_name, placeholder: "属性显示名称", class: "form-control", maxlength: "50" %>
 							</div>
 							<div style="-moz-border-radius: 5px;  -webkit-border-radius: 5px; border: 1.5px solid #600; padding: 10px;">
-								<% if [:string, :text, :integer,:number,:file,:array].include? p.type %>
+								<% if [:string, :text, :integer,:number,:file,:array,:pdf,:picture,:video,:music].include? p.type %>
 								<div class="form-group">
 									<div class="row" >
 										<div class="col-xs-6">

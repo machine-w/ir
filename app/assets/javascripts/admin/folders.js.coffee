@@ -85,7 +85,7 @@ $ ->
 				$("#add_property_filetype_pane").slideDown();
 			when "data_sheet"
 				$("#add_property_xy_pane").slideDown();
-			when "array"
+			when "array","pdf","picture","video","music"
 				$("#add_property_maxmin_pane").slideDown();
 			else
 	fill_modify_enum_options = (arg) ->
@@ -117,7 +117,7 @@ $ ->
 	$(".modify_property_enum_options").each ->
         $(this).tagsManager({prefilled: fill_modify_enum_options($(this))})
 
-	$(".modify_porperty_file_type").each ->
+	$(".modify_property_file_type").each ->
         $(this).tagsManager({prefilled: fill_modify_enum_options($(this))})
 
     #收起所有属性

@@ -1,0 +1,5 @@
+<% provide(:title, @folder.name) %>
+<% provide(:page_name, @folder.name) %>
+<% provide(:page_summary, @folder.description) %>
+<%= render partial: 'shared/show_navbar',locals: {folder: @folder} %>
+<%= config_tab(1) %>
