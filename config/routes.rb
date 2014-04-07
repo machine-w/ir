@@ -1,4 +1,6 @@
 InstitutionalRepos::Application.routes.draw do
+  #get "upload/serve"
+  get "/upload/grid/*path" => "upload#serve"
   # get "documents/create"
   # get "properties/create"
   get "users/index"

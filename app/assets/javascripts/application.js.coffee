@@ -44,6 +44,12 @@
 
 
 $ ->
+	fill_array_options = (arg) ->
+    if(arg.attr('value')=='[]')
+        arg.val("")
+        return []
+    else
+        JSON.parse(arg.attr('value'))
 	$('.form_w_val').validation(); #所有的form_w_val类的表单全部使用验证
 	# 所有的类型为下类的录入框都验证
 	$('.inputmask').inputmask();
@@ -56,7 +62,7 @@ $ ->
 	# 所有sel_time类的录入框全都选时间
 	$('.sel_time').clockface({});
 	$(".tags").each ->
-		$(this).tagsManager()
+		$(this).tagsManager({prefilled: fill_array_options($(this))})
 	$('.summernote-input').each ->
 		$(this).summernote
    			lang: 'zh-CN'
@@ -66,9 +72,24 @@ $ ->
    			this_summernote.val this_summernote.code()
    			true
    		return
-	# to set handsontable 
+	# to set handsontable
+	get_array_data = (data,rows,cols) ->
+    arr = []
+    i = 0
+    while i < rows
+      arr2 = []
+      j = 0
+      while j < cols
+      	arr2.push(data[i*cols+j]) #第j个单元格推入数组中保存
+      	j++
+      arr.push arr2
+      i++
+    return arr
 	$(".handsontable-input").each ->
-		$(this).handsontable({startRows: $(this).next().val(),startCols: $(this).next().next().val()});
+		rows = $(this).next().val()
+		cols = $(this).next().next().val()
+		data_array =  JSON.parse($(this).next().next().next().val())
+		$(this).handsontable({data: get_array_data(data_array,rows,cols),startRows: rows,startCols: cols});
 		table_data = $(this).data('handsontable');
 		this_handsontable = $(this)
 		$(this).closest('form').submit ->

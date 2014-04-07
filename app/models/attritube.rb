@@ -31,7 +31,7 @@ class Attritube
 				elsif property.min_value && (val.length < property.min_value)
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
-		  			self.string_value= property.front_ext + val +property.back_ext
+		  			self.string_value= val
 					''
 		  		end
 			when :integer #没有测试
@@ -125,6 +125,7 @@ class Attritube
 					"#{property.show_name}文件类型不合法;"
 		  		else #缺少匹配字符串验证
 		  			self.file_value = val
+		  			self.string_value = val.original_filename
 					''
 		  		end
 				# logger.info val.size
@@ -138,6 +139,7 @@ class Attritube
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
 		  			self.file_value = val
+		  			self.string_value = val.original_filename
 					''
 		  		end
 			when :picture
@@ -147,6 +149,7 @@ class Attritube
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
 		  			self.file_value = val
+		  			self.string_value = val.original_filename
 					''
 		  		end
 			when :video
@@ -156,6 +159,7 @@ class Attritube
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
 		  			self.file_value = val
+		  			self.string_value = val.original_filename
 					''
 		  		end
 			when :music
@@ -165,6 +169,7 @@ class Attritube
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
 		  			self.file_value = val
+		  			self.string_value = val.original_filename
 					''
 		  		end
 			when :date
@@ -202,6 +207,39 @@ class Attritube
   	return msg
   end
   def get_value
-  	
+  	case self.type
+  	when :string,:email,:link,:text,:enum
+  		self.string_value
+  	when :integer
+  		self.int_value
+  	when :number
+  		self.float_value
+  	when :embed_html
+  		self.string_value.blank? ? '' : self.string_value.html_safe
+	when :bool
+		self.bool_value
+	when :muli_enum,:array,:data_sheet
+		self.array_value
+	when :file,:picture,:video,:music,:pdf
+		#{}"<a href='#{self.file_value.url}'><i class='fa fa-file'></i></a>"
+		[self.string_value,self.file_value]
+	when :date
+		self.date_value
+	when :time
+		self.time_value						  		
+  	end
   end
+  private
+  def div_arr(arr, div_len)  
+  	if div_len <= 0 or div_len == 1 or div_len >= arr.size  
+  		return [arr]  
+  	end  
+  	res = []  
+  	arr.each_index{ |i|  
+  		x,y = i / div_len,i % div_len  
+  		res[x] = [] if not res[x]  
+  		res[x][y] = arr[i]  
+  	}
+  	res  
+  end  
 end

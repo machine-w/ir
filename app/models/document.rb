@@ -40,4 +40,11 @@ class Document
       false
     end
   end
+  def attr_value(property_name)
+    if self.attritubes.where(property_name: property_name).exists?
+      self.attritubes.where(property_name: property_name).first.get_value
+    else
+      nil
+    end
+  end
 end

@@ -21,7 +21,7 @@ class Admin::DocumentsController < ApplicationController
 			@folder.update_attribute(:doc_count, @folder.doc_count + 1 )
 			redirect_to admin_folder_path(@folder), notice: '成功新建文档。'
 		else
-			redirect_to admin_folder_path(@folder), alert: error_msg
+			redirect_to new_admin_folder_document_path(@folder), alert: error_msg
 		end
 	end
 	def index
@@ -38,7 +38,28 @@ class Admin::DocumentsController < ApplicationController
 		drop_breadcrumb("修改文档", edit_admin_document_path(@document))
 	end
 	def update
-		redirect_to edit_admin_document_path(@document), notice: '成功修改文档。'
+		error_msg= ''
+		@document.title = document_params[:title]
+        @document.content_have_attr = document_params[:content_have_attr]
+		@properties.each do |property| 
+			if property_params.has_key? property.name
+				if @document.attritubes.where(property_name: property.name).exists?
+					attritube=@document.attritubes.where(property_name: property.name).first
+				else
+					attritube=@document.attritubes.build(property_id: property._id,property_name: property.name,type: property.type)
+				end
+			 	error_msg += attritube.save_value(property,property_params[property.name])
+			else
+				@document.attritubes.build(property_id: property._id,property_name: property.name,type: property.type,bool_value: false) if property.bool? && !@document.attritubes.where(property_name: property.name).exists? #如果类型类bool特殊对待，设定属性为否
+				error_msg += "#{property.show_name}为必填字段;" if property.req?
+			end 
+		end
+		if  error_msg == '' && @document.save
+			redirect_to edit_admin_document_path(@document), notice: '成功修改文档。'
+		else
+			redirect_to edit_admin_document_path(@document), alert: error_msg
+		end
+		
 	end
 	def show
 		drop_breadcrumb(@document.folder.name, admin_folder_path(@document.folder))
@@ -51,6 +72,8 @@ class Admin::DocumentsController < ApplicationController
 	end
 	def set_document
 		@document = Document.find(params[:id])
+		@properties =@document.all_properties
+		@folder = @document.folder
 	end
 	def document_params
 		params.require(:document).permit(:title,:content_have_attr)
