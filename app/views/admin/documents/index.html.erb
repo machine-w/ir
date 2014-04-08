@@ -3,3 +3,52 @@
 <% provide(:page_summary, @folder.description) %>
 <%= render partial: 'shared/show_navbar',locals: {folder: @folder} %>
 <%= config_tab(1) %>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="box">
+			<div class="box-header">
+				<h3 class="box-title">目录属性表</h3>
+				<div class="box-tools">
+					<div class="input-group">
+						<input type="text" name="table_search" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
+						<div class="input-group-btn">
+							<button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box-body table-responsive no-padding">
+				<table class="table table-hover">
+					<tr>
+						<th>文档标题</th>
+						<% if !@folder.all_grid_show_properties.blank? %>
+						  <% for p in @folder.all_grid_show_properties %>
+						    <th><%= p.show_name %></th>
+						  <% end %>
+						<% else %>
+						<% end %>
+						<th>操作</th>
+					</tr>
+					<% if !@documents.blank? %>
+					  <% for doc in @documents %>
+					    <tr>
+					    	<td><%= doc.title %></td>
+					    	<% if !@folder.all_grid_show_properties.blank? %>
+					    	<% for p in @folder.all_grid_show_properties %>
+					    		<td><%= doc.table_attr_value(p.name) %></td>
+					    	<% end %>
+					    	<% else %>
+					    	<% end %>
+					    	<td><span class="label label-danger">保存</span></td>
+						</tr>
+					  <% end %>
+					<% else %>
+					<% end %>
+				</table>
+			</div>
+			<div class="box-footer clearfix">
+				<%= paginate @documents, :theme => 'twitter-bootstrap-3' %>
+			</div>
+		</div>
+	</div>
+</div>

@@ -47,4 +47,11 @@ class Document
       nil
     end
   end
+  def table_attr_value(property_name)
+    if self.attritubes.where(property_name: property_name).exists?
+      self.attritubes.where(property_name: property_name).first.get_table_value
+    else
+      ''
+    end
+  end
 end

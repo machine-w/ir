@@ -36,6 +36,7 @@ class Property
 	field :data_x, :type => Integer #数据表类型的列数
 	field :data_y, :type => Integer #数据表类型的行数
 	scope :enable_not_static, where(static: false,disable: false)
+	scope :grid_show, where(static: false,disable: false,view_in_grid: true)
 
 	embedded_in :folder
 

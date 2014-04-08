@@ -31,4 +31,7 @@ class Folder
   def all_properties
     self.properties.enable_not_static
   end
+  def all_grid_show_properties
+    self.properties.grid_show
+  end
 end

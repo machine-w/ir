@@ -229,6 +229,37 @@ class Attritube
 		self.time_value						  		
   	end
   end
+  def get_table_value
+  	case self.type
+  	when :string,:email,:enum
+  		self.string_value
+  	when :text
+		self.string_value.size <= 30 ? self.string_value : self.string_value[0,30]
+  	when :link
+  		"<a href ='#{self.string_value}'>self.string_value</a>".html.safe
+  	when :integer
+  		self.int_value.to_s
+  	when :number
+  		self.float_value.to_s
+  	when :embed_html
+  		#暂时先这样
+  		self.string_value.blank? ? '' : self.string_value.html_safe
+	when :bool
+		self.bool_value ? '是' : '否'
+	when :muli_enum,:array
+		result=''
+		self.array_value.each{ |a| result += "<span class='label label-success'>#{a}</span> " } unless self.array_value.nil?
+		result.html_safe
+	when :data_sheet
+		"#{self.array_value.size}个数据" unless self.array_value.nil?
+	when :file,:picture,:video,:music,:pdf
+		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-file'></i></button></a>".html_safe
+	when :date
+		self.date_value.strftime("%Y年%m月%d日")
+	when :time
+		self.time_value.strftime("%I:%M %p")					  		
+  	end
+  end
   private
   def div_arr(arr, div_len)  
   	if div_len <= 0 or div_len == 1 or div_len >= arr.size  

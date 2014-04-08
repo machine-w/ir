@@ -25,6 +25,7 @@ class Admin::DocumentsController < ApplicationController
 		end
 	end
 	def index
+		@documents=@folder.documents.all.page(params[:page]).per(15)
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
 	end
 	def new
