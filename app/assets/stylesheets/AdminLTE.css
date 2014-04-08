@@ -1325,6 +1325,9 @@ body > .header .logo .icon {
 .box .box-header a {
   color: #444;
 }
+.box .box-header a > i {
+  color: #f56954;
+}
 .box .box-header > .box-tools {
   padding: 5px 10px 5px 5px;
 }

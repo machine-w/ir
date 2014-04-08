@@ -23,8 +23,11 @@
 							<div class="box-tools pull-right">
 								<button class="btn btn-default btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
 								
-								 <button class="btn btn-default btn-sm" data-widget="remove" onclick = "$(this).next().submit()"><i class="fa fa-times"></i></button>
-								 <%= form_for p, url: admin_folder_property_path(@folder,p), method: :delete do |f| %><% end %>
+								 <!-- <button class="btn btn-default btn-sm" data-widget="remove" onclick = "$(this).next().submit()"><i class="fa fa-times"></i></button> -->
+								 <%= link_to admin_folder_property_path(@folder,p) , method: :delete, data: { confirm: "属性#{p.name}将被删除" },class: "btn btn-default btn-sm" do %>
+                    				<i class="fa fa-times"></i>
+                  				 <% end %>
+								 
 							</div>
 						</div>
 						<%= form_for p, url: admin_folder_property_path(@folder,p), method: :put, html: {role: "form",class: "form_w_val"} do |f| %>

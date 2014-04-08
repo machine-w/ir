@@ -42,7 +42,7 @@ class Admin::PropertiesController < ApplicationController
 		@property=@folder.properties.find(params[:id])
 		#@property=Property.find(params[:id])
 		@property.destroy
-		redirect_to config_property_admin_folder_path(@folder)
+		redirect_to config_property_admin_folder_path(@folder), notice: '成功删除属性。'
 	end
 	private 
 	def set_folder

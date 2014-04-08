@@ -2,7 +2,7 @@ class Admin::DocumentsController < ApplicationController
 	before_filter :authenticate_user!
 	before_filter :set_user
 	before_filter :set_folder, only: [:index,:create,:new]
-	before_filter :set_document, only: [:edit,:update,:show]
+	before_filter :set_document, only: [:edit,:update,:show,:destroy]
 	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
 	layout "admin_layout"
 	def create
@@ -65,6 +65,11 @@ class Admin::DocumentsController < ApplicationController
 		drop_breadcrumb(@document.folder.name, admin_folder_path(@document.folder))
 		drop_breadcrumb(@document.title, admin_document_path(@document))
 	end
+	def destroy
+		@document.destroy
+		redirect_to admin_folder_path(@folder), notice: '成功删除文档。'
+	end
+	
 	private 
 	def set_folder
 		@folder = @user.folders.find(params[:folder_id])
