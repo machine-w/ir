@@ -1,6 +1,6 @@
 module Admin::DocumentsHelper
 	def get_property_form_view(property,document)
-		label = "<label for='#{property._id}' class='control-label'>#{property.show_name.blank? ? property.name : property.show_name}#{'('+property.file_type.to_s+')' if !property.file_type.empty?}: </label>"
+		label = "<label for='#{property._id}' class='control-label'>#{property.show_name.blank? ? property.name : property.show_name}#{'('+property.file_type.to_s+')' if !property.file_type.nil? && !property.file_type.empty?}: </label>"
 		req = "check-type='required' required-message='#{property.show_name}为必填字段'" if property.req? || ((property.string? || property.text?) && property.have_min?)
 		req_num = "check-type='#{'required ' if property.req? }number' required-message='#{property.show_name}为必填字段'"
 		req_mail = "check-type='#{'required ' if property.req? }mail' required-message='#{property.show_name}为必填字段'"

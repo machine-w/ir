@@ -2,6 +2,7 @@ class Attritube
 	include Mongoid::Document
 	include SimpleEnum::Mongoid
 	include ActionView::Helpers::TextHelper
+	include ActionView::Helpers::UrlHelper
 	field :property_id, :type => Moped::BSON::ObjectId
 	field :property_name
   #属性类型
@@ -231,33 +232,36 @@ class Attritube
   end
   def get_table_value
   	case self.type
-  	when :string,:email,:enum
-  		self.string_value
-  	when :text
-		self.string_value.size <= 30 ? self.string_value : self.string_value[0,30]
+  	when :string,:text
+		truncate(self.string_value, :length => 10)
   	when :link
-  		"<a href ='#{self.string_value}'>self.string_value</a>".html.safe
+  		link_to truncate(self.string_value, :length => 10),"#{self.string_value}"
+  		#"<a href ='http://#{self.string_value}'>#{truncate(self.string_value, :length => 10)}</a>".html_safe
+  	when :email
+  		mail_to self.string_value,truncate(self.string_value, :length => 10)
+  		#"<a href ='mailto:#{self.string_value}'>#{truncate(self.string_value, :length => 10)}</a>".html_safe
   	when :integer
   		self.int_value.to_s
   	when :number
   		self.float_value.to_s
   	when :embed_html
-  		#暂时先这样
-  		self.string_value.blank? ? '' : self.string_value.html_safe
+  		truncate(strip_tags(self.string_value), :length => 10)
 	when :bool
 		self.bool_value ? '是' : '否'
+	when :enum
+		"<span class='label label-success'>#{truncate(self.string_value, :length => 10)}</span> ".html_safe
 	when :muli_enum,:array
 		result=''
-		self.array_value.each{ |a| result += "<span class='label label-success'>#{a}</span> " } unless self.array_value.nil?
+		self.array_value.each{ |a| result += "<span class='label label-success'>#{truncate(a, :length => 10)}</span> " } unless self.array_value.nil?
 		result.html_safe
 	when :data_sheet
-		"#{self.array_value.size}个数据" unless self.array_value.nil?
+		"数据表（#{self.array_value.size}）" unless self.array_value.nil?
 	when :file,:picture,:video,:music,:pdf
 		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-file'></i></button></a>".html_safe
 	when :date
-		self.date_value.strftime("%Y年%m月%d日")
+		self.date_value.strftime("%Y年%m月%d日") unless self.date_value.nil?
 	when :time
-		self.time_value.strftime("%I:%M %p")					  		
+		self.time_value.strftime("%I:%M %p") unless self.time_value.nil?				  		
   	end
   end
   private

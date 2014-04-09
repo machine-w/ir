@@ -18,14 +18,15 @@ class Admin::DocumentsController < ApplicationController
 			end 
 		end
 		if  error_msg == '' && @doc.save
-			@folder.update_attribute(:doc_count, @folder.doc_count + 1 )
+			#@folder.update_attribute(:doc_count, @folder.doc_count + 1 )
 			redirect_to admin_folder_path(@folder), notice: '成功新建文档。'
 		else
-			redirect_to new_admin_folder_document_path(@folder), alert: error_msg
+			#redirect_to new_admin_folder_document_path(@folder), alert: error_msg
+			redirect_to :back, alert: error_msg
 		end
 	end
 	def index
-		@documents=@folder.documents.all.page(params[:page]).per(15)
+		@documents=@folder.documents.all.page(params[:page]).per(10)
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
 	end
 	def new
@@ -56,9 +57,11 @@ class Admin::DocumentsController < ApplicationController
 			end 
 		end
 		if  error_msg == '' && @document.save
-			redirect_to edit_admin_document_path(@document), notice: '成功修改文档。'
+			#redirect_to edit_admin_document_path(@document), notice: '成功修改文档。'
+			redirect_to :back, notice: '成功修改文档。'
 		else
-			redirect_to edit_admin_document_path(@document), alert: error_msg
+			#redirect_to edit_admin_document_path(@document), alert: error_msg
+			redirect_to :back, alert: error_msg
 		end
 		
 	end
@@ -68,7 +71,7 @@ class Admin::DocumentsController < ApplicationController
 	end
 	def destroy
 		@document.destroy
-		redirect_to admin_folder_path(@folder), notice: '成功删除文档。'
+		redirect_to :back, notice: '成功删除文档。'
 	end
 	
 	private 

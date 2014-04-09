@@ -1,7 +1,7 @@
 <%= form_for document,url: (document.new_record? ? admin_folder_documents_path(document.folder) : admin_document_path(document)),html: {role: "form",class: "form_w_val",:multipart => true}  do |f| %>
 
 <div class="form-group">
-	<%= f.button "保存", class: "btn btn-success btn-block btn-flat btn-lg",onclick: "if($(this).closest('form').valid() == false){$('#add_document_property').collapse('show');$('#add_document_content').collapse('hide');return false;}" %>
+	<%= f.button "保存", class: "btn btn-success btn-block btn-flat btn-lg",onclick: "if($(this).closest('form').valid() == false){$('#add_document_property').collapse({toggle: !$('#add_document_property').hasClass('in') });$('#add_document_content').collapse({toggle: $('#add_document_content').hasClass('in') });return false;}" %>
 </div>
 <div class="form-group">
 	<%= f.text_field :title,class: "form-control input-lg",placeholder: "文档题目", 'check-type' => "required", 'required-message' => "请填写文档题目。", maxlength: "30" %>

@@ -17,6 +17,12 @@ class Document
 
   validates_presence_of :title
 
+  #保存前确定是新文档还是文档更新
+  before_save :set_newdoc_flag
+  #如果是新建文档，则增加目录文档数
+  after_save :increase_folder_count, :if => "@was_a_new_record"
+  #删除文档后，减少目录文档数
+  after_destroy :decrease_folder_count
   def all_properties
     self.folder.properties.enable_not_static
   end
@@ -53,5 +59,18 @@ class Document
     else
       ''
     end
+  end
+  private
+  def set_newdoc_flag
+    @was_a_new_record = new_record?
+    return true
+  end
+  def increase_folder_count
+    #logger.info "add count"
+    self.folder.update_attribute(:doc_count, self.folder.doc_count + 1 )
+  end
+  def decrease_folder_count
+    #logger.info "add count"
+    self.folder.update_attribute(:doc_count, self.folder.doc_count - 1 )
   end
 end

@@ -1322,11 +1322,18 @@ body > .header .logo .icon {
   float: left;
   cursor: default;
 }
+.box .box-header .box-title-small {
+  display: inline-block;
+  padding: 0px 0px 0px 10px;
+  margin: 0;
+  float: left;
+  cursor: default;
+}
 .box .box-header a {
   color: #444;
 }
 .box .box-header a > i {
-  color: #f56954;
+  color: #fff;
 }
 .box .box-header > .box-tools {
   padding: 5px 10px 5px 5px;
@@ -2158,8 +2165,11 @@ Component: timeline
   color: #f39c12;
   cursor: pointer;
 }
-.mailbox .table-mailbox tr > td.small-col {
+tr > td.small-col {
   width: 30px;
+}
+tr > td.control-col {
+  width: 170px;
 }
 .mailbox .table-mailbox tr > td.name {
   width: 150px;
