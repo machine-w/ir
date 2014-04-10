@@ -2665,3 +2665,6 @@ tr > td.control-col {
   border-bottom-left-radius: 0px;
   border-left: 0px;
 }
+
+.datepicker { z-index:9999 !important}
+.clockface { z-index:9999 !important}

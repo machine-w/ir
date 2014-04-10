@@ -41,18 +41,19 @@ class Admin::DocumentsController < ApplicationController
 	end
 	def update
 		error_msg= ''
-		@document.title = document_params[:title]
-        @document.content_have_attr = document_params[:content_have_attr]
-		@properties.each do |property| 
+		@document.title = document_params[:title] if document_params.has_key? :title
+        @document.content_have_attr = document_params[:content_have_attr] if document_params.has_key? :content_have_attr
+		@properties.each do |property|
+			if @document.attritubes.where(property_name: property.name).exists?
+				attritube=@document.attritubes.where(property_name: property.name).first
+			else
+				attritube=@document.attritubes.build(property_id: property._id,property_name: property.name,type: property.type)
+			end
 			if property_params.has_key? property.name
-				if @document.attritubes.where(property_name: property.name).exists?
-					attritube=@document.attritubes.where(property_name: property.name).first
-				else
-					attritube=@document.attritubes.build(property_id: property._id,property_name: property.name,type: property.type)
-				end
 			 	error_msg += attritube.save_value(property,property_params[property.name])
 			else
-				@document.attritubes.build(property_id: property._id,property_name: property.name,type: property.type,bool_value: false) if property.bool? && !@document.attritubes.where(property_name: property.name).exists? #如果类型类bool特殊对待，设定属性为否
+				attritube.bool_value = false if property.bool? #如果类型类bool特殊对待，设定属性为否
+				#@document.attritubes.build(property_id: property._id,property_name: property.name,type: property.type,bool_value: false) if property.bool? && !@document.attritubes.where(property_name: property.name).exists? #如果类型类bool特殊对待，设定属性为否
 				error_msg += "#{property.show_name}为必填字段;" if property.req?
 			end 
 		end
@@ -85,7 +86,7 @@ class Admin::DocumentsController < ApplicationController
 		@folder = @document.folder
 	end
 	def document_params
-		params.require(:document).permit(:title,:content_have_attr)
+		params.has_key?(:document) ? params.require(:document).permit(:title,:content_have_attr) : {}
 	end
 	def property_params
 		all_array=@folder.all_properties.map { |i| i.muli_enum? ? {i.name => [] } : i.name }

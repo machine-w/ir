@@ -117,9 +117,9 @@ class Attritube
 					''
 		  		end
 			when :file
-				if property.max_value && (val.size > property.max_value)
+				if property.max_value && (val.size > property.max_value * 1048576)
 					"#{property.show_name}长度大于规定长度;"
-				elsif property.min_value && (val.size < property.min_value)
+				elsif property.min_value && (val.size < property.min_value * 1048576)
 					"#{property.show_name}长度小于规定长度;"
 				elsif !property.file_type.empty? && !property.file_type.include?(val.original_filename[1+(val.original_filename.rindex('.') || -2) ..-1])
 					#logger.info val.original_filename[/\.(.*)$/]
@@ -134,9 +134,9 @@ class Attritube
 				# logger.info val.path
 				# logger.info val.original_filename	
 			when :pdf
-				if property.max_value && (val.size > property.max_value)
+				if property.max_value && (val.size > property.max_value * 1048576)
 					"#{property.show_name}长度大于规定长度;"
-				elsif property.min_value && (val.size < property.min_value)
+				elsif property.min_value && (val.size < property.min_value * 1048576)
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
 		  			self.file_value = val
@@ -144,9 +144,9 @@ class Attritube
 					''
 		  		end
 			when :picture
-				if property.max_value && (val.size > property.max_value)
+				if property.max_value && (val.size > property.max_value * 1048576)
 					"#{property.show_name}长度大于规定长度;"
-				elsif property.min_value && (val.size < property.min_value)
+				elsif property.min_value && (val.size < property.min_value * 1048576)
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
 		  			self.file_value = val
@@ -154,9 +154,9 @@ class Attritube
 					''
 		  		end
 			when :video
-				if property.max_value && (val.size > property.max_value)
+				if property.max_value && (val.size > property.max_value * 1048576)
 					"#{property.show_name}长度大于规定长度;"
-				elsif property.min_value && (val.size < property.min_value)
+				elsif property.min_value && (val.size < property.min_value * 1048576)
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
 		  			self.file_value = val
@@ -164,9 +164,9 @@ class Attritube
 					''
 		  		end
 			when :music
-				if property.max_value && (val.size > property.max_value)
+				if property.max_value && (val.size > property.max_value * 1048576)
 					"#{property.show_name}长度大于规定长度;"
-				elsif property.min_value && (val.size < property.min_value)
+				elsif property.min_value && (val.size < property.min_value * 1048576)
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
 		  			self.file_value = val
@@ -223,11 +223,13 @@ class Attritube
 		self.array_value
 	when :file,:picture,:video,:music,:pdf
 		#{}"<a href='#{self.file_value.url}'><i class='fa fa-file'></i></a>"
-		[self.string_value,self.file_value]
+		self.string_value.blank? ? nil : [self.string_value,self.file_value]
 	when :date
 		self.date_value
 	when :time
-		self.time_value						  		
+		self.time_value
+	else
+	    nil					  		
   	end
   end
   def get_table_value
@@ -235,7 +237,7 @@ class Attritube
   	when :string,:text
 		truncate(self.string_value, :length => 10)
   	when :link
-  		link_to truncate(self.string_value, :length => 10),"#{self.string_value}"
+  		link_to truncate(self.string_value, :length => 10),"http://#{self.string_value}"
   		#"<a href ='http://#{self.string_value}'>#{truncate(self.string_value, :length => 10)}</a>".html_safe
   	when :email
   		mail_to self.string_value,truncate(self.string_value, :length => 10)
@@ -256,8 +258,16 @@ class Attritube
 		result.html_safe
 	when :data_sheet
 		"数据表（#{self.array_value.size}）" unless self.array_value.nil?
-	when :file,:picture,:video,:music,:pdf
+	when :file
 		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-file'></i></button></a>".html_safe
+	when :picture
+		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-picture-o'></i></button></a>".html_safe
+	when :video
+		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-video-camera'></i></button></a>".html_safe
+	when :music
+		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-music'></i></button></a>".html_safe
+	when :pdf
+		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-file-text'></i></button></a>".html_safe
 	when :date
 		self.date_value.strftime("%Y年%m月%d日") unless self.date_value.nil?
 	when :time

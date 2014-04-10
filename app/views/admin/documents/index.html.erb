@@ -46,7 +46,7 @@
 					  <% for doc in @documents %>
 					    <tr>
 					    	<td class="small-col"><input type="checkbox" /></td>
-					    	<td><%= link_to truncate(doc.title, :length => 30), admin_document_path(doc) %></td>
+					    	<td><%= link_to truncate(doc.title, :length => 20), admin_document_path(doc) %></td>
 					    	<% if !@folder.all_grid_show_properties.blank? %>
 					    	<% for p in @folder.all_grid_show_properties %>
 					    		<td><%= doc.table_attr_value(p.name) %></td>

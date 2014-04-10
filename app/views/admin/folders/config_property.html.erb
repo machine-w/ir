@@ -21,10 +21,9 @@
 						<div class="box-header">
 							<h3 class="box-title"><i class='fa <%= p.type_image() %>'></i>|<%= p.name %></h3>
 							<div class="box-tools pull-right">
-								<button class="btn btn-default btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
-								
+								<button class="btn btn-primary btn-sm" data-widget="collapse"><i class="fa fa-cog"></i></button>
 								 <!-- <button class="btn btn-default btn-sm" data-widget="remove" onclick = "$(this).next().submit()"><i class="fa fa-times"></i></button> -->
-								 <%= link_to admin_folder_property_path(@folder,p) , method: :delete, data: { confirm: "属性#{p.name}将被删除" },class: "btn btn-default btn-sm" do %>
+								 <%= link_to admin_folder_property_path(@folder,p) , method: :delete, data: { confirm: "属性#{p.name}将被删除" },class: "btn btn-danger btn-sm" do %>
                     				<i class="fa fa-times"></i>
                   				 <% end %>
 								 

@@ -85,4 +85,7 @@ class Property
 	def have_back?
 		!self.back_ext.blank?
 	end
+	def get_show_name
+		self.show_name.blank? ? self.name : self.show_name
+	end
 end

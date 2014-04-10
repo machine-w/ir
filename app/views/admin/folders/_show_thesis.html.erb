@@ -6,11 +6,13 @@
             <div class="box-header">
                 <h3 class="box-title">
                   <%= link_to doc.title, admin_document_path(doc) %>
-                  <small class="badge bg-yellow">sci</small>
                 </h3>
+                <small class="badge bg-yellow">sci</small>
+                <small class="badge bg-yellow">ei</small>
+                <small class="badge bg-yellow">录用</small>
                 <div class="box-tools pull-right">
                   <button class="btn btn-primary btn-xs" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                  <%= link_to edit_admin_document_path(doc),class: "btn btn-primary btn-xs" do %>
+                  <%= link_to edit_admin_document_path(doc),class: "btn btn-success btn-xs" do %>
                       <i class="fa fa-edit"></i>
                   <% end %>
                   <!-- <button class="btn btn-primary btn-xs" data-widget="remove" onclick = "$(this).next().submit()"><i class="fa fa-times"></i></button> -->
