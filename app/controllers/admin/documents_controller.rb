@@ -81,9 +81,13 @@ class Admin::DocumentsController < ApplicationController
 		@properties =@folder.all_properties
 	end
 	def set_document
-		@document = Document.find(params[:id])
-		@properties =@document.all_properties
-		@folder = @document.folder
+		begin
+			@document = Document.find(params[:id])
+			@properties =@document.all_properties
+			@folder = @document.folder
+		rescue
+			redirect_to admin_user_url(@user.loginname), notice: '成功删除文档。'
+		end
 	end
 	def document_params
 		params.has_key?(:document) ? params.require(:document).permit(:title,:content_have_attr) : {}

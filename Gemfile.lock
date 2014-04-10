@@ -275,6 +275,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
+    truncate_html (0.9.2)
     turbolinks (1.1.1)
       coffee-rails
     tzinfo (0.3.39)
@@ -338,5 +339,6 @@ DEPENDENCIES
   simple_form
   summernote-rails!
   tagmanager-rails
+  truncate_html (~> 0.9.2)
   turbolinks (= 1.1.1)
   uglifier (= 2.1.1)

@@ -81,6 +81,8 @@ gem 'fine-uploader-rails', '~> 3.2'
 # html5 editor
 gem "summernote-rails", github: 'rorlab/summernote-rails'
 
+# html 切割
+gem 'truncate_html', '~> 0.9.2'
 group :doc do
   gem 'sdoc', '0.3.20', require: false
 end

@@ -2,11 +2,13 @@ class Document
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::BaseModel
+  include TruncateHtmlHelper
 
   field :title
   field :summary
   field :content_have_attr
   field :content_html
+  field :content_html_summary
   field :dirty_flag, :type => Boolean , :default => false #判断是否有属性被修改，如果被修改，则看内容时需要重新编译
   field :sort, :type => Integer, :default => 0
 
@@ -19,6 +21,8 @@ class Document
 
   #保存前确定是新文档还是文档更新
   before_save :set_newdoc_flag
+  before_save :fill_content_with_property
+  before_save :fill_content_summary
   #如果是新建文档，则增加目录文档数
   after_save :increase_folder_count, :if => "@was_a_new_record"
   #删除文档后，减少目录文档数
@@ -28,6 +32,18 @@ class Document
   end
   #暂时只返回填入的内容
   def get_content
+    if self.dirty_flag
+      clean_content
+    end
+    self.content_html
+  end
+  def get_summary_content
+    if self.dirty_flag
+      clean_content
+    end
+    self.content_html_summary
+  end
+  def get_original_content
     self.content_have_attr
   end
   def notice_content?
@@ -60,6 +76,9 @@ class Document
       ''
     end
   end
+  def set_dirty_flag
+    self.dirty_flag = true
+  end
   private
   def set_newdoc_flag
     @was_a_new_record = new_record?
@@ -70,7 +89,24 @@ class Document
     self.folder.update_attribute(:doc_count, self.folder.doc_count + 1 )
   end
   def decrease_folder_count
-    #logger.info "add count"
     self.folder.update_attribute(:doc_count, self.folder.doc_count - 1 )
   end
+  def fill_content_with_property
+    self.content_html=fill_properties(self.get_original_content)
+    self.dirty_flag=false
+    true
+  end
+  def fill_content_summary
+    self.content_html_summary=truncate_html(self.content_html)
+    true
+  end
+  def fill_properties(original_content)
+    original_content
+  end
+  def clean_content
+    self.update_attribute(:content_html, fill_properties(self.get_original_content))
+    self.update_attribute(:content_html_summary,truncate_html(self.content_html))
+    self.dirty_flag=false
+  end
+
 end

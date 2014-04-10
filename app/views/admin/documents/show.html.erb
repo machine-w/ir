@@ -26,7 +26,7 @@
 								<li><a href="#">excel</a></li>
 							</ul>
 						</div>
-						<%= link_to '#', method: :delete, data: { confirm: "所选文档将被删除" },class: "btn btn-danger" do %>
+						<%= link_to admin_document_path(@document), method: :delete, data: { confirm: "文档将被删除" },class: "btn btn-danger" do %>
 						<i class="fa fa-times"></i>
 						<% end %>
 					</div>
