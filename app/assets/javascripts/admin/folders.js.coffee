@@ -129,7 +129,16 @@ $ ->
    summer_note.summernote
      height: ($(window).height() - 500),
      lang: 'zh-CN',
-     style: 'cosmo'
+     style: 'cosmo',
+     oninit: ->
+     	# insertBtn = "<button id='insertTagBtn' type='button' class='btn btn-default btn-sm btn-small' title='Open file' data-event='something' tabindex='-1'><i class='icon-edit'></i></button>"
+     	# fileGroup = "<div class=\"note-file btn-group\">" + insertBtn + "</div>"
+     	# $(fileGroup).prependTo $(".note-toolbar")
+        alert 'adsf'
+     	# $("#insertTagBtn").tooltip
+        #     container: "body"
+        #     placement: "bottom"
+        return
    summer_note.code summer_note.val()
    summer_note.closest('form').submit ->
      summer_note.val summer_note.code()

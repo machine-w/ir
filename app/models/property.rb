@@ -63,9 +63,11 @@ class Property
 	def type_name
 		PropertyType.where(type_view_cd: self.type_cd).first.name
 	end
-
 	def type_image
 		PropertyType.where(type_view_cd: self.type_cd).first.image_path
+	end
+	def all_oper
+		PropertyType.where(type_view_cd: self.type_cd).first.property_opers
 	end
 	def only_name?(name)
 		!self.folder.properties.where(name: name).exists?

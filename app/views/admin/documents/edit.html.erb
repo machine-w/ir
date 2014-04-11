@@ -2,7 +2,53 @@
 <% provide(:page_name, "修改文档(#{@document.title})") %>
 <% provide(:page_summary, "修改当前文档") %>
 <div class="row">
-<div class="col-md-12">
-	<%= render partial: "admin/documents/form", locals: {document: @document} %>
-</div>
+	<div class="col-md-12">
+		<%= render partial: "admin/documents/form", locals: {document: @document} %>
+	</div>
+	<div class="modal fade" id="insert-property-modal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title"><i class="fa fa-table"></i><%= @document.title + '属性表' %></h4>
+				</div>
+				<div class="box">
+					<div class="box-header">
+						<h3 class="box-title"></h3>
+						<div class="box-tools">
+							<div class="input-group">
+								<input type="text" name="table_search" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
+								<div class="input-group-btn">
+									<button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+								</div>
+							</div>
+						</div>
+					</div><!-- /.box-header -->
+					<div class="box-body table-responsive no-padding">
+						<table class="table table-hover">
+							<tr>
+								<th>属性名</th>
+								<th>显示名</th>
+								<th>类型</th>
+								<th>可用方法</th>
+							</tr>
+							<% if !@document.all_properties.blank? %>
+							<% for item in @document.all_properties %>
+								<tr>
+									<td><%= raw "<a class='btn btn-success btn-xs'>#{item.name}</a>" %></td>
+									<td><%= item.show_name %></td>
+									<td><%= item.type_name %></td>
+									<td><%= raw item.all_oper.map { |e| "<a class='btn btn-info btn-xs'>#{e.name}</a> " }.join(" ") %></td>
+								</tr>
+							<% end %>
+							<% else %>
+							<% end %>
+						</table>
+					</div><!-- /.box-body -->
+				</div>
+				
+				<!-- <a href="#" onclick="document.execCommand('insertHTML',false,'&nbsp;<button id=\'has_tooltip\' type=\'button\' class=\'btn btn-warning btn-sm\' data-toggle=\'tooltip\' data-placement=\'top\' title=\'Tooltip on top\'><i class=\'fa fa-table\'></i></button>&nbsp;');$('#has_tooltip').tooltip();">aaa</a> -->
+			</div>
+		</div>
+	</div>
 </div>
