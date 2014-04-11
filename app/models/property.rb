@@ -40,7 +40,7 @@ class Property
 
 	embedded_in :folder
 
-	validates_presence_of :name,:type,:static,:require,:disable,:view_in_grid,:inherit_type
+	validates_presence_of :name,:show_name,:type,:static,:require,:disable,:view_in_grid,:inherit_type
 	validates_uniqueness_of :name,message: "同一目录属性不可以重名！"
 
 	before_save do |property|

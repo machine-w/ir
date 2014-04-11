@@ -7,10 +7,14 @@
                 <h3 class="box-title">
                   <%= link_to doc.title, admin_document_path(doc) %>
                 </h3>
-                <small class="badge bg-yellow">sci</small>
+          <!--       <small class="badge bg-yellow">sci</small>
                 <small class="badge bg-yellow">ei</small>
-                <small class="badge bg-yellow">录用</small>
+                <small class="badge bg-yellow">录用</small> -->
                 <div class="box-tools pull-right">
+                  <button class="btn btn-primary btn-xs "><i class="fa fa-tag"></i></button>
+                  <button class="btn btn-primary btn-xs "><i class="fa fa-long-arrow-left"></i></button>
+                  <button class="btn btn-primary btn-xs "><i class="fa fa-long-arrow-right"></i></button>
+                  <button class="btn btn-primary btn-xs "><i class="fa fa-share-square-o"></i></button>
                   <button class="btn btn-primary btn-xs" data-widget="collapse"><i class="fa fa-minus"></i></button>
                   <%= link_to edit_admin_document_path(doc),class: "btn btn-success btn-xs" do %>
                       <i class="fa fa-edit"></i>
@@ -27,10 +31,8 @@
             <div class="box-footer">
                 <code>作者</code>
                 <div class ="pull-right">
-                  <button class="btn btn-primary btn-xs "><i class="fa fa-tag"></i></button>
-                  <button class="btn btn-primary btn-xs "><i class="fa fa-long-arrow-left"></i></button>
-                  <button class="btn btn-primary btn-xs "><i class="fa fa-long-arrow-right"></i></button>
-                  <button class="btn btn-primary btn-xs "><i class="fa fa-share-square-o"></i></button>
+                  <div class="label bg-aqua">Label</div>
+                  <div class="label bg-aqua">Label1</div>
                 </div>
             </div>
         </div>

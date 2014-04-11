@@ -96,6 +96,17 @@ $ ->
 		$(this).closest('form').submit ->
 	    	this_handsontable.prev().val table_data.getData()
 	     true
+	$(".handsontable-view").each ->
+		rows = $(this).next().val()
+		cols = $(this).next().next().val()
+		data_array =  JSON.parse($(this).next().next().next().val())
+		$(this).handsontable
+		  data: get_array_data(data_array,rows,cols),
+		  startRows: rows,
+		  startCols: cols,
+		  cells: (r, c, prop) ->
+		  	{readOnly:true}
+
 	#设置提示信息的位置和样式
 	#Messenger.options = {
     #extraClasses: 'messenger-fixed messenger-on-top',

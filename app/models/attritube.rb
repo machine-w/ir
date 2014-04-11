@@ -200,6 +200,8 @@ class Attritube
 		  			property.req? ? "#{property.show_name}不可以为空;" : ''
 		  		else #没有测试
 		  			self.array_value = val.split(',')
+		  			self.int_value = property.data_y
+		  			self.float_value = property.data_x.to_f
 					''
 		  		end
 			else
@@ -268,6 +270,49 @@ class Attritube
 		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-music'></i></button></a>".html_safe
 	when :pdf
 		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-file-text'></i></button></a>".html_safe
+	when :date
+		self.date_value.strftime("%Y年%m月%d日") unless self.date_value.nil?
+	when :time
+		self.time_value.strftime("%I:%M %p") unless self.time_value.nil?				  		
+  	end
+  end
+  def get_content_value
+  	case self.type
+  	when :string,:text,:enum
+		self.string_value
+  	when :link
+  		link_to self.string_value,"http://#{self.string_value}"
+  		#"<a href ='http://#{self.string_value}'>#{truncate(self.string_value, :length => 10)}</a>".html_safe
+  	when :email
+  		mail_to self.string_value,self.string_value
+  		#"<a href ='mailto:#{self.string_value}'>#{truncate(self.string_value, :length => 10)}</a>".html_safe
+  	when :integer
+  		self.int_value.to_s
+  	when :number
+  		self.float_value.to_s
+  	when :embed_html
+  		tself.string_value.html_safe
+	when :bool
+		self.bool_value ? '是' : '否'
+	# when :enum
+	# 	"<span class='label label-success'>#{truncate(self.string_value, :length => 10)}</span> ".html_safe
+	when :muli_enum,:array
+		result=''
+		self.array_value.each{ |a| result += "<span class='label label-success'>#{a}</span> " } unless self.array_value.nil?
+		result.html_safe
+	when :data_sheet
+		#{}"数据表（#{self.array_value.size}）" unless self.array_value.nil?
+		"<p><div class='handsontable-view'></div><input type='hidden' value='#{self.int_value}'/><input type='hidden' value='#{self.float_value.to_i}'/><input type='hidden' value='#{self.array_value || '[]'}'/></p>"
+	when :file
+		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-file'></i>#{self.string_value}</button></a>".html_safe
+	when :picture
+		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-picture-o'></i>#{self.string_value}</button></a>".html_safe
+	when :video
+		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-video-camera'></i>#{self.string_value}</button></a>".html_safe
+	when :music
+		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-music'></i>#{self.string_value}</button></a>".html_safe
+	when :pdf
+		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-file-text'></i>#{self.string_value}</button></a>".html_safe
 	when :date
 		self.date_value.strftime("%Y年%m月%d日") unless self.date_value.nil?
 	when :time

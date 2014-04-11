@@ -3,7 +3,7 @@ class Document
   include Mongoid::Timestamps
   include Mongoid::BaseModel
   include TruncateHtmlHelper
-
+  require 'nokogiri'
   field :title
   field :summary
   field :content_have_attr
@@ -76,6 +76,13 @@ class Document
       ''
     end
   end
+  def content_attr_value(property_name)
+    if self.attritubes.where(property_name: property_name).exists?
+      self.attritubes.where(property_name: property_name).first.get_content_value
+    else
+      ''
+    end
+  end
   def set_dirty_flag
     self.dirty_flag = true
   end
@@ -101,7 +108,17 @@ class Document
     true
   end
   def fill_properties(original_content)
-    original_content
+     # logger.info original_content
+     # logger.info '##############'
+    doc = Nokogiri::HTML original_content
+    doc.css('.is-a-property').each do |p|
+      p.replace  self.content_attr_value(p["id"])
+    end
+    doc.css('#summary_line').each do |p|
+      p.replace  '<!-- truncate -->'
+    end
+    # logger.info doc.to_html
+    doc.to_html
   end
   def clean_content
     self.update_attribute(:content_html, fill_properties(self.get_original_content))
