@@ -1,7 +1,7 @@
 class Admin::FoldersController < ApplicationController
 	before_filter :authenticate_user!
 	before_filter :set_user
-	before_filter :set_folder, only: [:show, :edit, :update, :destroy, :config_property]
+	before_filter :set_folder, only: [:show, :edit, :update, :destroy, :config_property,:config_doc_view]
 	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
 	layout "admin_layout"
 	def create
@@ -58,6 +58,11 @@ class Admin::FoldersController < ApplicationController
 		@properties=@folder.properties.all
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
 		drop_breadcrumb("配置文档属性", config_property_admin_folder_path(@folder))
+	end
+	def config_doc_view
+		@properties=@folder.properties.all
+		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
+		drop_breadcrumb("配置文档视图", config_doc_view_admin_folder_path(@folder))
 	end
 	def update
 		get_data = folders_params

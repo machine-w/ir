@@ -1,0 +1,10 @@
+<% provide(:title, "配置:"+@folder.name) %>
+<% provide(:page_name, "配置:"+@folder.name) %>
+<% provide(:page_summary, "配置目录中文档的默认视图") %>
+<%= render partial: 'shared/config_navbar',locals: {folder: @folder} %>
+<%= config_tab(2) %>
+<div class="row">
+	<div class="col-md-12">
+	</div>
+	<%= render partial: "admin/folders/select_property_list", locals: {folder: @folder} %>
+</div>
