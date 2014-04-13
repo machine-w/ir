@@ -34,7 +34,7 @@
 		</div>
 		<div id="add_document_property" class="panel-collapse collapse <%= 'in' if document.notice_property? %>">
 			<div class="box-body">
-				<%= render partial: "admin/documents/form_property_list", locals: {document: document} %>
+				<%= render partial: "admin/documents/form_property_list", locals: {document: document,properties: properties} %>
 				<div class="form-group">
 					<%= f.button "保存", class: "btn btn-success  btn-block btn-flat  btn-lg",onclick: "if($(this).closest('form').valid() == false){return false;}" %>
 				</div>

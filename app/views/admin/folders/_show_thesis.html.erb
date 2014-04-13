@@ -12,14 +12,15 @@
                 <small class="badge bg-yellow">录用</small>
                 <small class="badge bg-blue">审核</small>
                 <div class="box-tools pull-right">
-                  <button class="btn btn-primary btn-xs "><i class="fa fa-tag"></i></button>
+                  <%= link_to edit_admin_document_path(doc),class: "btn btn-success btn-xs" do %>
+                      <i class="fa fa-edit"></i>
+                  <% end %>
+                  <button class="btn btn-primary btn-xs "><i class="fa fa-eye"></i></button>
                   <button class="btn btn-primary btn-xs "><i class="fa fa-long-arrow-left"></i></button>
                   <button class="btn btn-primary btn-xs "><i class="fa fa-long-arrow-right"></i></button>
                   <button class="btn btn-primary btn-xs "><i class="fa fa-share-square-o"></i></button>
                   <button class="btn btn-primary btn-xs" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                  <%= link_to edit_admin_document_path(doc),class: "btn btn-success btn-xs" do %>
-                      <i class="fa fa-edit"></i>
-                  <% end %>
+                  
                   <!-- <button class="btn btn-primary btn-xs" data-widget="remove" onclick = "$(this).next().submit()"><i class="fa fa-times"></i></button> -->
                   <%= link_to admin_document_path(doc) , method: :delete, data: { confirm: "文档#{doc.title}将被删除" },class: "btn btn-danger btn-xs" do %>
                     <i class="fa fa-times"></i>

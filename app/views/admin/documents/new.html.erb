@@ -3,7 +3,7 @@
 <% provide(:page_summary, "新建文档到目录'#{@folder.name}'") %>
 <div class="row">
 	<div class="col-md-12">
-		<%= render partial: "admin/documents/form", locals: {document: @document} %>
+		<%= render partial: "admin/documents/form", locals: {document: @document,properties: @properties} %>
 	</div>
 	<%= render partial: "admin/documents/select_property_list", locals: {document: @document} %>
 </div>

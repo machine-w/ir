@@ -27,8 +27,11 @@ class Document
   after_save :increase_folder_count, :if => "@was_a_new_record"
   #删除文档后，减少目录文档数
   after_destroy :decrease_folder_count
-  def all_properties
+  def all_dynamic_properties
     self.folder.properties.enable_not_static
+  end
+  def all_properties
+    self.folder.properties.enable_all
   end
   #暂时只返回填入的内容
   def get_content
@@ -44,7 +47,11 @@ class Document
     self.content_html_summary
   end
   def get_original_content
-    self.content_have_attr
+    if self.content_have_attr.gsub(/\&nbsp;/, '').strip.blank?
+      self.folder.doc_default_content
+    else
+      self.content_have_attr
+    end
   end
   def notice_content?
     case self.folder.folder_type.list_view
@@ -84,7 +91,7 @@ class Document
     end
   end
   def set_dirty_flag
-    self.dirty_flag = true
+    self.update_attribute(:dirty_flag, true)
   end
   private
   def set_newdoc_flag
@@ -108,8 +115,6 @@ class Document
     true
   end
   def fill_properties(original_content)
-     # logger.info original_content
-     # logger.info '##############'
     doc = Nokogiri::HTML original_content
     doc.css('.is-a-property').each do |p|
       p.replace  self.content_attr_value(p["id"])
@@ -117,7 +122,6 @@ class Document
     doc.css('#summary_line').each do |p|
       p.replace  '<!-- truncate -->'
     end
-    # logger.info doc.to_html
     doc.to_html
   end
   def clean_content

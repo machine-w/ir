@@ -30,7 +30,7 @@
 							</div>
 						</div>
 						<%= form_for p, url: admin_folder_property_path(@folder,p), method: :put, html: {role: "form",class: "form_w_val"} do |f| %>
-						<div class="box-body property-box">
+						<div class="box-body property-box" style="display:none">
 							<div class="form-group">
 								<%= f.text_field :name, placeholder: "属性名（建议使用英文字母组合）", class: "form-control", 'check-type' => "required", 'required-message' => "请填写属性名", maxlength: "15" %>
 							</div>
@@ -127,7 +127,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="box-footer property-box">
+						<div class="box-footer property-box" style="display:none">
 							<button type="submit" class="btn btn-lg btn-primary btn-block" onclick = "if($(this).closest('form').valid() == false){return false;}">修改属性</button>
 						</div>
 						<% end %>

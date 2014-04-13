@@ -36,6 +36,7 @@ InstitutionalRepos::Application.routes.draw do
       resources :folders, only: [:show, :edit, :update, :destroy] do
           member do
             get :config_property,:config_doc_view
+            put :update_doc_view
           end
           resources :properties
           resources :documents, only: [:index, :new, :create]

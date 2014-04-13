@@ -1,7 +1,7 @@
 class Admin::FoldersController < ApplicationController
 	before_filter :authenticate_user!
 	before_filter :set_user
-	before_filter :set_folder, only: [:show, :edit, :update, :destroy, :config_property,:config_doc_view]
+	before_filter :set_folder, only: [:show, :edit, :update, :destroy, :config_property,:config_doc_view,:update_doc_view]
 	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
 	layout "admin_layout"
 	def create
@@ -44,6 +44,7 @@ class Admin::FoldersController < ApplicationController
 		#@folder = Folder.find(params[:id])
 		@document=@folder.documents.new
 		@documents=@folder.documents.all.page(params[:page]).per(15)
+		@properties =@folder.all_dynamic_properties
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
 	end
 	def edit
@@ -104,6 +105,20 @@ class Admin::FoldersController < ApplicationController
 		end
 		redirect_to action: 'edit'
 	end
+	def update_doc_view
+		error_msg='错误：'
+		@folder.doc_default_content=folders_params[:doc_default_content]
+		if @folder.save
+			@folder.documents.each { |e| e.set_dirty_flag }
+			flash[:success] = "修改文档视图成功"
+		else
+			@folder.errors.full_messages.each do |msg|
+   				error_msg += msg + ','
+   			end
+   			flash[:error]=error_msg
+		end
+		redirect_to action: 'config_doc_view'
+	end
 	def destroy
 		error_msg='错误：'
 		folder_group=@folder.folder_group
@@ -129,6 +144,6 @@ class Admin::FoldersController < ApplicationController
 		@folder = @user.folders.find(params[:id])
 	end
 	def folders_params
-		params.require(:folder).permit(:name,:folder_type,:folder_group,:tile,:tile_color,:description)
+		params.require(:folder).permit(:name,:folder_type,:folder_group,:tile,:tile_color,:description,:doc_default_content)
 	end
 end

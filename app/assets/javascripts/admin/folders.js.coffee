@@ -121,50 +121,65 @@ $ ->
         $(this).tagsManager({prefilled: fill_modify_enum_options($(this))})
 
     #收起所有属性
-   $(".property-box").hide();
+   #$(".property-box").hide();
    $(".property-box-g").addClass("collapsed-box");
 
    # to set summernote object
-   summer_note = $('#document_content_have_attr')
-   summer_note.summernote
-     height: ($(window).height() - 500),
-     lang: 'zh-CN',
-     style: 'cosmo',
-     focus: true,
-     oninit: ->
-      insertBtn = "<button id='insertTagBtn' data-toggle='modal' data-target='#insert-property-modal' type='button' class='btn btn-primary btn-sm btn-small' title='插入属性' data-event='something' tabindex='-1'><i class=' fa fa-gears'></i></button>"
-      partiBtn =  "<button id='insertPartitonBtn' type='button' class='btn btn-default btn-sm btn-small' title='' data-event='something' tabindex='-1'><i class=' fa fa-cut'></i></button>"
-      fileGroup = "<div class=\"note-property btn-group\">" + insertBtn + partiBtn + "</div>"
-      $(fileGroup).prependTo $(".note-toolbar")
-      $("#insertTagBtn").tooltip
-        container: "body"
-        placement: "bottom"
-      $("#insertPartitonBtn").tooltip
-        container: "body"
-        placement: "bottom"
-      $('#insertPartitonBtn').click ->
-        if !$('#summary_line')[0]
-          document.execCommand('insertHTML',false,'&nbsp;<button id=\'summary_line\' type=\'button\' class=\'btn btn-default btn-sm has_tooltip\' data-toggle=\'tooltip\' data-placement=\'top\' title=\'摘要分割点\'><i class=\'fa fa-angle-double-right\'></i></button>&nbsp;');
-          $('#summary_line').tooltip();
-      return
-   summer_note.code summer_note.val()
-   summer_note.closest('form').submit ->
-     summer_note.val summer_note.code()
+   if $('#folder_doc_default_content')[0]
+     summer_note = $('#folder_doc_default_content')
+     summer_note.summernote
+       height: ($(window).height() - 300),
+       lang: 'zh-CN',
+       style: 'cosmo',
+       focus: true,
+       oninit: ->
+        insertBtn = "<button id='insertTagBtn' data-toggle='modal' data-target='#insert-property-modal' type='button' class='btn btn-primary btn-sm btn-small' title='插入属性' data-event='something' tabindex='-1'><i class=' fa fa-gears'></i></button>"
+        partiBtn =  "<button id='insertPartitonBtn' type='button' class='btn btn-default btn-sm btn-small' title='' data-event='something' tabindex='-1'><i class=' fa fa-cut'></i></button>"
+        fileGroup = "<div class=\"note-property btn-group\">" + insertBtn + partiBtn + "</div>"
+        $(fileGroup).prependTo $(".note-toolbar")
+        $("#insertTagBtn").tooltip
+          container: "body"
+          placement: "bottom"
+        $("#insertPartitonBtn").tooltip
+          container: "body"
+          placement: "bottom"
+        $('#insertPartitonBtn').click ->
+          if !$('#summary_line')[0]
+            document.execCommand('insertHTML',false,'&nbsp;<button id=\'summary_line\' type=\'button\' class=\'btn btn-default btn-sm has_tooltip\' data-toggle=\'tooltip\' data-placement=\'top\' title=\'摘要分割点\'><i class=\'fa fa-angle-double-right\'></i></button>&nbsp;');
+            $('#summary_line').tooltip();
+        return
+     summer_note.code summer_note.val()
+     summer_note.closest('form').submit ->
+       summer_note.val summer_note.code()
+     true
+   if $('#document_content_have_attr')[0]
+     summer_note = $('#document_content_have_attr')
+     summer_note.summernote
+       height: ($(window).height() - 300),
+       lang: 'zh-CN',
+       style: 'cosmo',
+       focus: true,
+       oninit: ->
+        insertBtn = "<button id='insertTagBtn' data-toggle='modal' data-target='#insert-property-modal' type='button' class='btn btn-primary btn-sm btn-small' title='插入属性' data-event='something' tabindex='-1'><i class=' fa fa-gears'></i></button>"
+        partiBtn =  "<button id='insertPartitonBtn' type='button' class='btn btn-default btn-sm btn-small' title='' data-event='something' tabindex='-1'><i class=' fa fa-cut'></i></button>"
+        fileGroup = "<div class=\"note-property btn-group\">" + insertBtn + partiBtn + "</div>"
+        $(fileGroup).prependTo $(".note-toolbar")
+        $("#insertTagBtn").tooltip
+          container: "body"
+          placement: "bottom"
+        $("#insertPartitonBtn").tooltip
+          container: "body"
+          placement: "bottom"
+        $('#insertPartitonBtn').click ->
+          if !$('#summary_line')[0]
+            document.execCommand('insertHTML',false,'&nbsp;<button id=\'summary_line\' type=\'button\' class=\'btn btn-default btn-sm has_tooltip\' data-toggle=\'tooltip\' data-placement=\'top\' title=\'摘要分割点\'><i class=\'fa fa-angle-double-right\'></i></button>&nbsp;');
+            $('#summary_line').tooltip();
+        return
+     summer_note.code summer_note.val()
+     summer_note.closest('form').submit ->
+       summer_note.val summer_note.code()
      true
  
-   # $("#add_document_property").hide();
-   # $('#switch_content_attr').on "switch-change", (e, data) ->
-   # 		$("#add_document_content").stop(true,true);
-   # 		if $('#add_document_content').is(":hidden")
-   # 			$('#add_document_content').show('slide', {direction: 'right'}, 1000);
-   # 		else
-   #      	$('#add_document_content').hide('slide', {direction: 'right'}, 1000);
-
-   #      $("#add_document_property").stop(true,true);
-   # 		if $('#add_document_property').is(":hidden")
-   # 			$('#add_document_property').show('slide', {direction: 'right'}, 1000);
-   # 		else
-   #      	$('#add_document_property').hide('slide', {direction: 'right'}, 1000);
 
 
 	

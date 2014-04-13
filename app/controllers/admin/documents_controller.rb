@@ -78,12 +78,12 @@ class Admin::DocumentsController < ApplicationController
 	private 
 	def set_folder
 		@folder = @user.folders.find(params[:folder_id])
-		@properties =@folder.all_properties
+		@properties =@folder.all_dynamic_properties
 	end
 	def set_document
 		begin
 			@document = Document.find(params[:id])
-			@properties =@document.all_properties
+			@properties =@document.all_dynamic_properties
 			@folder = @document.folder
 		rescue
 			redirect_to admin_user_url(@user.loginname), notice: '成功删除文档。'
@@ -93,13 +93,13 @@ class Admin::DocumentsController < ApplicationController
 		params.has_key?(:document) ? params.require(:document).permit(:title,:content_have_attr) : {}
 	end
 	def property_params
-		all_array=@folder.all_properties.map { |i| i.muli_enum? ? {i.name => [] } : i.name }
+		all_array=@folder.all_dynamic_properties.map { |i| i.muli_enum? ? {i.name => [] } : i.name }
 		result_hash=if params.has_key?(:properties)
 					 	params.require(:properties).permit(all_array) 
 					else 
 						{}
 					end
-		hidden_array=@folder.all_properties.map { |i| i.name if i.array? }
+		hidden_array=@folder.all_dynamic_properties.map { |i| i.name if i.array? }
 		#logger.info hidden_array.to_s
 		hidden_hash=if params.has_key?('hidden-properties')
 						params.require('hidden-properties').permit(hidden_array.compact)

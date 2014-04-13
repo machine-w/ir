@@ -1,5 +1,5 @@
-<% if !document.all_properties.blank? %>
-<% for item in document.all_properties %>
+<% if !properties.blank? %>
+<% for item in properties %>
 <div class="form-group">
 	<%= raw get_property_form_view(item,document) %>
 </div>

@@ -10,11 +10,11 @@
 				<small class="badge bg-yellow">sci</small>
 				<div class="box-tools pull-right">
 					<div class="btn-group">
-						<%= link_to edit_admin_document_path(@document),class: "btn btn-primary" do %>
+						<%= link_to edit_admin_document_path(@document),class: "btn btn-success" do %>
 						<i class="fa fa-edit"></i>
 						<% end %>
 						<a class="btn btn-info" data-toggle="modal" data-target="#property-modal"><i class="fa  fa-align-justify"></i></a>
-						<button class="btn btn-primary"><i class="fa fa-tag"></i></button>
+						<button class="btn btn-primary"><i class="fa fa-eye"></i></button>
 						<button class="btn btn-primary"><i class="fa fa-long-arrow-left"></i></button>
 						<button class="btn btn-primary"><i class="fa fa-long-arrow-right"></i></button>
 						<div class="btn-group">
@@ -55,7 +55,7 @@
 			</div>
 			<%= form_for @document,url: admin_document_path(@document),html: {role: "form",class: "form_w_val",:multipart => true}  do |f| %>
 				<div class="modal-body">
-					<%= render partial: "admin/documents/form_property_list", locals: {document: @document} %>
+					<%= render partial: "admin/documents/form_property_list", locals: {document: @document,properties: @properties} %>
 				</div>
 				<div class="modal-footer clearfix">
 					<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>关闭</button>
