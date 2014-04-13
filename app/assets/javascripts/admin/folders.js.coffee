@@ -63,8 +63,11 @@ $ ->
 		$("#add_property_strformat_pane").hide();
 		$("#add_property_ext_pane").hide();
 		$("#add_property_options_pane").hide();
+		$("#add_property_mutleselect_pane").hide();
+		$("#add_property_mutleselectcolor_pane").hide();
 		$("#add_property_xy_pane").hide();
 		$("#add_property_filetype_pane").hide();
+
 	fix_custom_option = (arg) ->
 		hide_option();
 		switch arg
@@ -78,8 +81,12 @@ $ ->
 			when "integer","number"
 				$("#add_property_maxmin_pane").slideDown();
 				$("#add_property_ext_pane").slideDown();
-			when "enum","muli_enum"
+			when "enum"
 				$("#add_property_options_pane").slideDown();
+			when "muli_enum"
+				$("#add_property_options_pane").slideDown();
+				$("#add_property_mutleselect_pane").slideDown();
+				$("#add_property_mutleselectcolor_pane").slideDown();
 			when "file"
 				$("#add_property_maxmin_pane").slideDown();
 				$("#add_property_filetype_pane").slideDown();

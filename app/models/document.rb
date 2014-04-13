@@ -33,6 +33,9 @@ class Document
   def all_properties
     self.folder.properties.enable_all
   end
+  def all_identify_properties
+    self.folder.properties.identify_property
+  end
   #暂时只返回填入的内容
   def get_content
     if self.dirty_flag

@@ -67,6 +67,7 @@ class Admin::DocumentsController < ApplicationController
 		
 	end
 	def show
+		@identify_properties = @document.all_identify_properties
 		drop_breadcrumb(@document.folder.name, admin_folder_path(@document.folder))
 		drop_breadcrumb(@document.title, admin_document_path(@document))
 	end

@@ -12,6 +12,8 @@ class Property
 	field :onlyread, :type => Boolean, :default =>false #属性只读，可以在列表中和view中调用与查看，修改页面中只显示不可以修改。
 	field :view_in_grid, :type => Boolean , :default => false #是否在目录的管理列表中显示
 	field :edit_in_grid, :type => Boolean , :default => false #是否在目录的管理列表中编辑
+	field :be_identify,:type => Boolean,:default => false #是否为认证字段，目前只有多选类型可以设置为认证字段
+	field :identify_color, :default => '#f39c12'
 	#属性类型
 	as_enum :type, :string => 1, :text => 2, :integer => 3, :number => 4, 
 	:embed_html => 5, :enum => 6, :muli_enum  => 7, :file => 8, 
@@ -39,7 +41,7 @@ class Property
 	scope :enable_static, where(static: true,disable: false)
 	scope :enable_all, where(disable: false)
 	scope :grid_show, where(static: false,disable: false,view_in_grid: true)
-
+	scope :identify_property, where(disable: false,be_identify: true)
 	embedded_in :folder
 
 	validates_presence_of :name,:show_name,:type,:static,:require,:disable,:view_in_grid,:inherit_type
@@ -52,6 +54,7 @@ class Property
 		property.onlyread = (property.onlyread == "1") ? true : false
 		property.view_in_grid = (property.view_in_grid == "1") ? true : false
 		property.edit_in_grid = (property.edit_in_grid == "1") ? true : false
+		property.be_identify = (property.be_identify == "1") ? true : false
 		#html_safe
 		property.name = strip_tags property.name
 		property.show_name = strip_tags property.show_name
@@ -91,5 +94,19 @@ class Property
 	end
 	def get_show_name
 		self.show_name.blank? ? self.name : self.show_name
+	end
+	def is_inherit?
+		false
+	end
+	def get_color
+		color='primary'
+		color='success' if self.view_in_grid
+		color='warning' if self.static
+		color='info' if self.is_inherit?
+		color='default' if self.disable
+		color
+	end
+	def is_identify?
+		self.muli_enum? && self.be_identify ? true : false
 	end
 end

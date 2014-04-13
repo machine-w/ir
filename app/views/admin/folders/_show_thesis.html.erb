@@ -4,13 +4,14 @@
     <div class="col-md-12">
         <div class="box box-info">
             <div class="box-header">
-                <h3 class="box-title">
+                <h1 class="box-title big-title">
                   <%= link_to doc.title, admin_document_path(doc) %>
-                </h3>
-                <small class="badge bg-yellow">sci</small>
-                <small class="badge bg-yellow">ei</small>
-                <small class="badge bg-yellow">录用</small>
-                <small class="badge bg-blue">审核</small>
+                </h1>
+                <% identify_properties.each do |pro| %>
+                  <% (doc.attr_value(pro.name) || []).each do |i| %>
+                      <small class="badge" style="background-color: <%= pro.identify_color %> !important;"><%= i %></small>
+                    <% end %>
+                <% end %>
                 <div class="box-tools pull-right">
                   <%= link_to edit_admin_document_path(doc),class: "btn btn-success btn-xs" do %>
                       <i class="fa fa-edit"></i>
@@ -31,7 +32,7 @@
                 <%= raw doc.get_summary_content %>
             </div>
             <div class="box-footer">
-                <code>作者</code>
+                作者：<code><%= doc.folder.user.username %></code>
                 <div class ="pull-right">
                   <div class="label bg-aqua">标签</div>
                   <div class="label bg-aqua">标签</div>

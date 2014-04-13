@@ -291,7 +291,7 @@ class Attritube
   	when :number
   		self.float_value.to_s
   	when :embed_html
-  		tself.string_value.html_safe
+  		self.string_value.html_safe
 	when :bool
 		self.bool_value ? '是' : '否'
 	# when :enum
@@ -320,16 +320,16 @@ class Attritube
   	end
   end
   private
-  def div_arr(arr, div_len)  
-  	if div_len <= 0 or div_len == 1 or div_len >= arr.size  
-  		return [arr]  
-  	end  
-  	res = []  
-  	arr.each_index{ |i|  
-  		x,y = i / div_len,i % div_len  
-  		res[x] = [] if not res[x]  
-  		res[x][y] = arr[i]  
-  	}
-  	res  
-  end  
+  # def div_arr(arr, div_len)  
+  # 	if div_len <= 0 or div_len == 1 or div_len >= arr.size  
+  # 		return [arr]  
+  # 	end  
+  # 	res = []  
+  # 	arr.each_index{ |i|  
+  # 		x,y = i / div_len,i % div_len  
+  # 		res[x] = [] if not res[x]  
+  # 		res[x][y] = arr[i]  
+  # 	}
+  # 	res  
+  # end  
 end

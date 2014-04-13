@@ -45,6 +45,7 @@ class Admin::FoldersController < ApplicationController
 		@document=@folder.documents.new
 		@documents=@folder.documents.all.page(params[:page]).per(15)
 		@properties =@folder.all_dynamic_properties
+		@identify_properties = @folder.all_identify_properties
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
 	end
 	def edit

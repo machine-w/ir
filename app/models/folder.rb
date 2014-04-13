@@ -34,6 +34,9 @@ class Folder
   def all_properties
     self.properties.enable_all
   end
+  def all_identify_properties
+    self.properties.identify_property
+  end
   def all_grid_show_properties
     self.properties.grid_show
   end

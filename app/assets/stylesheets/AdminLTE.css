@@ -1960,15 +1960,23 @@ Component: timeline
   background-color: #fff;
 }
 .callout.callout-danger {
-  background-color: #fcf2f2;
+  /*background-color: #fcf2f2;*/
   border-color: #dFb5b4;
 }
+.callout.callout-success {
+  /*background-color: #dff0d8;*/
+  border-color: #d6e9c6;
+}
+.callout.callout-primary {
+  /*background-color: #3c8dbc;*/
+  border-color: #367fa9;
+}
 .callout.callout-warning {
-  background-color: #fefbed;
+  /*background-color: #fefbed;*/
   border-color: #f1e7bc;
 }
 .callout.callout-info {
-  background-color: #f0f7fd;
+  /*background-color: #f0f7fd;*/
   border-color: #d0e3f0;
 }
 .callout.callout-danger h4 {
@@ -2668,3 +2676,8 @@ tr > td.control-col {
 
 .datepicker { z-index:9999 !important}
 .clockface { z-index:9999 !important}
+
+.box .box-header .big-title { font-size: 30px}
+.box .box-header .bit-title a  { font-size: 30px}
+
+

@@ -1,6 +1,6 @@
 <% if !properties.blank? %>
 <% for item in properties %>
-<div class="form-group">
+<div class="form-group callout callout-<%= item.get_color %> ">
 	<%= raw get_property_form_view(item,document) %>
 </div>
 <% end %>

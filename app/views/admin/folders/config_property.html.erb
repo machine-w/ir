@@ -17,11 +17,11 @@
 		<% @properties.each_with_index do |p,i| %>
 			<% unless p.name.blank? %>
 				<div class="col-md-3 col-sm-6 ">
-					<div class="box box-solid box-primary property-box-g">
+					<div class="box box-solid box-<%= p.get_color %> property-box-g">
 						<div class="box-header">
 							<h3 class="box-title"><i class='fa <%= p.type_image() %>'></i>|<%= p.name %></h3>
 							<div class="box-tools pull-right">
-								<button class="btn btn-primary btn-sm" data-widget="collapse"><i class="fa fa-cog"></i></button>
+								<button class="btn btn-<%= p.get_color %> btn-sm" data-widget="collapse"><i class="fa fa-cog"></i></button>
 								 <!-- <button class="btn btn-default btn-sm" data-widget="remove" onclick = "$(this).next().submit()"><i class="fa fa-times"></i></button> -->
 								 <%= link_to admin_folder_property_path(@folder,p) , method: :delete, data: { confirm: "属性#{p.name}将被删除" },class: "btn btn-danger btn-sm" do %>
                     				<i class="fa fa-times"></i>
@@ -71,6 +71,18 @@
 								<div class="form-group">
 									<%= f.text_field :enum_option,placeholder: "选择项（逗号或回车分割）",class: "form-control modify_property_enum_options",maxlength: "20"%>
 								</div>
+									<% if :muli_enum == p.type %>
+									<div class="form-group">
+										<label class="checkbox">
+											<%= f.check_box :be_identify%>
+											认证属性
+										</label>
+									</div>
+									<div class="form-group">
+										<label class="control-label">认证图标背景</label>
+										<%= f.text_field :identify_color,class: "form-control sel_color",style: "width:100px;"%>
+									</div>
+									<% end %>
 								<% end %>
 								<% if :file == p.type %>
 								<div class="form-group">
@@ -145,7 +157,7 @@
 				<div class="box-header">
 					<h3 class="box-title">新建属性</h3>
 					<div class="box-tools pull-right">
-						<button class="btn btn-default btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+						<button class="btn btn-danger btn-sm" data-widget="collapse"><i class="fa fa-cog"></i></button>
 					</div>
 				</div>
 				<%= form_for @property, url: admin_folder_properties_path(@folder.id), html: {role: "form",class: "form_w_val"} do |f| %>
@@ -191,6 +203,16 @@
 						<div id="add_property_options_pane" class="form-group">
 							<%= f.text_field :enum_option,placeholder: "选择项（回车分割）",id: "enum_options",class: "form-control", maxlength: "20"%>
 						</div>
+						<div id="add_property_mutleselect_pane" class="form-group">
+							<label class="checkbox">
+								<%= f.check_box :be_identify, {:checked =>false}%>
+								认证属性
+							</label>
+						</div>
+						<div id="add_property_mutleselectcolor_pane" class="form-group">
+							<label for="add_property_identify_color" class="control-label">认证图标背景</label>
+							<%= f.text_field :identify_color,class: "form-control sel_color",id: "add_property_identify_color",style: "width:100px;"%>
+						</div>
 						<div id="add_property_filetype_pane" class="form-group">
 							<%= f.text_field :file_type,placeholder: "可以接受的文件后缀",id: "file_type",class: "form-control", maxlength: "10"%>
 						</div>
@@ -228,10 +250,12 @@
 								<%= f.check_box :edit_in_grid, {:checked =>false}%>
 								数据库列表可编辑
 							</label>
+							<!--
 							<label class="checkbox">
 								<%= f.check_box :onlyread, {:checked =>false} %>
 								只读属性
-							</label>
+							</label> 
+							-->
 							<label class="checkbox">
 								<%= f.check_box :disable, {:checked =>false} %>
 								禁用属性

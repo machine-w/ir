@@ -6,8 +6,12 @@
 		<!-- Success box -->
 		<div class="box box-success">
 			<div class="box-header">
-				<h4 class="box-title"><%= @document.title %></h4>
-				<small class="badge bg-yellow">sci</small>
+				<h1 class="box-title big-title"><%= @document.title %></h1>
+				<% @identify_properties.each do |pro| %>
+                  <% (@document.attr_value(pro.name) || []).each do |i| %>
+                      <small class="badge" style="background-color: <%= pro.identify_color %> !important;"><%= i %></small>
+                    <% end %>
+                <% end %>
 				<div class="box-tools pull-right">
 					<div class="btn-group">
 						<%= link_to edit_admin_document_path(@document),class: "btn btn-success" do %>
