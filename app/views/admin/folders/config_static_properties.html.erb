@@ -1,0 +1,21 @@
+<% provide(:title, "配置:"+@folder.name) %>
+<% provide(:page_name, "配置:"+@folder.name) %>
+<% provide(:page_summary, "配置目录静态属性") %>
+<%= render partial: 'shared/config_navbar',locals: {folder: @folder} %>
+<%= config_tab(3) %>
+<div class="row">
+	<div class="col-md-12">
+		<%= form_for @folder,url: update_static_properties_admin_folder_path(@folder),method: 'put',html: {role: "form",class: "form_w_val",:multipart => true}  do |f| %>
+		<div class="box box-solid box-warning">
+			<div class="box-header">
+			</div>
+			<div class="box-body">
+				<%= render partial: "admin/documents/form_property_list", locals: {document: @folder,properties: @static_properties} %>
+				<div class="form-group">
+					<%= f.button "保存", class: "btn btn-success  btn-block btn-flat  btn-lg",onclick: "if($(this).closest('form').valid() == false){return false;}" %>
+				</div>
+			</div>
+		</div>
+		<% end %>
+	</div>
+</div>

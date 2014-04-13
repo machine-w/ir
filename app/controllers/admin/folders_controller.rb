@@ -1,7 +1,7 @@
 class Admin::FoldersController < ApplicationController
 	before_filter :authenticate_user!
 	before_filter :set_user
-	before_filter :set_folder, only: [:show, :edit, :update, :destroy, :config_property,:config_doc_view,:update_doc_view]
+	before_filter :set_folder, only: [:show, :edit, :update, :destroy, :config_property,:config_doc_view,:update_doc_view,:config_static_properties,:update_static_properties]
 	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
 	layout "admin_layout"
 	def create
@@ -66,6 +66,11 @@ class Admin::FoldersController < ApplicationController
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
 		drop_breadcrumb("配置文档视图", config_doc_view_admin_folder_path(@folder))
 	end
+	def config_static_properties
+		@static_properties=@folder.properties.enable_static
+		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
+		drop_breadcrumb("配置静态属性", config_doc_view_admin_folder_path(@folder))
+	end
 	def update
 		get_data = folders_params
 		#判断目录集名是否已存在
@@ -110,7 +115,7 @@ class Admin::FoldersController < ApplicationController
 		error_msg='错误：'
 		@folder.doc_default_content=folders_params[:doc_default_content]
 		if @folder.save
-			@folder.documents.each { |e| e.set_dirty_flag }
+			@folder.documents.each { |e| e.set_dirty_flag } #目录中全部文档治脏。
 			flash[:success] = "修改文档视图成功"
 		else
 			@folder.errors.full_messages.each do |msg|
@@ -119,6 +124,29 @@ class Admin::FoldersController < ApplicationController
    			flash[:error]=error_msg
 		end
 		redirect_to action: 'config_doc_view'
+	end
+	def update_static_properties
+		error_msg=''
+		@folder.properties.enable_static.each do |property|
+			if @folder.attritubes.where(property_name: property.name).exists?
+				attritube=@folder.attritubes.where(property_name: property.name).first
+			else
+				attritube=@folder.attritubes.build(property_id: property._id,property_name: property.name,type: property.type)
+			end
+			if property_params.has_key? property.name
+			 	error_msg += attritube.save_value(property,property_params[property.name])
+			else
+				attritube.bool_value = false if property.bool? #如果类型类bool特殊对待，设定属性为否
+				error_msg += "#{property.show_name}为必填字段;" if property.req?
+			end 
+		end
+		if  error_msg == '' && @folder.save
+			#redirect_to edit_admin_document_path(@document), notice: '成功修改文档。'
+			redirect_to :back, notice: '成功修改静态属性。'
+		else
+			#redirect_to edit_admin_document_path(@document), alert: error_msg
+			redirect_to :back, alert: error_msg
+		end
 	end
 	def destroy
 		error_msg='错误：'
@@ -146,5 +174,23 @@ class Admin::FoldersController < ApplicationController
 	end
 	def folders_params
 		params.require(:folder).permit(:name,:folder_type,:folder_group,:tile,:tile_color,:description,:doc_default_content)
+	end
+	def property_params
+		all_array=@folder.properties.enable_static.map { |i| i.muli_enum? ? {i.name => [] } : i.name }
+		result_hash=if params.has_key?(:properties)
+					 	params.require(:properties).permit(all_array) 
+					else 
+						{}
+					end
+		hidden_array=@folder.all_dynamic_properties.map { |i| i.name if i.array? }
+		#logger.info hidden_array.to_s
+		hidden_hash=if params.has_key?('hidden-properties')
+						params.require('hidden-properties').permit(hidden_array.compact)
+					else
+						{}
+					end
+		#logger.info hidden_hash.to_s
+		hidden_hash.each { |k,v| result_hash[k] = v unless v.blank? }
+		result_hash
 	end
 end

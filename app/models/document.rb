@@ -120,7 +120,11 @@ class Document
   def fill_properties(original_content)
     doc = Nokogiri::HTML original_content
     doc.css('.is-a-property').each do |p|
-      p.replace  self.content_attr_value(p["id"])
+      if p['class'].include?('is-static')
+        p.replace  self.folder.content_attr_value(p["id"])
+      else
+        p.replace  self.content_attr_value(p["id"])
+      end
     end
     doc.css('#summary_line').each do |p|
       p.replace  '<!-- truncate -->'

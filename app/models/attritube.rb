@@ -20,6 +20,7 @@ class Attritube
   mount_uploader :file_value, FileUploader
 
   embedded_in :document
+  embedded_in :folder
 
   def save_value(property,val)
   	msg=''

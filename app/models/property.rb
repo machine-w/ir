@@ -109,4 +109,7 @@ class Property
 	def is_identify?
 		self.muli_enum? && self.be_identify ? true : false
 	end
+	def static_css
+		self.static ? 'is-static' : ''
+	end
 end

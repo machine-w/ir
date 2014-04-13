@@ -28,7 +28,7 @@
 						<% if !document.all_properties.blank? %>
 						<% for item in document.all_properties %>
 						<tr>
-							<td><%= raw "<a class='btn btn-#{item.get_color} btn-xs' onclick=\"document.execCommand('insertHTML',false,'&nbsp;<button id=\\'#{item.name}\\' type=\\'button\\' class=\\'btn btn-#{item.get_color} btn-sm is-a-property\\' data-toggle=\\'tooltip\\' data-placement=\\'top\\' title=\\'#{item.show_name}\\'><i class=\\'fa #{item.type_image}\\'></i></button>&nbsp;');$('##{item.name}').tooltip();return true;\">#{item.name}</a>" %></td>
+							<td><%= raw "<a class='btn btn-#{item.get_color} btn-xs' onclick=\"document.execCommand('insertHTML',false,'&nbsp;<button id=\\'#{item.name}\\' type=\\'button\\' class=\\'btn btn-#{item.get_color} btn-sm is-a-property #{item.static_css}\\' data-toggle=\\'tooltip\\' data-placement=\\'top\\' title=\\'#{item.show_name}\\'><i class=\\'fa #{item.type_image}\\'></i></button>&nbsp;');$('##{item.name}').tooltip({container: 'body'});return true;\">#{item.name}</a>" %></td>
 							<td><%= item.show_name %></td>
 							<td><%= item.type_name %></td>
 							<td><%= raw item.all_oper.map { |e| "<a class='btn btn-info btn-xs'>#{e.name}</a> " }.join(" ") %></td>

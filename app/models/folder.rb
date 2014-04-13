@@ -20,6 +20,7 @@ class Folder
   belongs_to :folder_type
   belongs_to :folder_group
   embeds_many :properties
+  embeds_many :attritubes, cascade_callbacks: true
   has_many :documents, :dependent => :destroy
 
   validates_presence_of :name
@@ -37,7 +38,22 @@ class Folder
   def all_identify_properties
     self.properties.identify_property
   end
+  #数据表中没有必要显示静态属性
   def all_grid_show_properties
     self.properties.grid_show
+  end
+  def attr_value(property_name)
+    if self.attritubes.where(property_name: property_name).exists?
+      self.attritubes.where(property_name: property_name).first.get_value
+    else
+      nil
+    end
+  end
+  def content_attr_value(property_name)
+    if self.attritubes.where(property_name: property_name).exists?
+      self.attritubes.where(property_name: property_name).first.get_content_value
+    else
+      ''
+    end
   end
 end
