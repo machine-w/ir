@@ -9,7 +9,7 @@ class Property
     field :static, :type => Boolean, :default => false #属性是否为静态属性，即只能目录视图中使用
 	field :require, :type => Boolean, :default => false #属性是否必填属性
 	field :disable, :type => Boolean, :default => false #属性是否可用
-	field :onlyread, :type => Boolean, :default =>false #属性只读，可以在列表中和view中调用与查看，修改页面中只显示不可以修改。
+	field :onlyread, :type => Boolean, :default =>false #暂时废弃。属性只读，可以在列表中和view中调用与查看，修改页面中只显示不可以修改。
 	field :view_in_grid, :type => Boolean , :default => false #是否在目录的管理列表中显示
 	field :edit_in_grid, :type => Boolean , :default => false #是否在目录的管理列表中编辑
 	field :be_identify,:type => Boolean,:default => false #是否为认证字段，目前只有多选类型可以设置为认证字段
