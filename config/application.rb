@@ -22,10 +22,13 @@ module InstitutionalRepos
     # config.time_zone = 'Central Time (US & Canada)'
     config.time_zone = 'Beijing'
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-     #I18n.enforce_available_locales = true
-     config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-     config.i18n.default_locale = "zh-CN"
+    #I18n.enforce_available_locales = true
+    config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
+    config.i18n.default_locale = "zh-CN"
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
     #config.filter_parameters += [:password, :password_confirmation]
+    config.to_prepare do
+      Devise::RegistrationsController.layout proc{ |controller| action_name == 'edit' ? "admin_layout" : "application" }
+    end
   end
 end

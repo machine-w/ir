@@ -26,8 +26,11 @@ class ApplicationController < ActionController::Base
   def after_sign_out_path_for(resource)
     new_user_session_path
   end
+  def after_update_path_for(resource)
+    admin_user_url(resource.loginname)
+  end
   def drop_breadcrumb(title=nil, url=nil)
-    title ||= @page_title
+    #title ||= @page_title
     url ||= url_for
     if title
       @breadcrumbs.push(%(<a href="#{url}" itemprop="url"><span itemprop="title">#{title}</span></a>).html_safe)
@@ -37,6 +40,11 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:loginname,:username, :email, :password,) }
     devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:login,:email, :password, :remember_me) }
+    devise_parameter_sanitizer.for(:account_update) do |u|
+      results = u.permit(:username,:email, :password,:password_confirmation,:current_password,:department)
+      results[:department] = Department.find(results[:department])
+      results
+    end
   end
   private
   #设置每页中的用户对象

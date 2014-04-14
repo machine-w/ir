@@ -29,7 +29,7 @@
 		<!-- Menu Footer-->
 		<li class="user-footer">
 			<div class="pull-left">
-				<a href="#" class="btn btn-default btn-flat">个人信息</a>
+				<%= link_to(t("common.profile"), edit_user_registration_path,class: 'btn btn-default btn-flat' ) %>
 			</div>
 			<div class="pull-right">
 				<%= link_to(t("common.logout"), destroy_user_session_path, method: "delete",class: "btn btn-default btn-flat" ) %>

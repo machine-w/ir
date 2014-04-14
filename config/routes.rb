@@ -4,7 +4,7 @@ InstitutionalRepos::Application.routes.draw do
   # get "documents/create"
   # get "properties/create"
   get "users/index"
-  devise_for :users, :path => "account"
+  devise_for :users, :path => "account", :controllers => { :registrations => :registrations }
   root :to => "home#index"
   
   

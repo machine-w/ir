@@ -1,35 +1,48 @@
-<div class="log_container"> 
-<div class="hero-unit">
-<h1><%= t("common.change_user") %></h1>
-<br />
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= devise_error_messages! %>
+<% provide(:title, "配置用户:"+@user.loginname) %>
+<% provide(:page_name, "配置用户:"+@user.loginname) %>
+<% provide(:page_summary, "配置用户的基本信息") %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-header">
+        <h3 class="box-title"><%= @user.loginname %></h3>
+      </div>
+      <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put,:class => 'form_w_val' }) do |f| %>
+      <div class="box-body">
+        <div class="form-group">
+          <%= f.label t("common.email"),class: "control-label" %>
+          <%= f.email_field :email,:placeholder => '电子邮件',:class => 'form-control','check-type' => "required mail", 'required-message' => "电子邮件不可以为空" %>
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <div>当前正在等待: <%= resource.unconfirmed_email %>确认</div>
+          <% end %>
+        </div>
+        <div class="form-group">
+          <%= f.label t("common.username"),class: "control-label" %>
+          <%= f.text_field :username,:placeholder => '用户姓名',:class => 'form-control','check-type' => "required", 'required-message' => "用户姓名不可以为空" %>
+        </div>
+        <div class="form-group">
+        <%= f.label t("common.password_cur"),class: "control-label" %>
+        <%= f.password_field :current_password,:class => 'form-control','check-type' => "required", 'required-message' => "当前密码不可以为空" %>
+        </div>
+        <div class="form-group">
+         <%= f.label t("common.password"),class: "control-label" %> <i><%= f.label t("common.change_user_note1"),class: "control-label" %></i>
+         <%= f.password_field :password,:class => 'form-control',:autocomplete => "off" %>
+       </div>
+       <div class="form-group">
+        <%= f.label t("common.password_confirmation"),class: "control-label" %>
+        <%= f.password_field :password_confirmation,:class => 'form-control' %>
+      </div>
 
-  <%= f.label t("common.email") %>
-  <%= f.email_field :email, :autofocus => true %>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-  <%= f.label t("common.username") %>
-  <%= f.text_field :username %>
- <%= f.label t("common.password") %> <i><%= f.label t("common.change_user_note1") %></i>
-  <%= f.password_field :password, :autocomplete => "off" %>
-
-  <%= f.label t("common.password_confirmation") %>
-  <%= f.password_field :password_confirmation %>
-
-  <%= f.label t("common.password_cur") %>
-  <%= f.password_field :current_password %>
-
-  <%= f.submit t("common.change_user"),  class: "btn btn-large btn-primary btn-block" %>
-<% end %>
-<br />
-<br />
-<h3><%= t("common.del_user") %></h3>
-
-<p> <%= button_to  t("common.del_user"), registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn-danger' %></p>
-
-<%= link_to t("common.back"), :back %>
+      <div class="form-group">
+            <label class="control-label">用户单位</label>
+            <%= f.select 'department',grouped_options_for_select(Institution.all.inject({}) { |result,i| result[i.name]=i.departments.inject([]) { |mem, e| mem.push([e.name,e._id]) }; result },@user.department._id),{},{class: "form-control select2"} %>
+          </div>
+    </div>
+    <div class="box-footer">
+      <%= f.submit t("common.change_user"),  class: "btn btn-primary",id: "edit_user_submit",onclick: "if($(this).closest('form').valid() == false){return false;}" %>
+      <%= link_to  t("common.del_user"), registration_path(resource_name), :data => { :confirm => "该用户将被删除，一切文档与目录都将消失" }, :method => :delete, :class => 'btn btn-danger pull-right' %>
+    </div>
+    <% end %>
+  </div>
 </div>
 </div>

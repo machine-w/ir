@@ -65,6 +65,9 @@ class User
   has_many :folder_groups, :dependent => :destroy
   has_and_belongs_to_many :third_disciplines
 
+  before_save :set_default_depart
+
+
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
@@ -72,5 +75,10 @@ class User
     else
       super
     end
+  end
+
+  protected
+  def set_default_depart
+    self.department = Department.where(name: '未知单位').first if self.new_record?
   end
 end
