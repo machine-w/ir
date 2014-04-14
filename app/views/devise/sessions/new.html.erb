@@ -6,7 +6,7 @@
   <div class ="body bg-gray">
     <%= devise_error_messages! %>
     <div class="form-group">
-      <%= f.text_field :email, :autofocus => true, :placeholder => '电子邮件',:class => 'form-control','check-type' => "required mail", 'required-message' => "登录名不可以为空" %>
+      <%= f.text_field :login, :autofocus => true, :placeholder => '电子邮件或用户名',:class => 'form-control','check-type' => "required", 'required-message' => "登录名不可以为空" %>
     </div>
     <div class="form-group">
       <%= f.password_field :password,:placeholder => '密码',:class => 'form-control','check-type' => "required", 'required-message' => "密码不可以为空" %>

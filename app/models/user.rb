@@ -58,8 +58,19 @@ class User
   # field :authentication_token, :type => String
 
   ## start customs
+  attr_accessor :login
+
   belongs_to :department
   has_many :folders, :dependent => :destroy
   has_many :folder_groups, :dependent => :destroy
   has_and_belongs_to_many :third_disciplines
+
+  def self.find_first_by_auth_conditions(warden_conditions)
+    conditions = warden_conditions.dup
+    if login = conditions.delete(:login)
+      self.any_of({ :loginname =>  /^#{Regexp.escape(login)}$/i }, { :email =>  /^#{Regexp.escape(login)}$/i }).first
+    else
+      super
+    end
+  end
 end
