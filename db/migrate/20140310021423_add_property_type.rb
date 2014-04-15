@@ -2,9 +2,9 @@ class AddPropertyType < Mongoid::Migration
   def self.up
   	#substr=PropertyOper.new(name: "子字符串",description: "提取字符串的前n个字符",function_name: "subStr",function_context: " ")
   	str = PropertyType.create(name: "字符串",type_view: "string", image_path: "fa-font",user_can_select: true)
-  	str.property_opers.create!(name: "子字符串",description: "提取字符串的前n个字符",function_name: "subStr",function_context: "tmp1")
+  	#str.property_opers.create!(name: "子字符串",description: "提取字符串的前n个字符",function_name: "subStr",function_context: "tmp1")
 	txt=PropertyType.create(name: "大文本",type_view: "text", image_path: "fa-text-height",user_can_select: true)
-	txt.property_opers.create!(name: "子字符串",description: "提取字符串的前n个字符",function_name: "subStr",function_context: "tmp1")
+	#txt.property_opers.create!(name: "子字符串",description: "提取字符串的前n个字符",function_name: "subStr",function_context: "tmp1")
 	PropertyType.create(name: "整数",type_view: "integer", image_path: "fa-circle-o",user_can_select: true)
 	PropertyType.create(name: "实数",type_view: "number", image_path: " fa-circle",user_can_select: true)
 	PropertyType.create(name: "嵌入式文档",type_view: "embed_html", image_path: "fa-copy",user_can_select: true)

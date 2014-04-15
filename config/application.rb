@@ -28,7 +28,7 @@ module InstitutionalRepos
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
     #config.filter_parameters += [:password, :password_confirmation]
     config.to_prepare do
-      Devise::RegistrationsController.layout proc{ |controller| action_name == 'edit' || 'update' ? "admin_layout" : "application" }
+      Devise::RegistrationsController.layout proc{ |controller| action_name == 'edit' || action_name == 'update' ? "admin_layout" : "application" }
     end
   end
 end

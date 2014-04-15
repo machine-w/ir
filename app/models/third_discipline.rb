@@ -12,7 +12,7 @@ class ThirdDiscipline
   
   belongs_to :second_discipline
   has_and_belongs_to_many :users
-  has_and_belongs_to_many :ducuments
+  has_and_belongs_to_many :documents
   
   validates_presence_of :name,:code
   validates_uniqueness_of :name,:code
