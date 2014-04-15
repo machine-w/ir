@@ -61,6 +61,7 @@ class User
   attr_accessor :login
 
   belongs_to :department
+  belongs_to :user_type
   has_many :folders, :dependent => :destroy
   has_many :folder_groups, :dependent => :destroy
   has_and_belongs_to_many :third_disciplines

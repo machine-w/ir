@@ -14,6 +14,9 @@
             <%= f.text_field :username,:placeholder => '真实姓名',:class => 'form-control','check-type' => "required", 'required-message' => "真实姓名不可以为空" %>
         </div>
         <div class="form-group">
+            <%= f.collection_select :user_type, UserType.all, :id, :name, {},{class: "form-control select2"} %>
+        </div>
+        <div class="form-group">
             <%= f.password_field :password,:placeholder => '密码',:class => 'form-control','check-type' => "required", 'required-message' => "密码不可以为空",mixlength: "8" %>
         </div>
         <div class="form-group">
