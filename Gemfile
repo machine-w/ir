@@ -43,7 +43,7 @@ gem "simple_enum"
 gem 'mongoid-grid_fs'
 gem 'carrierwave', :git => "git://github.com/jnicklas/carrierwave.git"  
 gem 'carrierwave-mongoid', git: "git://github.com/jnicklas/carrierwave-mongoid.git" 
-#gem 'mini_magick', :git => 'git://github.com/probablycorey/mini_magick.git'
+gem 'mini_magick', :git => 'git://github.com/probablycorey/mini_magick.git'
 
 # 用户系统
 gem 'devise', '3.0.1'

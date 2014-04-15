@@ -34,6 +34,8 @@ class User
 
   field :loginname
   field :username
+  mount_uploader :avatar, AvatarUploader
+  field :gender
   ##other field
   field :verified, :type => Mongoid::Boolean, :default => false
   field :state, :type => Integer, :default => 1

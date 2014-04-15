@@ -1,5 +1,5 @@
 class RegistrationsController < Devise::RegistrationsController
-	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
+	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }, only: [:edit]
   # def update
   #   super do |resource|
   #     #BackgroundWorker.trigger(resource)
