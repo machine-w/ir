@@ -52,7 +52,7 @@
       </div>
       <div class="form-group">
             <label class="control-label">涉及学科</label>
-            <%= f.select 'third_disciplines',grouped_options_for_select(SecondDiscipline.all.inject({}) { |result,i| result[i.name]=i.third_disciplines.inject([]) { |mem, e| mem.push([e.name,e._id]) }; result }),{},{class: "form-control select2",multiple: true} %>
+            <%= f.select 'third_disciplines',grouped_options_for_select(SecondDiscipline.all.inject({}) { |result,i| result[i.name]=i.third_disciplines.inject([]) { |mem, e| mem.push([e.name,e._id]) }; result },@user.third_disciplines.all.map { |e| e._id }),{},{class: "form-control select2",multiple: true} %>
       </div>
     </div>
     <div class="box-footer">
