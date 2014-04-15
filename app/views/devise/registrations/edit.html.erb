@@ -10,7 +10,7 @@
       <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put,:class => 'form_w_val',:multipart => true }) do |f| %>
       <div class="box-body">
         <div class="form-group">
-        <%= image_tag(@user.avatar_url(:big),class: "img-circle") if @user.avatar %>
+        <%= image_tag(@user.avatar_url(:sobig),class: "img-circle") if @user.avatar %>
         <%= f.file_field :avatar,accept: 'image/png,image/gif,image/jpeg'%>
         <%= f.hidden_field :avatar_cache %>
         </div>
@@ -27,7 +27,7 @@
         </div>
         <div class="form-group">
             <%= f.label '用户类型',class: "control-label" %>
-            <%= f.collection_select :user_type, UserType.all, :id, :name, {:selected => @user.user_type._id},{class: "form-control select2"} %>
+            <%= f.collection_select :user_type, UserType.all, :id, :name, {:selected => (@user.user_type._id if @user.user_type)},{class: "form-control select2"} %>
         </div>
         <div class="form-group">
           <%= f.label '性别',class: "control-label" %>
@@ -48,7 +48,7 @@
 
       <div class="form-group">
             <label class="control-label">用户单位</label>
-            <%= f.select 'department',grouped_options_for_select(Institution.all.inject({}) { |result,i| result[i.name]=i.departments.inject([]) { |mem, e| mem.push([e.name,e._id]) }; result },@user.department._id),{},{class: "form-control select2"} %>
+            <%= f.select 'department',grouped_options_for_select(Institution.all.inject({}) { |result,i| result[i.name]=i.departments.inject([]) { |mem, e| mem.push([e.name,e._id]) }; result },(@user.department._id if @user.department)),{},{class: "form-control select2"} %>
           </div>
     </div>
     <div class="box-footer">

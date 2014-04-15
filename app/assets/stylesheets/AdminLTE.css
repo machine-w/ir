@@ -563,8 +563,8 @@ body > .header .logo .icon {
   clear: both;
 }
 .user-panel > .image > img {
-  width: 45px;
-  height: 45px;
+/*  width: 45px;
+  height: 45px;*/
 }
 .user-panel > .info {
   font-weight: 600;

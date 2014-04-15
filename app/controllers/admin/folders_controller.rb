@@ -141,7 +141,7 @@ class Admin::FoldersController < ApplicationController
 			end 
 		end
 		if  error_msg == '' && @folder.save
-			#redirect_to edit_admin_document_path(@document), notice: '成功修改文档。'
+			@folder.documents.each { |e| e.set_dirty_flag } #目录中全部文档治脏。
 			redirect_to :back, notice: '成功修改静态属性。'
 		else
 			#redirect_to edit_admin_document_path(@document), alert: error_msg

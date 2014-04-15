@@ -38,8 +38,10 @@ class AvatarUploader < CarrierWave::Uploader::Base
   version :large do
     process :resize_to_fill => [64, 64]
   end
-
   version :big do
+    process :resize_to_fill => [120, 120]
+  end
+  version :sobig do
     process :resize_to_fill => [240, 240]
   end
   # Process files as they are uploaded:
