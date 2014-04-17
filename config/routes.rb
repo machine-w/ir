@@ -20,6 +20,7 @@ InstitutionalRepos::Application.routes.draw do
       resources :folders, only: [:index, :new, :create]
       namespace 'admin' do
         resources :folders, only: [:index, :new, :create]
+        resources :contacts, only: [:index, :new, :create]
       end
     end
 
@@ -44,6 +45,7 @@ InstitutionalRepos::Application.routes.draw do
       resources :documents, only: [:show, :edit, :update, :destroy] do
           resources :attritubes
       end
+      resources :contacts, only: [:show, :edit, :update, :destroy]
     end
   #end
 end

@@ -1601,6 +1601,20 @@ body > .header .logo .icon {
 .box .chat .item > img.offline {
   border: 2px solid #f56954;
 }
+.box .contact ul li a > img {
+  width: 40px;
+  height: 40px;
+  border: 2px solid transparent;
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  border-radius: 50% !important;
+}
+.box .contact ul li a > img.online {
+  border: 2px solid #00a65a;
+}
+.box .contact ul li a > img.offline {
+  border: 2px solid #f56954;
+}
 .box .chat .item > .message {
   margin-left: 55px;
   margin-top: -40px;

@@ -1,0 +1,101 @@
+<% provide(:title, @user.username+'的好友') %>
+<% provide(:page_name, @user.username+'的好友') %>
+<% provide(:page_summary, "新增好友并与好友交流") %>
+<div class="row">
+	<div class="col-md-3">
+		<div class="box box-success">
+			<div class="box-header">
+				<h3 class="box-title"><i class="fa fa-user"></i> 通讯录</h3>
+				<div class="box-tools pull-right" data-toggle="tooltip" title="是否在线">
+					<div class="btn-group" data-toggle="btn-toggle" >
+						<button type="button" class="btn btn-default btn-sm active"><i class="fa fa-square text-green"></i></button>                                            
+						<button type="button" class="btn btn-default btn-sm"><i class="fa fa-square text-red"></i></button>
+					</div>
+				</div>
+			</div>
+			<div class="box-body contact">
+				<ul class="nav nav-pills nav-stacked">
+					<li class="">
+						<input type="text" class="form-control search-query input-large" placeholder="检索并添加好友" >	
+					</li>
+					<li><a href="#" data-toggle="tooltip" title="天津大学-图书馆－教师"><img src="/images/avatar/female_small.png" class="online "/>
+						<span style="font-size: 18px;font-weight: bold;color: #3c8dbc">马胜</span></a></li>
+					<li class="active"><a href="#">
+						<small class="text-muted pull-right"><button type="button" class="btn btn-default btn-sm"><i class="fa fa-minus-square-o text-red"></i></button> </small>
+						<img src="/images/avatar/female_small.png" class="online name "/>马胜 天津大学</a></li>
+				</ul>
+			</div>
+			<div class="box-footer">
+				
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="box box-success">
+			<div class="box-header">
+				<h3 class="box-title"><i class="fa fa-comments-o"></i> 消息</h3>
+				<div class="box-tools pull-right" data-toggle="tooltip" title="历史消息">
+						<button type="button" class="btn btn-default btn-sm active"><i class="fa fa-list-alt text-green"></i></button>                                            
+				</div>
+			</div>
+			<div class="box-body chat" style="height: 600px;">
+				<!-- chat item -->
+				<div class="item">
+					<img src="/images/avatar/female_normal.png" alt="user image" class="online"/>
+					<p class="message">
+						<a href="#" class="name">
+							<small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small>
+							Mike Doe
+						</a>
+						I would like to meet you to discuss the latest news about
+						the arrival of the new theme. They say it is going to be one the
+						best themes on the market
+					</p>
+					<div class="attachment">
+						<h4>Attachments:</h4>
+						<p class="filename">
+							Theme-thumbnail-image.jpg
+						</p>
+						<div class="pull-right">
+							<button class="btn btn-primary btn-sm btn-flat">Open</button>
+						</div>
+					</div><!-- /.attachment -->
+				</div><!-- /.item -->
+				<!-- chat item -->
+				<div class="item">
+					<img src="/images/avatar/female_normal.png" alt="user image" class="offline"/>
+					<p class="message">
+						<a href="#" class="name">
+							<small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:15</small>
+							Jane Doe
+						</a>
+						I would like to meet you to discuss the latest news about
+						the arrival of the new theme. They say it is going to be one the
+						best themes on the market
+					</p>
+				</div><!-- /.item -->
+				<!-- chat item -->
+				<div class="item">
+					<img src="/images/avatar/female_normal.png" alt="user image" class="offline"/>
+					<p class="message">
+						<a href="#" class="name">
+							<small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:30</small>
+							Susan Doe
+						</a>
+						I would like to meet you to discuss the latest news about
+						the arrival of the new theme. They say it is going to be one the
+						best themes on the market
+					</p>
+				</div><!-- /.item -->
+			</div><!-- /.chat -->
+			<div class="box-footer">
+				<div class="input-group">
+					<input class="form-control" placeholder="输入消息"/>
+					<div class="input-group-btn">
+						<button class="btn btn-success"><i class="fa fa-plus"></i>发送</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
