@@ -66,6 +66,8 @@ class User
   belongs_to :user_type
   has_many :folders, :dependent => :destroy
   has_many :folder_groups, :dependent => :destroy
+  has_many :contacts
+  #has_many :contacted, class_name: "Contact", inverse_of: :firend
   has_and_belongs_to_many :third_disciplines
 
   before_save :set_default_depart
