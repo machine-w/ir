@@ -41,6 +41,8 @@
 #= require clockface/clockface
 # load handsontable
 #= require handsontable/jquery.handsontable.full
+# load typeahead
+#= require twitter/typeahead.min
 
 
 $ ->

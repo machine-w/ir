@@ -78,6 +78,8 @@ gem 'jquery-inputmask-rails'
 gem 'bootstrap-colorpicker-rails', :require => 'bootstrap-colorpicker-rails',:git => 'git://github.com/alessani/bootstrap-colorpicker-rails.git'
 gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
 gem 'fine-uploader-rails', '~> 3.2'
+gem 'twitter-typeahead-rails', :git => "git://github.com/yourabi/twitter-typeahead-rails.git"
+#gem 'bootstrap-typeahead-rails', :require => 'bootstrap-typeahead-rails',:git => 'git://github.com/Nerian/bootstrap-typeahead-rails.git'
 # html5 editor
 gem "summernote-rails", github: 'rorlab/summernote-rails'
 
