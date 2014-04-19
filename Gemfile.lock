@@ -167,6 +167,11 @@ GEM
     font-awesome-sass (4.0.3.1)
       sass (~> 3.2)
     fullcalendar-rails (1.6.4.0)
+    handlebars_assets (0.15)
+      execjs (>= 1.2.9)
+      multi_json
+      sprockets (>= 2.0.3)
+      tilt
     hike (1.2.3)
     i18n (0.6.9)
     jbuilder (1.0.2)
@@ -331,6 +336,7 @@ DEPENDENCIES
   fine-uploader-rails (~> 3.2)
   font-awesome-sass
   fullcalendar-rails
+  handlebars_assets
   jbuilder (= 1.0.2)
   jquery-inputmask-rails
   jquery-rails (= 2.2.1)

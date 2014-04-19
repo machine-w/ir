@@ -3,7 +3,7 @@
 <% provide(:page_summary, "新增好友并与好友交流") %>
 <div class="row">
 	<div class="col-md-3">
-		<div class="box box-success">
+		<div class="box box-info">
 			<div class="box-header">
 				<h3 class="box-title"><i class="fa fa-user"></i> 通讯录</h3>
 				<div class="box-tools pull-right" data-toggle="tooltip" title="是否在线">
@@ -14,15 +14,20 @@
 				</div>
 			</div>
 			<div class="box-body contact">
-				<input type="text" id='add-contacts' class="form-control typeahead" placeholder="检索并添加好友" >
-				<ul class="nav nav-pills nav-stacked">
-					<li class="">
+				<input type="text" id='add-contacts' in-firend-url='<%= users_in_firend_user_admin_contacts_path(@user.loginname, :format => :json) %>' not-firend-url='<%= users_not_firend_user_admin_contacts_path(@user.loginname, :format => :json) %>' add-contacts-url='<%= user_admin_contacts_path(@user.loginname, :format => :json) %>' class="search-query form-control typeahead" placeholder="检索并添加好友" >
+				<ul class="nav nav-pills nav-stacked" id='contacts-list' style="max-height: 500px;overflow-y: auto;">
+					<% @contacts.each do |con| %>
+					<li >
+						<a href="#" data-toggle="tooltip" title="<%= con.firend.department.name if con.firend.department %>-<%= con.firend.user_type.name if con.firend.user_type %>">
+							<small class="text-muted pull-right">
+								<button type="button" class="btn btn-default btn-sm"><i class="fa fa-eye text-blue"></i></button>
+								<button type="button" class="btn btn-default btn-sm"><i class="fa fa-times text-red"></i></button> 
+							</small>
+							<img src="<%= con.firend.avatar_url('small') %>" class="online"><span style="font-size: 18px;font-weight: bold;color: #3c8dbc"><%= con.firend.username %></span>
+						</a>
 					</li>
-					<li><a href="#" data-toggle="tooltip" title="天津大学-图书馆－教师"><img src="/images/avatar/female_small.png" class="online "/>
-						<span style="font-size: 18px;font-weight: bold;color: #3c8dbc">马胜</span></a></li>
-					<li class="active"><a href="#">
-						<small class="text-muted pull-right"><button type="button" class="btn btn-default btn-sm"><i class="fa fa-minus-square-o text-red"></i></button> </small>
-						<img src="/images/avatar/female_small.png" class="online name "/>马胜 天津大学</a></li>
+					<% end %>
+
 				</ul>
 			</div>
 			<div class="box-footer">

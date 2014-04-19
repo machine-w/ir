@@ -79,6 +79,7 @@ gem 'bootstrap-colorpicker-rails', :require => 'bootstrap-colorpicker-rails',:gi
 gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
 gem 'fine-uploader-rails', '~> 3.2'
 gem 'twitter-typeahead-rails', :git => "git://github.com/yourabi/twitter-typeahead-rails.git"
+gem 'handlebars_assets'
 #gem 'bootstrap-typeahead-rails', :require => 'bootstrap-typeahead-rails',:git => 'git://github.com/Nerian/bootstrap-typeahead-rails.git'
 # html5 editor
 gem "summernote-rails", github: 'rorlab/summernote-rails'

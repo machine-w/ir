@@ -1,0 +1,17 @@
+[
+<% @all_users.each_with_index do |user,index| %>
+    {
+      "query": "<%= user.username %> <%= user.email %>",
+      "isfirend": "true",
+      "name": "<%= user.username %>",
+      "id": "<%= user._id %>",
+      "email": "<%= user.email %>",
+      "department": "<%= user.department.name if user.department %>",
+      "user_type": "<%= user.user_type.name if user.user_type %>",
+      "avatar_small": "<%= user.avatar_url('small') %>"
+    }
+<% unless index == @all_users.count - 1%>
+    ,
+<% end %>
+<% end %>
+]

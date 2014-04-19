@@ -43,7 +43,7 @@ class User
   
   index :loginname => 1
   index :email => 1
-  validates_presence_of :loginname
+  validates_presence_of :loginname,:department_id,:user_type_id
   validates_uniqueness_of :loginname, :email, :case_sensitive => false
   ## Confirmable
   # field :confirmation_token,   :type => String

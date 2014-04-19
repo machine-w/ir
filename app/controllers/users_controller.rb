@@ -13,9 +13,14 @@ class UsersController < ApplicationController
   end
   def index
     @total_user_count = User.count
-    #@active_users = User.hot.limit(100)
+    @all_users = User.all
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @users }
+      #format.json  { render :json => @users.to_json }
+      format.json  { render :file => "users/index.json.erb", :content_type => 'application/json' }
+    end
   end
-  
   protected
   def find_user
     # 处理 login 有大写字母的情况

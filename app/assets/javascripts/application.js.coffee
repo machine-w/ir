@@ -42,7 +42,9 @@
 # load handsontable
 #= require handsontable/jquery.handsontable.full
 # load typeahead
+#= require handlebars
 #= require twitter/typeahead.min
+
 
 
 $ ->

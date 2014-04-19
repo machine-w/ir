@@ -20,7 +20,11 @@ InstitutionalRepos::Application.routes.draw do
       resources :folders, only: [:index, :new, :create]
       namespace 'admin' do
         resources :folders, only: [:index, :new, :create]
-        resources :contacts, only: [:index, :new, :create]
+        resources :contacts, only: [:index, :new, :create] do
+          collection do
+            get :users_not_firend,:users_in_firend
+          end
+        end
       end
     end
 
