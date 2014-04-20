@@ -1,4 +1,6 @@
 $(function() {
+$('#message_box').css('max-height',$(window).height() - 200);
+$('#contacts-list').css('max-height',$(window).height() - 200);
 var not_firend = new Bloodhound({
   datumTokenizer: Bloodhound.tokenizers.obj.whitespace('query'),
   queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -56,7 +58,23 @@ delete_contact = function del_contact(url) {
       }
     }
   });
-}
+};
+view_conversation = function view_conver(url,button_id) {
+  
+  $.ajax({
+    url: url,
+    type: 'GET',
+    success: function(result) {
+      $('#message_box').empty();
+      $('#contacts-list').children().removeClass("active");
+      $('#'+button_id).addClass("active");
+      var mes = Handlebars.compile('<div class="item"><img src="{{avatar}}" alt="user image" class="online"/><p class="message"><a href="#" class="name"><small class="text-muted pull-right"><i class="fa fa-clock-o"></i>{{time}}</small>{{name}}</a>{{content}}</p></div>');
+      $.each(result, function(index, value) {
+        $('#message_box').append(mes({avatar:value['avatar'],time:value['time'],name:value['name'],content:value['content']}));
+      });
+    }
+  });
+};
 var add_contacts = $('#add-contacts').typeahead({
                       hint: true,
                       highlight: true,
@@ -125,9 +143,9 @@ add_contacts.on('typeahead:selected',function(evt,data){
           {add_id: data.id},
           function(data){
             if (data['status'] == 'true') {
-              var template = Handlebars.compile('<li  id="{{contact_id}}" ><a href="#" data-toggle="tooltip" title="{{depart}}-{{type}}"><small class="text-muted pull-right"><button type="button" onclick="window.location.href=\'{{contact_home}}\';return false;" class="btn btn-default btn-sm"><i class="fa fa-eye text-blue"></i></button> <button type="button" onclick="delete_contact(\'{{contact_del}}\');return false;" class="btn btn-default btn-sm"><i class="fa fa-times text-red"></i></button></small><img src="{{avatar}}" class="online"><span style="font-size: 18px;font-weight: bold;color: #3c8dbc">{{username}}</span></a></li>');
+              var template = Handlebars.compile('<li  id="{{contact_id}}" ><a href="" onclick="view_conversation(\'{{view_conversation_url}}\',\'{{contact_id}}\');return false;" data-toggle="tooltip" title="{{depart}}-{{type}}"><small class="text-muted pull-right"><button type="button" onclick="window.location.href=\'{{contact_home}}\';return false;" class="btn btn-default btn-sm"><i class="fa fa-eye text-blue"></i></button> <button type="button" onclick="delete_contact(\'{{contact_del}}\');return false;" class="btn btn-default btn-sm"><i class="fa fa-times text-red"></i></button></small><img src="{{avatar}}" class="online"><span style="font-size: 18px;font-weight: bold;color: #3c8dbc">{{username}}</span></a></li>');
               //$('#contacts-list').prepend(template({avatar:data['add_user']['avatar']['normal']['url'],username:data['add_user']['username'],contact_id:data['contact_id'],depart:data['department'],type:data['user_type'],contact_home:data['contact_home'],contact_del:data['contact_del']}));
-              $(template({avatar:data['add_user']['avatar']['normal']['url'],username:data['add_user']['username'],contact_id:data['contact_id'],depart:data['department'],type:data['user_type'],contact_home:data['contact_home'],contact_del:data['contact_del']})).prependTo('#contacts-list').hide().slideDown(300);;
+              $(template({avatar:data['add_user']['avatar']['normal']['url'],username:data['add_user']['username'],contact_id:data['contact_id'],depart:data['department'],type:data['user_type'],contact_home:data['contact_home'],contact_del:data['contact_del'],view_conversation_url:data['view_conversation_url']})).prependTo('#contacts-list').hide().slideDown(300);
               not_firend.clearRemoteCache();
               in_firend.clearPrefetchCache();
               department_not_firend.clearPrefetchCache();
@@ -145,7 +163,9 @@ add_contacts.on('typeahead:selected',function(evt,data){
   }
   else
   {
-    alert('aa');
+    //alert(data['contact_id']);
+    $('#'+data['contact_id']+' a').trigger("click");
+    //view_conversation(data['view_conversation_url'],data['contact_id']);
   }
 
 });

@@ -26,6 +26,7 @@ InstitutionalRepos::Application.routes.draw do
           end
         end
       end
+      resources :conversations
     end
 
 
@@ -36,6 +37,7 @@ InstitutionalRepos::Application.routes.draw do
     resources :documents, only: [:show, :edit, :update, :destroy] do
       resources :attritubes
     end
+
     #######
     namespace 'admin' do
       resources :folders, only: [:show, :edit, :update, :destroy] do

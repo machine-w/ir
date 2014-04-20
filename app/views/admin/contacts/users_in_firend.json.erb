@@ -1,14 +1,15 @@
 [
 <% @all_users.each_with_index do |user,index| %>
     {
-      "query": "<%= user.username %> <%= user.email %>",
+      "query": "<%= user[0].username %> <%= user[0].email %>",
       "isfirend": "true",
-      "name": "<%= user.username %>",
-      "id": "<%= user._id %>",
-      "email": "<%= user.email %>",
-      "department": "<%= user.department.name if user.department %>",
-      "user_type": "<%= user.user_type.name if user.user_type %>",
-      "avatar_small": "<%= user.avatar_url('normal') %>"
+      "contact_id": "<%= user[1].to_s %>",
+      "name": "<%= user[0].username %>",
+      "id": "<%= user[0]._id %>",
+      "email": "<%= user[0].email %>",
+      "department": "<%= user[0].department.name if user[0].department %>",
+      "user_type": "<%= user[0].user_type.name if user[0].user_type %>",
+      "avatar_small": "<%= user[0].avatar_url('normal') %>"
     }
 <% unless index == @all_users.count - 1%>
     ,

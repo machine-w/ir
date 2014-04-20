@@ -69,6 +69,7 @@ class User
   has_many :contacts
   #has_many :contacted, class_name: "Contact", inverse_of: :firend
   has_and_belongs_to_many :third_disciplines
+  has_and_belongs_to_many :conversations
 
   before_save :set_default_depart
 

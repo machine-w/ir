@@ -1,4 +1,5 @@
 class Admin::ContactsController < ApplicationController
+	include ConversationsHelper
 	before_filter :authenticate_user!
 	before_filter :set_user
 	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
@@ -29,14 +30,14 @@ class Admin::ContactsController < ApplicationController
 		@user.third_disciplines.each do |d| 
 			 @all_users |= d.users.nin(_id: @user.contacts.all.map { |e| e.firend_id }.push(@user._id)).entries #if d.users.nin(_id: @user.contacts.all.map { |e| e.firend_id }.push(@user._id)).entries
 		end
-		#@all_users = User.elem_match(third_disciplines: { "$in" => @user.third_disciplines}).nin(_id: @user.contacts.all.map { |e| e.firend_id })
+		# @all_users = User.nin(_id: @user.contacts.all.map { |e| e.firend_id }).all(third_discipline_ids: @user.third_discipline_ids)
 		respond_to do |format|
 			format.html
 			format.json  { render :file => "admin/contacts/users_not_firend.json.erb", :content_type => 'application/json' }
 		end
 	end
 	def users_in_firend
-		@all_users = @user.contacts.all.map { |e| e.firend }
+		@all_users = @user.contacts.all.map { |e| [e.firend,e._id] }
 		respond_to do |format|
 			format.html
 			format.json  { render :file => "admin/contacts/users_in_firend.json.erb", :content_type => 'application/json' }
@@ -51,11 +52,20 @@ class Admin::ContactsController < ApplicationController
 			error_msg="已经添加过此好友"
 		else
 			@contact = @user.contacts.build({name: user.username,firend: user})
-			if @contact.save
+			if Conversation.all(user_ids: [@user._id,user._id]).exists?
+				@conversation = Conversation.all(user_ids: [@user._id,user._id]).first
+			else
+				@conversation = @user.conversations.build()
+				@conversation.users.push user
+			end
+			if @contact.save && @conversation.save
 				error_msg="新建好友成功"
 				status = true
 			else
-				@folder.errors.full_messages.each do |msg|
+				@contact.errors.full_messages.each do |msg|
+					error_msg += msg + ','
+				end
+				@conversation.errors.full_messages.each do |msg|
 					error_msg += msg + ','
 				end
 				status = false
@@ -66,7 +76,7 @@ class Admin::ContactsController < ApplicationController
 			format.html
 		    #format.xml  { render :xml => @users }
 		    #format.json  { render :json => @users.to_json }
-            msg = { status: status.to_s, message: error_msg, contact_id: @contact._id.to_s, add_user: user,contact_home: user_path(user.loginname),contact_del:admin_contact_path(@contact) ,department: (user.department.name if user.department),type: (user.user_type.name if user.user_type) }
+            msg = { status: status.to_s, message: error_msg,conversation_id: @conversation._id.to_s, contact_id: @contact._id.to_s, add_user: user,contact_home: user_path(user.loginname),contact_del:admin_contact_path(@contact) ,department: (user.department.name if user.department),type: (user.user_type.name if user.user_type),view_conversation_url: get_conversation_path(@user,user) }
             format.json  { render :json => msg }
         end
     end

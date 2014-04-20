@@ -14,11 +14,17 @@
 				</div>
 			</div>
 			<div class="box-body contact">
-				<input type="text" id='add-contacts' in-firend-url='<%= users_in_firend_user_admin_contacts_path(@user.loginname, :format => :json) %>' not-firend-url='<%= users_not_firend_user_admin_contacts_path(@user.loginname, :format => :json) %>' discipline-not-firend-url='<%= discipline_not_firend_user_admin_contacts_path(@user.loginname, :format => :json) %>' department-not-firend-url='<%= department_not_firend_user_admin_contacts_path(@user.loginname, :format => :json) %>' add-contacts-url='<%= user_admin_contacts_path(@user.loginname, :format => :json) %>' class="search-query form-control typeahead" placeholder="检索并添加好友" >
-				<ul class="nav nav-pills nav-stacked" id='contacts-list' style="max-height: 500px;overflow-y: auto;">
+				<input type="text" id='add-contacts'
+				in-firend-url='<%= users_in_firend_user_admin_contacts_path(@user.loginname, :format => :json) %>' 
+				not-firend-url='<%= users_not_firend_user_admin_contacts_path(@user.loginname, :format => :json) %>' 
+				discipline-not-firend-url='<%= discipline_not_firend_user_admin_contacts_path(@user.loginname, :format => :json) %>' 
+				department-not-firend-url='<%= department_not_firend_user_admin_contacts_path(@user.loginname, :format => :json) %>' 
+				add-contacts-url='<%= user_admin_contacts_path(@user.loginname, :format => :json) %>' 
+				class="search-query form-control typeahead" placeholder="检索并添加好友" >
+				<ul class="nav nav-pills nav-stacked" id='contacts-list' style="overflow-y: auto;">
 					<% @contacts.each do |con| %>
 					<li id="<%= con._id %>" >
-						<a href="#"  data-toggle="tooltip" title="<%= con.firend.department.name if con.firend.department %>-<%= con.firend.user_type.name if con.firend.user_type %>">
+						<a href="" onclick="view_conversation('<%= get_conversation_path(@user,con.firend) %>','<%= con._id %>');return false;" data-toggle="tooltip" title="<%= con.firend.department.name if con.firend.department %>-<%= con.firend.user_type.name if con.firend.user_type %>">
 							<small class="text-muted pull-right">
 								<button type="button" onclick="window.location.href='<%= user_path(con.firend.loginname) %>';return false;" class="btn btn-default btn-sm"><i class="fa fa-eye text-blue"></i></button>
 								<button type="button" onclick="delete_contact('<%= admin_contact_path(con) %>');return false;" class="btn btn-default btn-sm"><i class="fa fa-times text-red"></i></button> 
@@ -43,9 +49,8 @@
 						<button type="button" class="btn btn-default btn-sm active"><i class="fa fa-list-alt text-green"></i></button>                                            
 				</div>
 			</div>
-			<div class="box-body chat" style="height: 600px;">
-				<!-- chat item -->
-				<div class="item">
+			<div class="box-body chat" id="message_box" style="overflow-y: auto;">
+<!-- 				<div class="item">
 					<img src="/images/avatar/female_normal.png" alt="user image" class="online"/>
 					<p class="message">
 						<a href="#" class="name">
@@ -64,35 +69,9 @@
 						<div class="pull-right">
 							<button class="btn btn-primary btn-sm btn-flat">Open</button>
 						</div>
-					</div><!-- /.attachment -->
-				</div><!-- /.item -->
-				<!-- chat item -->
-				<div class="item">
-					<img src="/images/avatar/female_normal.png" alt="user image" class="offline"/>
-					<p class="message">
-						<a href="#" class="name">
-							<small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:15</small>
-							Jane Doe
-						</a>
-						I would like to meet you to discuss the latest news about
-						the arrival of the new theme. They say it is going to be one the
-						best themes on the market
-					</p>
-				</div><!-- /.item -->
-				<!-- chat item -->
-				<div class="item">
-					<img src="/images/avatar/female_normal.png" alt="user image" class="offline"/>
-					<p class="message">
-						<a href="#" class="name">
-							<small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:30</small>
-							Susan Doe
-						</a>
-						I would like to meet you to discuss the latest news about
-						the arrival of the new theme. They say it is going to be one the
-						best themes on the market
-					</p>
-				</div><!-- /.item -->
-			</div><!-- /.chat -->
+					</div>
+				</div> -->
+			</div>
 			<div class="box-footer">
 				<div class="input-group">
 					<input class="form-control" placeholder="输入消息"/>
