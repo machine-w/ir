@@ -8,7 +8,28 @@ class Admin::ContactsController < ApplicationController
 		drop_breadcrumb('我的好友', user_admin_contacts_path(@user.loginname))
 	end
 	def users_not_firend
-		@all_users = User.nin(_id: @user.contacts.all.map { |e| e.firend_id })
+		query=Regexp.new(params[:q])
+		@all_users = User.or({username: query},{email: query}).nin(_id: @user.contacts.all.map { |e| e.firend_id }.push(@user._id))
+		respond_to do |format|
+			format.html
+			format.json  { render :file => "admin/contacts/users_not_firend.json.erb", :content_type => 'application/json' }
+		end
+	end
+	# 发现本单位的用户
+	def department_not_firend
+		@all_users = User.where(department: @user.department).nin(_id: @user.contacts.all.map { |e| e.firend_id }.push(@user._id))
+		respond_to do |format|
+			format.html
+			format.json  { render :file => "admin/contacts/users_not_firend.json.erb", :content_type => 'application/json' }
+		end
+	end
+	#发现本学科的用户
+	def discipline_not_firend
+		@all_users = []
+		@user.third_disciplines.each do |d| 
+			 @all_users |= d.users.nin(_id: @user.contacts.all.map { |e| e.firend_id }.push(@user._id)).entries #if d.users.nin(_id: @user.contacts.all.map { |e| e.firend_id }.push(@user._id)).entries
+		end
+		#@all_users = User.elem_match(third_disciplines: { "$in" => @user.third_disciplines}).nin(_id: @user.contacts.all.map { |e| e.firend_id })
 		respond_to do |format|
 			format.html
 			format.json  { render :file => "admin/contacts/users_not_firend.json.erb", :content_type => 'application/json' }
@@ -45,7 +66,23 @@ class Admin::ContactsController < ApplicationController
 			format.html
 		    #format.xml  { render :xml => @users }
 		    #format.json  { render :json => @users.to_json }
-            msg = { status: status.to_s, message: error_msg, add_user: user,department: (user.department.name if user.department),type: (user.user_type.name if user.user_type) }
+            msg = { status: status.to_s, message: error_msg, contact_id: @contact._id.to_s, add_user: user,contact_home: user_path(user.loginname),contact_del:admin_contact_path(@contact) ,department: (user.department.name if user.department),type: (user.user_type.name if user.user_type) }
+            format.json  { render :json => msg }
+        end
+    end
+    def destroy
+    	error_msg=''
+		status=true
+    	contact=@user.contacts.find(params[:id])
+    	if contact.destroy
+    		error_msg='成功删除好友'
+			status=true
+    	else
+    		error_msg='无法删除该好友'
+			status=false
+    	end
+    	respond_to do |format|
+            msg = { status: status.to_s, message: error_msg,contact_id: params[:id] }
             format.json  { render :json => msg }
         end
     end

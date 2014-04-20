@@ -22,7 +22,7 @@ InstitutionalRepos::Application.routes.draw do
         resources :folders, only: [:index, :new, :create]
         resources :contacts, only: [:index, :new, :create] do
           collection do
-            get :users_not_firend,:users_in_firend
+            get :users_not_firend,:users_in_firend,:discipline_not_firend,:department_not_firend
           end
         end
       end
