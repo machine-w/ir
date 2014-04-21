@@ -3,6 +3,6 @@ class Conversation
   include Mongoid::Timestamps
   include Mongoid::BaseModel
 
-  embeds_many :messages
+  embeds_many :messages, cascade_callbacks: true
   has_and_belongs_to_many :users
 end

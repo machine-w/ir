@@ -12,4 +12,23 @@ class ConversationsController < ApplicationController
 			format.json  { render :file => "/conversations/show.json.erb", :content_type => 'application/json' }
 		end
 	end
+	def update
+		error_msg=''
+		status=true
+		@conversation=Conversation.find(params[:id]);
+		@conversation.messages.build(from: @user,content:params.permit(:content)[:content])
+		
+		if @conversation.save
+    		error_msg='成功发送消息'
+			status=true
+    	else
+    		error_msg='发送消息失败'
+			status=false
+    	end
+		respond_to do |format|
+			format.html
+            msg = { status: status.to_s, message: error_msg,name: @user.username,avatar: @user.avatar_url('normal') }
+            format.json  { render :json => msg }
+        end
+	end
 end
