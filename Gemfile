@@ -86,9 +86,13 @@ gem "summernote-rails", github: 'rorlab/summernote-rails'
 
 # html 切割
 gem 'truncate_html', '~> 0.9.2'
+
+# websocket
+gem 'websocket-rails'
 group :doc do
   gem 'sdoc', '0.3.20', require: false
 end
+
 
 group :production do
   #gem 'pg', '0.15.1'
