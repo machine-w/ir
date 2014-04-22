@@ -1,4 +1,4 @@
-[
+{"firend_loginname":"<%= @firend.loginname %>","firend_id":"<%= @firend._id.to_s %>","messages":[
 <% @messages.each_with_index do |message,index| %>
 <% user= get_from_user(@user_in_conversation,message) %>
     {
@@ -11,4 +11,4 @@
     ,
 <% end %>
 <% end %>
-]
+]}
