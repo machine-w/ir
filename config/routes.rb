@@ -13,7 +13,7 @@ InstitutionalRepos::Application.routes.draw do
   #get "users/city/:id" => "users#city", as: 'location_users'
   #get "users" => "users#index", as: 'users'
   #shallow do  
-    resources :users, :path => "",:only => :show do
+    resources :users, :path => "",:only => :show,:constraints => lambda{|req| !(req.original_url =~ /.*websocket$/) } do
       member do
         get :admin
       end

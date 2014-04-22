@@ -8,7 +8,7 @@
         <%= csrf_meta_tags %>
         <%= render 'layouts/shim' %>
     </head>
-    <body class="<%= bg_skin(yield(:bgclass)) %>">
+    <body class="<%= bg_skin(yield(:bgclass)) %>" id="ir-body" data-uri="<%= request.host %>:<%= request.port %>/websocket">
         <header class="header">
             <a href="index.html" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->

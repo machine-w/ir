@@ -9,7 +9,7 @@
         <%= render 'layouts/shim' %>
         <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
     </head>
-    <body class="skin-blue">
+    <body class="skin-blue" id="ir-body" data-uri="<%= request.host %>:<%= request.port %>/websocket">
         <!-- header logo: style can be found in header.less -->
         <header class="header">
             <a href="<%= admin_user_url(@user.loginname) %>" class="logo">

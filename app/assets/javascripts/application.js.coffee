@@ -46,6 +46,8 @@
 #= require twitter/typeahead.min
 # load websocket
 #= require websocket_rails/main
+#
+#= require socket
 
 
 $ ->
