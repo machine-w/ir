@@ -8,5 +8,8 @@ class SocketController < WebsocketRails::BaseController
     p "a user connected\n"
     #system_msg :new_message, "client #{client_id} connected"
   end
+  def delete_user
+    p "a user disconnected\n"
+  end
   
 end

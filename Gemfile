@@ -88,7 +88,7 @@ gem "summernote-rails", github: 'rorlab/summernote-rails'
 gem 'truncate_html', '~> 0.9.2'
 
 # websocket
-gem 'websocket-rails'
+gem 'websocket-rails', :git => 'git://github.com/DanKnox/websocket-rails.git'
 group :doc do
   gem 'sdoc', '0.3.20', require: false
 end
