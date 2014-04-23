@@ -3,8 +3,8 @@ module ConversationsHelper
 		if Conversation.all(user_ids: [master._id,firend._id]).exists?
 			user_conversation_path(master.loginname,Conversation.all(user_ids: [master._id,firend._id]).first, :format => :json)
 		else
-			conversation = master.conversations.build()
-			conversation.users.push firend
+			conversation = Conversation.all.build(users: [master,firend])
+			#conversation.users.push firend
 			if conversation.save
 				user_conversation_path(master.loginname,conversation, :format => :json)
 			else
@@ -15,7 +15,7 @@ module ConversationsHelper
 		
 	end
 	def save_message(source_id,target_id,content)
-		p "#{source_id}\n"
+		#p "#{source_id}\n"
 		if Conversation.all(user_ids: [source_id,target_id]).exists?
 			conversation = Conversation.all(user_ids: [target_id,target_id]).first
 		else
@@ -24,10 +24,24 @@ module ConversationsHelper
 			conversation.user_ids.push target_id
 		end
 		conversation.messages.build(from_id: source_id,content:content)
-		p "#{source_id}\n"
-		conversation.save ? true : false
+		#p "#{source_id}\n"
+		conversation.save ? conversation : nil
 	end
 	def get_from_user(users,message)
-		users.each { |u| return u if u._id == message.from_id }
+		#users.each { |u| return u if u._id == message.from_id }
+		users[0]._id == message.from_id ? users[0] : users[1]
+	end
+	def get_unread_messages(user)
+		result = []
+		user.conversations.each do |c|
+			item={}
+			firend = (c.users[0] == user ? c.users[1] : c.users[0])
+			item['firend'] = firend
+			#p "$$$$$$#{c.messages.where(unread: true,from: firend).desc('create_at').count}$$$$$$$"
+			item['mes_num'] = c.messages.where(unread: true,from: firend).desc('create_at').count
+			item['last_mes'] = c.messages.where(unread: true,from: firend).desc('create_at').last
+			result.push item if item['mes_num'] != 0
+		end
+		result
 	end
 end

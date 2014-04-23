@@ -13,7 +13,7 @@ WebsocketRails::EventMap.describe do
   # The above will handle an event triggered on the client like `product.new`.
   subscribe :client_connected, to: SocketController, with_method: :client_connected
   subscribe :firend_message, to: SocketController, with_method: :firend_message
-  #subscribe :new_user, to: SocketController, with_method: :new_channel
+  subscribe :set_mes_readed, to: SocketController, with_method: :set_mes_readed
   # subscribe :change_username, to: ChatController, with_method: :change_username
   subscribe :client_disconnected, to: SocketController, with_method: :client_disconnected
 end

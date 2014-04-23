@@ -1,13 +1,29 @@
 <li class="dropdown messages-menu">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-envelope"></i>
-        <span class="label label-success" id="head_message_num">0</span>
+        <span class="label label-success" id="head_message_num"><%= @all_count %></span>
     </a>
     <ul class="dropdown-menu">
-        <li class="header">您有<code id="head_message_num2">0</code> 条最新消息</li>
+        <li class="header">您有<code id="head_message_num2"><%= @all_count %></code> 条最新消息</li>
         <li>
             <!-- inner menu: contains the actual data -->
             <ul class="menu" id="ul_head_message">
+                <% @unread_message.each do |m| %>
+                <li>
+                  <a href="#">
+                      <div class="pull-left">
+                          <img src="<%= m['firend'].avatar_url('normal') %>" alt="user image" class="img-circle"/>
+
+                      </div>
+                      <h4>
+                          <%= m['firend'].username %>
+                          <small class="badge bg-green"><%= m['mes_num'] %></small>
+                          <small class="badge bg-yellow"><i class="fa fa-clock-o"></i><%= distance_of_time_in_words_to_now(m['last_mes'].created_at) %></small>
+                      </h4>
+                      <p><%= truncate(m['last_mes'].content, :length => 10) %></p>
+                  </a>
+                </li>
+                <% end %>
             </ul>
         </li>
         <li class="footer"><a href="#">See All Messages</a></li>

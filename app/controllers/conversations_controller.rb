@@ -8,6 +8,7 @@ class ConversationsController < ApplicationController
 		@messages=@conversation.messages.limit(100).asc(:created_at)
 		@user_in_conversation=@conversation.users.entries
 	    @user_in_conversation.each{ |x| @firend = x if x != @user }
+	    @conversation.set_readed
 		respond_to do |format|
 			format.html
 			format.json  { render :file => "/conversations/show.json.erb", :content_type => 'application/json' }

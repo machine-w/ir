@@ -55,8 +55,8 @@ class Admin::ContactsController < ApplicationController
 			if Conversation.all(user_ids: [@user._id,user._id]).exists?
 				@conversation = Conversation.all(user_ids: [@user._id,user._id]).first
 			else
-				@conversation = @user.conversations.build()
-				@conversation.users.push user
+				@conversation = Conversation.all.build(users: [@user,user])
+				#@conversation.users.push user
 			end
 			if @contact.save && @conversation.save
 				error_msg="新建好友成功"
