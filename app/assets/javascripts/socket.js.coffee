@@ -22,31 +22,34 @@ class Chat.Controller
       """
     $(html)
 
-  boxmessageTemplate: (message,avatar,showname,time) ->
+  boxmessageTemplate: (message,avatar,showname,time, doc_title= undefined,doc_summary = undefined,doc_url = undefined) ->
     html =
       """
       <div class="item">
-        <img src="/images/avatar/female_normal.png" alt="user image" class="online"/>
+        <img src="#{avatar}" alt="user image" class="online"/>
         <p class="message">
           <a href="#" class="name">
-            <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small>
-            Mike Doe
+            <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> #{time}</small>
+            #{showname}
           </a>
-          I would like to meet you to discuss the latest news about
-          the arrival of the new theme. They say it is going to be one the
-          best themes on the market
+          #{message}
         </p>
+      """
+    if doc_title != undefined
+      doc_info = 
+        """
         <div class="attachment">
-          <h4>Attachments:</h4>
+          <h4>#{doc_title}</h4>
           <p class="filename">
-            Theme-thumbnail-image.jpg
+            #{doc_summary}
           </p>
           <div class="pull-right">
-            <button class="btn btn-primary btn-sm btn-flat">Open</button>
+            <a class="btn btn-primary btn-sm btn-flat">Open</a>
           </div>
         </div>
-      </div>
-      """
+        """
+      html = html + doc_info
+    html = html + "</div>"
     $(html)
 
   # userListTemplate: (userList) ->
@@ -82,13 +85,37 @@ class Chat.Controller
       $('#head_message_num').html((parseInt($('#head_message_num').text())+1)+'')
       $('#head_message_num').animate({backgroundColor: '#5cb85c'},500)
       $('#head_message_num2').html((parseInt($('#head_message_num2').text())+1)+'')
+    else
+      $('#message_box').append @boxmessageTemplate(message.message,message.avatar,message.showname,message.showname)
+      $("#message_box").animate
+        scrollTop: $("#message_box")[0].scrollHeight
+      , 1000
     
   sendMessage: (e) =>
     e.preventDefault()
+    if !$('#add_message').hasClass('disabled')
+      message = $('#message_content').val()
+      firend_loginname = $('#add_message').data('firendloginname')
+      firend_id = $('#add_message').data('firendid')
+      @dispatcher.trigger 'firend_message', {text: message,firendloginname: firend_loginname, firendid: firend_id}, @sendSuccess, @sendFailure
+
+  sendSuccess: (response) =>
     message = $('#message_content').val()
-    firend_id = $('#add_message').data('firendloginname')
-    @dispatcher.trigger 'firend_message', text: message, firendid: firend_id
+    my_avatar = $('#add_message').data('myavatar')
+    my_name = $('#add_message').data('myname')
+    time = new Date()
+    time_format= time.getHours() + ':' + time.getMinutes()
+    $('#message_box').append @boxmessageTemplate(message,my_avatar,my_name,time_format)
+    $("#message_box").animate
+      scrollTop: $("#message_box")[0].scrollHeight
+    , 1000
     $('#message_content').val('')
+
+  sendFailure: (response) =>
+    Messenger().post
+      message: response.message
+      type: "error"
+      showCloseButton: true
 
   # newMessage: (message) =>
   #   @messageQueue.push message

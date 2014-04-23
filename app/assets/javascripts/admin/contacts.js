@@ -1,6 +1,7 @@
 $(function() {
   $('#message_box').css('max-height', $(window).height() - 300);
   $('#contacts-list').css('max-height', $(window).height() - 300);
+  $('#add_message').addClass('disabled');
   var not_firend = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('query'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -71,6 +72,7 @@ $(function() {
       type: 'GET',
       success: function(result) {
         $('#message_box').empty();
+        $('#add_message').removeClass('disabled');
         $('#contacts-list').children().removeClass("active");
         //$('#add_message').attr('add-url', url);
         $('#add_message').attr('data-firendloginname', result['firend_loginname']);

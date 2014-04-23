@@ -1,5 +1,5 @@
 class SocketController < WebsocketRails::BaseController
-  include ActionView::Helpers::SanitizeHelper
+  include ConversationsHelper
   before_filter :fix_logged_in
 
   def initialize_session
@@ -18,7 +18,13 @@ class SocketController < WebsocketRails::BaseController
   end
   def firend_message
     p "#{message[:firendid]}333333333333\n"
-  	WebsocketRails[message[:firendid]].trigger(:user_message, {:source_loginname => @username, :message => message[:text],small_message: message[:text],avatar: @avatar,showname: @showname,time: Time.now.strftime("%I:%M")})
+    if save_message(@userid,message[:firendid],message[:text])
+      p "#{@userid}\n"
+      WebsocketRails[message[:firendloginname]].trigger(:user_message, {:source_loginname => @username, :message => message[:text],small_message: message[:text],avatar: @avatar,showname: @showname,time: Time.now.strftime("%I:%M")})
+      trigger_success({:message => ''})
+    else
+      trigger_failure({:message => '保存消息失败'})
+    end
   end
 
   private
@@ -27,10 +33,12 @@ class SocketController < WebsocketRails::BaseController
       	@username = current_user.loginname
       	@avatar = current_user.avatar_url('normal')
       	@showname = current_user.username
+        @userid = current_user._id
     else
     	@username = 'websocket' #如果没有登录，则用一个永远不会有人用的id
     	@avatar = ' '
     	@showname = 'guest'
+      @userid = ''
     end
   end
   

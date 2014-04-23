@@ -56,7 +56,7 @@
 				<div class="input-group">
 					<input class="form-control" id="message_content" placeholder="输入消息"/>
 					<div class="input-group-btn">
-						<button class="btn btn-success" id="add_message"><i class="fa fa-plus"></i>发送</button>
+						<button class="btn btn-success" id="add_message" data-myavatar="<%= @user.avatar_url('normal') %>", data-myname="<%= @user.username %>"><i class="fa fa-plus"></i>发送</button>
 					</div>
 				</div>
 			</div>

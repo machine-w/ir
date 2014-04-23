@@ -14,6 +14,19 @@ module ConversationsHelper
 		end
 		
 	end
+	def save_message(source_id,target_id,content)
+		p "#{source_id}\n"
+		if Conversation.all(user_ids: [source_id,target_id]).exists?
+			conversation = Conversation.all(user_ids: [target_id,target_id]).first
+		else
+			conversation = Conversation.all.build()
+			conversation.user_ids.push source_id
+			conversation.user_ids.push target_id
+		end
+		conversation.messages.build(from_id: source_id,content:content)
+		p "#{source_id}\n"
+		conversation.save ? true : false
+	end
 	def get_from_user(users,message)
 		users.each { |u| return u if u._id == message.from_id }
 	end
