@@ -86,7 +86,7 @@ class Chat.Controller
       $('#head_message_num').animate({backgroundColor: '#5cb85c'},500)
       $('#head_message_num2').html((parseInt($('#head_message_num2').text())+1)+'')
     else
-      $('#message_box').append @boxmessageTemplate(message.message,message.avatar,message.showname,message.showname)
+      $('#message_box').append @boxmessageTemplate(message.message,message.avatar,message.showname,message.time)
       $("#message_box").animate
         scrollTop: $("#message_box")[0].scrollHeight
       , 1000
