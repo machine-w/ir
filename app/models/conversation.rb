@@ -6,16 +6,21 @@ class Conversation
   embeds_many :messages, cascade_callbacks: true
   has_and_belongs_to_many :users
 
-  def set_readed
-  	self.messages.each { |e| e.unread = false }
+  def set_readed(user)
+  	self.messages.where(from: user).each { |e| e.unread = false }
   	self.save
   end
   def clear_messages
   	self.messages.all.destroy
   	self.save
   end
+  def get_other_user(user)
+    users=self.users
+    users[0] ==  user  ? users[1] : users[0]
+  end
   private
   def users_size_gl_two
     self.users.size >= 2 ? true : false 
   end
+
 end

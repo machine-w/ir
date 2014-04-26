@@ -1,4 +1,5 @@
 module ConversationsHelper
+	include ActionView::Helpers::TextHelper
 	def get_conversation_path(master,firend)
 		if Conversation.all(user_ids: [master._id,firend._id]).exists?
 			user_conversation_path(master.loginname,Conversation.all(user_ids: [master._id,firend._id]).first, :format => :json)
@@ -13,6 +14,10 @@ module ConversationsHelper
 			end
 		end
 		
+	end
+	def send_realtime_message(conversation,from_user,message)
+		target_user = conversation.get_other_user(from_user)
+		WebsocketRails[target_user.loginname].trigger(:user_message, {:conversation => conversation._id.to_s,:source_loginname => from_user.loginname, :message => message,small_message: truncate(message, :length => 10),avatar: from_user.avatar_url('normal'),showname: from_user.username,time: Time.now.strftime("%I:%M")})
 	end
 	def save_message(source_id,target_id,content)
 		#p "#{source_id}\n"
@@ -44,4 +49,5 @@ module ConversationsHelper
 		end
 		result
 	end
+	
 end

@@ -74,7 +74,7 @@ $(function() {
         $('#message_box').empty();
         $('#add_message').removeClass('disabled');
         $('#contacts-list').children().removeClass("active");
-        //$('#add_message').attr('add-url', url);
+        $('#add_message').attr('add-url', url);
         $('#add_message').attr('data-firendloginname', result['firend_loginname']);
         $('#add_message').attr('data-firendid', result['firend_id']);
         $('#' + button_id).addClass("active");
@@ -198,37 +198,40 @@ $(function() {
     }
   });
   //发送消息
-  // $('#add_message').click(function() {
-  //   url = $(this).attr('add-url');
-  //   message = $('#message_content').val();
-  //   if (typeof url !== 'undefined' && message !== '') {
-  //     $.ajax({
-  //       url: url,
-  //       type: 'PUT',
-  //       data: {
-  //         content: message
-  //       },
-  //       success: function(data) {
-  //         if (data['status'] == 'true') {
-  //           var mes = Handlebars.compile('<div class="item"><img src="{{avatar}}" alt="user image" class="online"/><p class="message"><a href="#" class="name"><small class="text-muted pull-right"><i class="fa fa-clock-o"></i>{{time}}</small>{{name}}</a>{{content}}</p></div>');
-  //           $(mes({
-  //             avatar: data['avatar'],
-  //             time: '刚刚',
-  //             name: data['name'],
-  //             content: $('#message_content').val()
-  //           })).appendTo('#message_box');
-  //           $("#message_box").animate({
-  //             scrollTop: $('#message_box')[0].scrollHeight
-  //           }, 1000);
-  //         } else {
-  //           Messenger().post({
-  //             message: data['message'],
-  //             type: 'error',
-  //             showCloseButton: true
-  //           });
-  //         }
-  //       }
-  //     });
-  //   }
-  // });
+  $('#add_message').click(function() {
+    url = $(this).attr('add-url');
+    message = $('#message_content').val();
+    if (typeof url !== 'undefined' && message !== '') {
+      $.ajax({
+        url: url,
+        type: 'PUT',
+        data: {
+          content: message
+        },
+        success: function(data) {
+          if (data['status'] == 'true') {
+            var time = new Date();
+            var time_format= time.getHours() + ':' + time.getMinutes();
+            var mes = Handlebars.compile('<div class="item"><img src="{{avatar}}" alt="user image" class="online"/><p class="message"><a href="#" class="name"><small class="text-muted pull-right"><i class="fa fa-clock-o"></i>{{time}}</small>{{name}}</a>{{content}}</p></div>');
+            $(mes({
+              avatar: data['avatar'],
+              time: time_format,
+              name: data['name'],
+              content: $('#message_content').val()
+            })).appendTo('#message_box').hide().slideDown(300);
+            $("#message_box").animate({
+              scrollTop: $('#message_box')[0].scrollHeight
+            }, 1000);
+          } else {
+            Messenger().post({
+              message: data['message'],
+              type: 'error',
+              showCloseButton: true
+            });
+          }
+          $('#message_content').val('');
+        }
+      });
+    }
+  });
 });

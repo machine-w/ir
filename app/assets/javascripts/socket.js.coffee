@@ -67,7 +67,7 @@ class Chat.Controller
   bindEvents: =>
     @dispatcher.bind 'channel_info', @setChannelInfo
     #@dispatcher.bind 'broadcast_info', @setBroadcastlInfo
-    $('#add_message').click @sendMessage
+    #$('#add_message').click @sendMessage
 
 
   setChannelInfo: (channelInfo) =>
@@ -87,67 +87,35 @@ class Chat.Controller
       $('#head_message_num2').html((parseInt($('#head_message_num2').text())+1)+'')
     else
       @dispatcher.trigger 'set_mes_readed',{con_id:message.conversation}
-      $('#message_box').append @boxmessageTemplate(message.message,message.avatar,message.showname,message.time)
+      @boxmessageTemplate(message.message,message.avatar,message.showname,message.time).appendTo($('#message_box')).hide().slideDown(300)
       $("#message_box").animate
         scrollTop: $("#message_box")[0].scrollHeight
       , 1000
     
-  sendMessage: (e) =>
-    e.preventDefault()
-    if !$('#add_message').hasClass('disabled')
-      message = $('#message_content').val()
-      firend_loginname = $('#add_message').data('firendloginname')
-      firend_id = $('#add_message').data('firendid')
-      @dispatcher.trigger 'firend_message', {text: message,firendloginname: firend_loginname, firendid: firend_id}, @sendSuccess, @sendFailure
+  # sendMessage: (e) =>
+  #   e.preventDefault()
+  #   if !$('#add_message').hasClass('disabled')
+  #     message = $('#message_content').val()
+  #     firend_loginname = $('#add_message').data('firendloginname')
+  #     firend_id = $('#add_message').data('firendid')
+  #     @dispatcher.trigger 'firend_message', {text: message,firendloginname: firend_loginname, firendid: firend_id}, @sendSuccess, @sendFailure
 
-  sendSuccess: (response) =>
-    message = $('#message_content').val()
-    my_avatar = $('#add_message').data('myavatar')
-    my_name = $('#add_message').data('myname')
-    time = new Date()
-    time_format= time.getHours() + ':' + time.getMinutes()
-    $('#message_box').append @boxmessageTemplate(message,my_avatar,my_name,time_format)
-    $("#message_box").animate
-      scrollTop: $("#message_box")[0].scrollHeight
-    , 1000
-    $('#message_content').val('')
+  # sendSuccess: (response) =>
+  #   message = $('#message_content').val()
+  #   my_avatar = $('#add_message').data('myavatar')
+  #   my_name = $('#add_message').data('myname')
+  #   time = new Date()
+  #   time_format= time.getHours() + ':' + time.getMinutes()
+  #   $('#message_box').append @boxmessageTemplate(message,my_avatar,my_name,time_format)
+  #   $("#message_box").animate
+  #     scrollTop: $("#message_box")[0].scrollHeight
+  #   , 1000
+  #   $('#message_content').val('')
 
-  sendFailure: (response) =>
-    Messenger().post
-      message: response.message
-      type: "error"
-      showCloseButton: true
-
-  # newMessage: (message) =>
-  #   @messageQueue.push message
-  #   @shiftMessageQueue() if @messageQueue.length > 15
-  #   @appendMessage message
-
-  # sendMessage: (event) =>
-  #   event.preventDefault()
-  #   message = $('#message').val()
-  #   @dispatcher.trigger 'new_message', {user_name: @user.user_name, msg_body: message}
-  #   $('#message').val('')
-
-  # updateUserList: (userList) =>
-  #   $('#user-list').html @userListTemplate(userList)
-
-  # updateUserInfo: (event) =>
-  #   @user.user_name = $('input#user_name').val()
-  #   $('#username').html @user.user_name
-  #   @dispatcher.trigger 'change_username', @user.serialize()
-
-  # appendMessage: (message) ->
-  #   messageTemplate = @template(message)
-  #   $('#chat').append messageTemplate
-  #   messageTemplate.slideDown 140
-
-  # shiftMessageQueue: =>
-  #   @messageQueue.shift()
-  #   $('#chat div.messages:first').slideDown 100, ->
-  #     $(this).remove()
-
-  # createGuestUser: =>
-  #   @dispatcher.trigger 'new_channel', {}
+  # sendFailure: (response) =>
+  #   Messenger().post
+  #     message: response.message
+  #     type: "error"
+  #     showCloseButton: true
 
   
