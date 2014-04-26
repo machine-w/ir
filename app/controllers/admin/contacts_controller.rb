@@ -6,6 +6,19 @@ class Admin::ContactsController < ApplicationController
 	layout "admin_layout"
 	def index
 		@contacts=@user.contacts.all
+		@have_firend = false
+		@is_firend =  false
+		firend_login=params.permit(:firend)[:firend]
+		if User.where(loginname:firend_login).exists?
+			@have_firend= true
+			@source=User.where(loginname:firend_login).first
+			@conversation=get_conversation(@user,@source)
+			@conversation.set_readed(@source)
+			if @user.contacts.where(firend:@source).exists?
+				@is_firend = true
+				@firend = @user.contacts.where(firend:@source).first
+			end
+		end
 		drop_breadcrumb('我的好友', user_admin_contacts_path(@user.loginname))
 	end
 	def users_not_firend

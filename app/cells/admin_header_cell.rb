@@ -7,6 +7,7 @@ class AdminHeaderCell < Cell::Rails
 		render
 	end
 	def messages(args)
+		@user=args[:user]
 		@unread_message=get_unread_messages(args[:user])
 		#p "!!!!!!!!!!#{@unread_message.size}!!!!#{@unread_message[0]['last_mes']}!!!!!" 
 		@all_count = 0

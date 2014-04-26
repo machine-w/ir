@@ -1,7 +1,10 @@
 $(function() {
   $('#message_box').css('max-height', $(window).height() - 300);
   $('#contacts-list').css('max-height', $(window).height() - 300);
-  $('#add_message').addClass('disabled');
+  //$('#add_message').addClass('disabled');
+  $("#message_box").animate({
+          scrollTop: $('#message_box')[0].scrollHeight
+        }, 1000);
   var not_firend = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('query'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -65,6 +68,7 @@ $(function() {
         }
       }
     });
+    return false;
   };
   view_conversation = function view_conver(url, button_id) {
     $.ajax({
@@ -90,6 +94,20 @@ $(function() {
         $("#message_box").animate({
           scrollTop: $('#message_box')[0].scrollHeight
         }, 1000);
+        //清理消息按钮
+        if ($('#ul_head_message').children('#usermesageid-'+result['firend_loginname']).length !== 0) {
+          var mes_li = $('#ul_head_message').children('#usermesageid-' + result['firend_loginname']);
+          var mes_num = parseInt(mes_li.find('.bg-green').text());
+          $('#head_message_num').animate({
+            backgroundColor: '#f0ad4e'
+          }, 500);
+          $('#head_message_num').html((parseInt($('#head_message_num').text() ) - mes_num) + '');
+          $('#head_message_num').animate({
+            backgroundColor: '#5cb85c'
+          }, 500);
+          $('#head_message_num2').html((parseInt($('#head_message_num2').text() ) - mes_num) + '');
+          mes_li.remove();
+        }
         //$("#message_box").scrollTop($("#message_box").height());
       }
     });

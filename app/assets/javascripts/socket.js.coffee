@@ -4,17 +4,18 @@ jQuery ->
 window.Chat = {}
 
 class Chat.Controller
-  headmessageTemplate: (small_message,avatar,showname,time) ->
+  headmessageTemplate: (small_message,avatar,loginname,userloginname,showname,time) ->
     html =
       """
-      <li>
-          <a href="#">
+      <li id="usermesageid-#{loginname}">
+          <a href="/#{userloginname}/admin/contacts?firend=#{loginname}">
               <div class="pull-left">
                   <img src="#{avatar}" alt="user image" class="img-circle"/>
               </div>
               <h4>
                   #{showname}
-                  <small><i class="fa fa-clock-o"></i>#{time}</small>
+                  <small class="badge bg-green">1</small>
+                  <small class="badge bg-yellow"><i class="fa fa-clock-o"></i>#{time}</small>
               </h4>
               <p>#{small_message}</p>
           </a>
@@ -80,7 +81,13 @@ class Chat.Controller
     #alert $('#head_message_num').text()
     #alert message.source_loginname
     if $('#add_message').length == 0 || $('#add_message').data('firendloginname') != message.source_loginname
-      $('#ul_head_message').append @headmessageTemplate(message.small_message,message.avatar,message.showname,message.time)
+      if $('#ul_head_message').children('#usermesageid-'+message.source_loginname).length == 0
+        $('#ul_head_message').append @headmessageTemplate(message.small_message,message.avatar,message.source_loginname,message.target_loginname,message.showname,message.time)
+      else
+        mes_li=$('#ul_head_message').children('#usermesageid-'+message.source_loginname)
+        mes_li.find('p').text(message.small_message)
+        mes_li.find('.bg-green').html((parseInt(mes_li.find('.bg-green').text())+1)+'')
+        mes_li.find('.bg-yellow').html('<i class="fa fa-clock-o"></i>'+message.time)
       $('#head_message_num').animate({backgroundColor: '#f0ad4e'},500)
       $('#head_message_num').html((parseInt($('#head_message_num').text())+1)+'')
       $('#head_message_num').animate({backgroundColor: '#5cb85c'},500)
@@ -91,7 +98,7 @@ class Chat.Controller
       $("#message_box").animate
         scrollTop: $("#message_box")[0].scrollHeight
       , 1000
-    
+
   # sendMessage: (e) =>
   #   e.preventDefault()
   #   if !$('#add_message').hasClass('disabled')
@@ -118,4 +125,3 @@ class Chat.Controller
   #     type: "error"
   #     showCloseButton: true
 
-  

@@ -9,8 +9,8 @@
             <!-- inner menu: contains the actual data -->
             <ul class="menu" id="ul_head_message">
                 <% @unread_message.each do |m| %>
-                <li>
-                  <a href="#">
+                <li id="usermesageid-<%= m['firend'].loginname %>">
+                  <a href="/<%= @user.loginname %>/admin/contacts?firend=<%= m['firend'].loginname %>">
                       <div class="pull-left">
                           <img src="<%= m['firend'].avatar_url('normal') %>" alt="user image" class="img-circle"/>
 
