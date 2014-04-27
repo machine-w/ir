@@ -23,13 +23,13 @@ class Chat.Controller
       """
     $(html)
 
-  boxmessageTemplate: (message,avatar,showname,time, doc_title= undefined,doc_summary = undefined,doc_url = undefined) ->
+  boxmessageTemplate: (message,avatar,showname,time,userurl, doc_title= undefined,doc_summary = undefined,doc_url = undefined) ->
     html =
       """
       <div class="item">
         <img src="#{avatar}" alt="user image" class="online"/>
         <p class="message">
-          <a href="#" class="name">
+          <a href="#{userurl}" class="name">
             <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> #{time}</small>
             #{showname}
           </a>
@@ -94,7 +94,7 @@ class Chat.Controller
       $('#head_message_num2').html((parseInt($('#head_message_num2').text())+1)+'')
     else
       @dispatcher.trigger 'set_mes_readed',{con_id:message.conversation}
-      @boxmessageTemplate(message.message,message.avatar,message.showname,message.time).appendTo($('#message_box')).hide().slideDown(300)
+      @boxmessageTemplate(message.message,message.avatar,message.showname,message.time,'/'+message.source_loginname).appendTo($('#message_box')).hide().slideDown(300)
       $("#message_box").animate
         scrollTop: $("#message_box")[0].scrollHeight
       , 1000

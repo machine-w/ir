@@ -78,7 +78,6 @@ $(function() {
         function(data) {
           if (data['status'] == 'true') {
             var template = Handlebars.compile('<li  id="{{contact_id}}" ><a href="" onclick="view_conversation(\'{{view_conversation_url}}\',\'{{contact_id}}\');return false;" data-toggle="tooltip" title="{{depart}}-{{type}}"><small class="text-muted pull-right"><button type="button" onclick="window.location.href=\'{{contact_home}}\';return false;" class="btn btn-default btn-sm"><i class="fa fa-eye text-blue"></i></button> <button type="button" onclick="delete_contact(\'{{contact_del}}\');return false;" class="btn btn-default btn-sm"><i class="fa fa-times text-red"></i></button></small><img src="{{avatar}}" class="online"><span style="font-size: 18px;font-weight: bold;color: #3c8dbc">{{username}}</span></a></li>');
-            //$('#contacts-list').prepend(template({avatar:data['add_user']['avatar']['normal']['url'],username:data['add_user']['username'],contact_id:data['contact_id'],depart:data['department'],type:data['user_type'],contact_home:data['contact_home'],contact_del:data['contact_del']}));
             $(template({
               avatar: data['add_user']['avatar']['normal']['url'],
               username: data['add_user']['username'],
@@ -126,12 +125,13 @@ $(function() {
         $('#add_message').attr('data-firendloginname', result['firend_loginname']);
         $('#add_message').attr('data-firendid', result['firend_id']);
         $('#' + button_id).addClass("active");
-        var mes = Handlebars.compile('<div class="item"><img src="{{avatar}}" alt="user image" class="online"/><p class="message"><a href="#" class="name"><small class="text-muted pull-right"><i class="fa fa-clock-o"></i>{{time}}</small>{{name}}</a>{{content}}</p></div>');
+        var mes = Handlebars.compile('<div class="item"><img src="{{avatar}}" alt="user image" class="online"/><p class="message"><a href="{{userurl}}" class="name"><small class="text-muted pull-right"><i class="fa fa-clock-o"></i>{{time}}</small>{{name}}</a>{{content}}</p></div>');
         $.each(result['messages'], function(index, value) {
           $('#message_box').append(mes({
             avatar: value['avatar'],
             time: value['time'],
             name: value['name'],
+            userurl: '/'+value['loginname'],
             content: value['content']
           }));
         });
@@ -235,11 +235,12 @@ $(function() {
           if (data['status'] == 'true') {
             var time = new Date();
             var time_format= time.getHours() + ':' + time.getMinutes();
-            var mes = Handlebars.compile('<div class="item"><img src="{{avatar}}" alt="user image" class="online"/><p class="message"><a href="#" class="name"><small class="text-muted pull-right"><i class="fa fa-clock-o"></i>{{time}}</small>{{name}}</a>{{content}}</p></div>');
+            var mes = Handlebars.compile('<div class="item"><img src="{{avatar}}" alt="user image" class="online"/><p class="message"><a href="{{userurl}}" class="name"><small class="text-muted pull-right"><i class="fa fa-clock-o"></i>{{time}}</small>{{name}}</a>{{content}}</p></div>');
             $(mes({
               avatar: data['avatar'],
               time: time_format,
               name: data['name'],
+              userurl: '/'+$('#add_message').data('myloginname'),
               content: $('#message_content').val()
             })).appendTo('#message_box').hide().slideDown(300);
             $("#message_box").animate({

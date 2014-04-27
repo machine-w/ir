@@ -55,7 +55,7 @@
 				<div class="item">
 					<img src="<%= mes.from.avatar_url('normal') %>" alt="user image" class="online"/>
 					<p class="message">
-						<a href="#" class="name">
+						<a href="<%= user_path(mes.from.loginname) %>" class="name">
 							<small class="text-muted pull-right"><i class="fa fa-clock-o"></i> <%= distance_of_time_in_words_to_now(mes.created_at) %>前</small>
 							<%= mes.from.username %>
 						</a>
@@ -81,7 +81,7 @@
 				<div class="input-group">
 					<input class="form-control" id="message_content" placeholder="输入消息"/>
 					<div class="input-group-btn">
-						<button class="btn btn-success <%= 'disabled' unless @have_firend %>" id="add_message" data-myavatar="<%= @user.avatar_url('normal') %>", data-myname="<%= @user.username %>" add-url="<%= user_conversation_path(@user.loginname,@conversation, :format => :json) if @have_firend %>" data-firendloginname="<%= @source.loginname if @have_firend %>" data-firendid="<%= @source._id if @have_firend %>"><i class="fa fa-plus"></i>发送</button>
+						<button class="btn btn-success <%= 'disabled' unless @have_firend %>" id="add_message" data-myavatar="<%= @user.avatar_url('normal') %>", data-myname="<%= @user.username %>" data-myloginname="<%= @user.loginname %>" add-url="<%= user_conversation_path(@user.loginname,@conversation, :format => :json) if @have_firend %>" data-firendloginname="<%= @source.loginname if @have_firend %>" data-firendid="<%= @source._id if @have_firend %>"><i class="fa fa-plus"></i>发送</button>
 					</div>
 				</div>
 			</div>

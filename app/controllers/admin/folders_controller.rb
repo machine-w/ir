@@ -1,4 +1,5 @@
 class Admin::FoldersController < ApplicationController
+	include NotificationsHelper
 	before_filter :authenticate_user!
 	before_filter :set_user
 	before_filter :set_folder, only: [:show, :edit, :update, :destroy, :config_property,:config_doc_view,:update_doc_view,:config_static_properties,:update_static_properties]
@@ -23,6 +24,7 @@ class Admin::FoldersController < ApplicationController
 		@folder = @user.folders.build(get_data)
 		error_msg='错误：'
 		if @folder.save
+			add_folder_notification(@user,@folder)
 			flash[:success] = "新建目录成功"
 		else
 			@folder.errors.full_messages.each do |msg|

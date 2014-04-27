@@ -3,6 +3,7 @@
 <% user= get_from_user(@user_in_conversation,message) %>
     {
       "name": "<%= user.username %>",
+      "loginname": "<%= user.loginname %>",
       "content": "<%= message.content.html_safe unless message.content.blank? %>",
       "time": "<%= distance_of_time_in_words_to_now(message.created_at) %>前",
       "avatar": "<%= user.avatar_url('normal') %>"
