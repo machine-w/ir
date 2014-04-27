@@ -14,6 +14,14 @@ class AdminHeaderCell < Cell::Rails
 		@unread_message.each { |var| @all_count += var['mes_num'] }
 		render
 	end
+	def groups(args)
+		@user=args[:user]
+		@unread_message=[]
+		#p "!!!!!!!!!!#{@unread_message.size}!!!!#{@unread_message[0]['last_mes']}!!!!!" 
+		@all_count = 0
+		#@unread_message.each { |var| @all_count += var['mes_num'] }
+		render
+	end
 	def notifications(args)
 		render		
 	end	

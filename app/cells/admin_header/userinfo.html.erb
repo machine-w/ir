@@ -20,10 +20,10 @@
 				<%= link_to "我的好友", user_admin_contacts_path(@user.loginname) %>
 			</div>
 			<div class="col-xs-4 text-center">
-				<a href="#">我的机构</a>
+				<a href="#">我的群组</a>
 			</div>
 			<div class="col-xs-4 text-center">
-				<a href="#">我的订阅</a>
+				<%= link_to "我的事件", user_admin_notifications_path(@user.loginname) %>
 			</div>
 		</li>
 		<!-- Menu Footer-->

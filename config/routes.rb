@@ -25,6 +25,9 @@ InstitutionalRepos::Application.routes.draw do
             get :users_not_firend,:users_in_firend,:discipline_not_firend,:department_not_firend
           end
         end
+        resources :notifications, only: [:index, :new, :create] do
+          
+        end
       end
       resources :conversations do
         collection do
@@ -56,6 +59,7 @@ InstitutionalRepos::Application.routes.draw do
           resources :attritubes
       end
       resources :contacts, only: [:show, :edit, :update, :destroy]
+      resources :notifications, only: [:show, :edit, :update, :destroy]
     end
   #end
 end
