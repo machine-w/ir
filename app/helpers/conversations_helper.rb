@@ -53,7 +53,7 @@ module ConversationsHelper
 		result = []
 		user.conversations.each do |c|
 			item={}
-			firend = (c.users[0] == user ? c.users[1] : c.users[0])
+			firend = c.get_other_user(user)
 			item['firend'] = firend
 			#logger.info firend.username
 			item['mes_num'] = c.messages.where(unread: true,from: firend).desc('create_at').count
@@ -61,6 +61,11 @@ module ConversationsHelper
 			result.push item if item['mes_num'] != 0
 		end
 		result
+	end
+	def set_unread_messages(user)
+		user.conversations.each do |c|
+			c.set_readed(c.get_other_user(user))
+		end
 	end
 	
 end

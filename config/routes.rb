@@ -26,7 +26,11 @@ InstitutionalRepos::Application.routes.draw do
           end
         end
       end
-      resources :conversations
+      resources :conversations do
+        collection do
+          get :read_all
+        end
+      end
     end
 
 

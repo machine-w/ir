@@ -35,4 +35,8 @@ class ConversationsController < ApplicationController
             format.json  { render :json => msg }
         end
 	end
+	def read_all
+		set_unread_messages(@user)
+		redirect_to :back, notice: '全部用户信息已设为已读'
+	end
 end
