@@ -55,7 +55,7 @@ module ConversationsHelper
 			item={}
 			firend = (c.users[0] == user ? c.users[1] : c.users[0])
 			item['firend'] = firend
-			#p "$$$$$$#{c.messages.where(unread: true,from: firend).desc('create_at').count}$$$$$$$"
+			#logger.info firend.username
 			item['mes_num'] = c.messages.where(unread: true,from: firend).desc('create_at').count
 			item['last_mes'] = c.messages.where(unread: true,from: firend).desc('create_at').last
 			result.push item if item['mes_num'] != 0

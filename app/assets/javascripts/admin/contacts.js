@@ -37,7 +37,7 @@ $(function() {
   department_not_firend.initialize();
   discipline_not_firend.initialize();
   in_firend.initialize();
-  delete_contact = function del_contact(url) {
+  delete_contact = function(url) {
     $.ajax({
       url: url,
       type: 'DELETE',
@@ -68,13 +68,57 @@ $(function() {
         }
       }
     });
-    return false;
+    //return false;
   };
-  view_conversation = function view_conver(url, button_id) {
+  add_contact = function(userid) {
+    $.post(
+        $('#add-contacts').attr('add-contacts-url'), {
+          add_id: userid
+        },
+        function(data) {
+          if (data['status'] == 'true') {
+            var template = Handlebars.compile('<li  id="{{contact_id}}" ><a href="" onclick="view_conversation(\'{{view_conversation_url}}\',\'{{contact_id}}\');return false;" data-toggle="tooltip" title="{{depart}}-{{type}}"><small class="text-muted pull-right"><button type="button" onclick="window.location.href=\'{{contact_home}}\';return false;" class="btn btn-default btn-sm"><i class="fa fa-eye text-blue"></i></button> <button type="button" onclick="delete_contact(\'{{contact_del}}\');return false;" class="btn btn-default btn-sm"><i class="fa fa-times text-red"></i></button></small><img src="{{avatar}}" class="online"><span style="font-size: 18px;font-weight: bold;color: #3c8dbc">{{username}}</span></a></li>');
+            //$('#contacts-list').prepend(template({avatar:data['add_user']['avatar']['normal']['url'],username:data['add_user']['username'],contact_id:data['contact_id'],depart:data['department'],type:data['user_type'],contact_home:data['contact_home'],contact_del:data['contact_del']}));
+            $(template({
+              avatar: data['add_user']['avatar']['normal']['url'],
+              username: data['add_user']['username'],
+              contact_id: data['contact_id'],
+              depart: data['department'],
+              type: data['user_type'],
+              contact_home: data['contact_home'],
+              contact_del: data['contact_del'],
+              view_conversation_url: data['view_conversation_url']
+            })).prependTo('#contacts-list').hide().slideDown(300);
+            not_firend.clearRemoteCache();
+            in_firend.clearPrefetchCache();
+            department_not_firend.clearPrefetchCache();
+            discipline_not_firend.clearPrefetchCache();
+            //not_firend.initialize(true);
+            in_firend.initialize(true);
+            department_not_firend.initialize(true);
+            discipline_not_firend.initialize(true);
+            Messenger().post({
+              message: data['message'],
+              type: 'success',
+              showCloseButton: true
+            });
+            $('#' + data['contact_id'] + ' a').trigger("click");
+          } else {
+            Messenger().post({
+              message: data['message'],
+              type: 'error',
+              showCloseButton: true
+            });
+          }
+        }
+      );
+  }
+  view_conversation = function(url, button_id) {
     $.ajax({
       url: url,
       type: 'GET',
       success: function(result) {
+        $('#message_title').html('<i class="fa fa-comments-o"></i>与'+result['firend_username']+'的会话');
         $('#message_box').empty();
         $('#add_message').removeClass('disabled');
         $('#contacts-list').children().removeClass("active");
@@ -171,46 +215,7 @@ $(function() {
   });
   add_contacts.on('typeahead:selected', function(evt, data) {
     if (data['isfirend'] == 'false') {
-      $.post(
-        $('#add-contacts').attr('add-contacts-url'), {
-          add_id: data.id
-        },
-        function(data) {
-          if (data['status'] == 'true') {
-            var template = Handlebars.compile('<li  id="{{contact_id}}" ><a href="" onclick="view_conversation(\'{{view_conversation_url}}\',\'{{contact_id}}\');return false;" data-toggle="tooltip" title="{{depart}}-{{type}}"><small class="text-muted pull-right"><button type="button" onclick="window.location.href=\'{{contact_home}}\';return false;" class="btn btn-default btn-sm"><i class="fa fa-eye text-blue"></i></button> <button type="button" onclick="delete_contact(\'{{contact_del}}\');return false;" class="btn btn-default btn-sm"><i class="fa fa-times text-red"></i></button></small><img src="{{avatar}}" class="online"><span style="font-size: 18px;font-weight: bold;color: #3c8dbc">{{username}}</span></a></li>');
-            //$('#contacts-list').prepend(template({avatar:data['add_user']['avatar']['normal']['url'],username:data['add_user']['username'],contact_id:data['contact_id'],depart:data['department'],type:data['user_type'],contact_home:data['contact_home'],contact_del:data['contact_del']}));
-            $(template({
-              avatar: data['add_user']['avatar']['normal']['url'],
-              username: data['add_user']['username'],
-              contact_id: data['contact_id'],
-              depart: data['department'],
-              type: data['user_type'],
-              contact_home: data['contact_home'],
-              contact_del: data['contact_del'],
-              view_conversation_url: data['view_conversation_url']
-            })).prependTo('#contacts-list').hide().slideDown(300);
-            not_firend.clearRemoteCache();
-            in_firend.clearPrefetchCache();
-            department_not_firend.clearPrefetchCache();
-            discipline_not_firend.clearPrefetchCache();
-            //not_firend.initialize(true);
-            in_firend.initialize(true);
-            department_not_firend.initialize(true);
-            discipline_not_firend.initialize(true);
-            Messenger().post({
-              message: data['message'],
-              type: 'success',
-              showCloseButton: true
-            });
-          } else {
-            Messenger().post({
-              message: data['message'],
-              type: 'error',
-              showCloseButton: true
-            });
-          }
-        }
-      );
+      add_contact(data.id);
     } else {
       $('#' + data['contact_id'] + ' a').trigger("click");
     }

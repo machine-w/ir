@@ -44,7 +44,7 @@
 	<div class="col-md-9">
 		<div class="box box-success">
 			<div class="box-header">
-				<h3 class="box-title"><i class="fa fa-comments-o"></i> 消息 <small class="badge bg-red"><%= "#{@source.username}是陌生人" if @have_firend && !@is_firend %></small></h3>
+				<h3 class="box-title" id="message_title"><i class="fa fa-comments-o"></i><%= "与#{'<code>陌生人</code>' unless @is_firend}#{@source.username}的".html_safe if @have_firend %>会话 <%= "<button class='btn btn-danger' onclick=\"add_contact('#{@source._id}');return false;\">添加好友</button>".html_safe if @have_firend && !@is_firend %></h3>
 				<div class="box-tools pull-right" data-toggle="tooltip" title="历史消息">
 						<button type="button" class="btn btn-default btn-sm active"><i class="fa fa-list-alt text-green"></i></button>                                            
 				</div>
