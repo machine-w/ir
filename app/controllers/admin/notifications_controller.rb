@@ -10,9 +10,9 @@ class Admin::NotificationsController < ApplicationController
 			@notifications = @user.notifications.where(:created_at.gte => (Date.today - 7)).desc(:created_at)
 		else
 			start_time=Date.strptime(start_str, "%Y年%m月%d日")
-			logger.debug start_time
+			#logger.debug start_time
 			end_time = end_str.blank? ? (start_time + 1) : Date.strptime(end_str, "%Y年%m月%d日")
-			logger.debug end_time
+			#logger.debug end_time
 			@notifications = @user.notifications.and({:created_at.gte => start_time},{:created_at.lte => end_time}).desc(:created_at)
 		end
 		
