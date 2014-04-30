@@ -14,6 +14,7 @@ class Notification
     			:child_modify_doc => 8, :open_doc_to_me => 9,
     			:del_doc => 10,:del_folder =>11,:del_contact=>12,
     			:del_group =>13,:add_contact =>14,:add_group => 15
+  scope :un_read, where(unread: true).desc('create_at').limit(99)
 
   belongs_to :ind_document, class_name: "Document", inverse_of: nil
   belongs_to :ind_folder, class_name: "Folder", inverse_of: nil
@@ -22,23 +23,23 @@ class Notification
   def type_img
   	case self.type
   	when :add_doc,:modify_doc,:del_doc
-  		'fa-file'
+  		'fa fa-file'
   	when :add_folder,:modify_folder,:del_folder
-  		'fa-folder'
+  		'fa fa-folder'
   	when :add_contact,:del_contact
-  		'fa-user'
+  		'fa fa-user'
   	when :add_group,:del_group
-  		'fa-users'
+  		'fa fa-users'
   	when :firend_to_me
-  		'ion-person-add'
+  		'ion ion-person-add'
   	when :group_to_me
-  		'ion-person-stalker'
+  		'ion ion-person-stalker'
   	when :open_doc_to_me
-  		'ion-eye'
+  		'ion ion-eye'
   	when :child_share_doc
-  		'fa-share-square-o'
+  		'fa fa-share-square-o'
   	when :child_modify_doc
-  		'fa-share-square'
+  		'fa fa-share-square'
   	end
   end
   def type_color
@@ -54,6 +55,9 @@ class Notification
   	else
   		'bg-yellow'
   	end
+  end
+  def set_read!
+    self.update_attribute(:unread,false) if self.unread
   end
 end
 

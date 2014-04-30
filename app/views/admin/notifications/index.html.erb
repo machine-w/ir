@@ -1,14 +1,35 @@
 <% provide(:title, @user.username+'的事件') %>
 <% provide(:page_name, @user.username+'的事件') %>
 <% provide(:page_summary, "查看一定时间内发生的事件") %>
-
+<nav class="navbar navbar-default" role="navigation">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+  </div>
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  	<form class="navbar-form navbar-left navbar-input-group" role="search">
+  		<div class="input-daterange input-group" id="datepicker">
+  			<input type="text" class="input-sm form-control" name="start" />
+  			<span class="input-group-addon">到</span>
+  			<input type="text" class="input-sm form-control" name="end" />
+  		</div>
+  		<button type="submit" class="btn btn-primary btn-sm">查找此时间内事件</button>
+  	</form>
+  </div>
+</nav>
 <div class="row">                        
 	<div class="col-md-12">
 		<ul class="timeline">
 			<% pre_day ='' %>
 			<% @notifications.each do |noti| %>
+			<% noti.set_read! %>
 				<% if noti.created_at.strftime("%Y年%m月%d日") != pre_day %>
 					<% pre_day = noti.created_at.strftime("%Y年%m月%d日") %>
+
 					<li class="time-label">
 						<span class="<%= noti.created_at.strftime("%w") == '0' ? 'bg-red' : 'bg-green' %>">
 							<%= pre_day %>
@@ -16,10 +37,10 @@
 					</li>
 				<% end %>
 				<li>
-					<i class="fa <%= noti.type_img %> <%= noti.type_color %>"></i>
+					<i class="<%= noti.type_img %> <%= noti.type_color %>"></i>
 					<div class="timeline-item">
 						<span class="time"><i class="fa fa-clock-o"></i> 
-							<%= distance_of_time_in_words_to_now(noti.created_at) %>前</span>
+							<%= noti.created_at.strftime("%k:%M:%S") %></span>
 						<h3 class="timeline-header"><%= raw noti.title %></h3>
 						<div class="timeline-body">
 							<%= raw noti.content %>

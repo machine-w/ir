@@ -26,7 +26,9 @@ InstitutionalRepos::Application.routes.draw do
           end
         end
         resources :notifications, only: [:index, :new, :create] do
-          
+          collection do
+            get :read_all
+          end
         end
       end
       resources :conversations do

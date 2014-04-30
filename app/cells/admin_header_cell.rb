@@ -23,6 +23,8 @@ class AdminHeaderCell < Cell::Rails
 		render
 	end
 	def notifications(args)
+		@user=args[:user]
+		@unread_notification=@user.notifications.un_read
 		render		
 	end	
 

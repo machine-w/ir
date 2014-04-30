@@ -160,6 +160,7 @@ class Admin::FoldersController < ApplicationController
 					folder_group.destroy
 				end
 			end
+			del_folder_notification(@user,@folder)
 			flash[:success] = "删除目录成功"
 		else
 			@folder.errors.full_messages.each do |msg|

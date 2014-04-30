@@ -1,41 +1,22 @@
 <li class="dropdown notifications-menu">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-warning"></i>
-        <span class="label label-warning">99</span>
+        <span class="label label-warning"><%= @unread_notification.size %></span>
     </a>
     <ul class="dropdown-menu">
-        <li class="header">You have 10 notifications</li>
+        <li class="header">您有 <%= @unread_notification.size  %> 条未读事件</li>
         <li>
             <!-- inner menu: contains the actual data -->
             <ul class="menu">
+                <% @unread_notification.each do |noti| %>
                 <li>
-                    <a href="#">
-                        <i class="ion ion-ios7-people info"></i> 5 new members joined today
+                    <a href="/<%= @user.loginname %>/admin/notifications?start=<%= noti.created_at.strftime("%Y年%m月%d日") %>">
+                        <i class="<%= noti.type_img %> <%= noti.type_color %>"></i><%= raw noti.title %>
                     </a>
                 </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-warning danger"></i> Very long description here that may not fit into the page and may cause design problems
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-users warning"></i> 5 new members joined
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <i class="ion ion-ios7-cart success"></i> 25 sales made
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="ion ion-ios7-person danger"></i> You changed your username
-                    </a>
-                </li>
+                <% end %>
             </ul>
         </li>
-        <li class="footer"><a href="#">View all</a></li>
+        <li class="footer"><%= link_to "全部事件设为已读", read_all_user_admin_notifications_path(@user.loginname) %></li>
     </ul>
 </li>

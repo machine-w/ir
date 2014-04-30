@@ -66,6 +66,8 @@ $ ->
 	$(".sel_color").colorpicker();
 	# 所有sel_date类的录入框全都选日期
 	$('.sel_date').datepicker({language: 'zh-CN',todayHighlight: true});
+	# input-daterange选择日期范围
+	$('.input-daterange').datepicker({language: 'zh-CN',todayHighlight: true});
 	$(".datepicker").css("z-index", "9999");
 	# 所有sel_time类的录入框全都选时间
 	$('.sel_time').clockface({});
