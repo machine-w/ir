@@ -1,17 +1,18 @@
 <li class="dropdown notifications-menu">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-warning"></i>
-        <span class="label label-warning"><%= @unread_notification.size %></span>
+        <span class="label label-warning" id="head_notification_num"><%= @unread_notification.size %></span>
     </a>
     <ul class="dropdown-menu">
-        <li class="header">您有 <%= @unread_notification.size  %> 条未读事件</li>
+        <li class="header" id="head_notification_num2">您有 <%= @unread_notification.size  %> 条未读事件</li>
         <li>
             <!-- inner menu: contains the actual data -->
-            <ul class="menu">
+            <ul class="menu" id="ul_head_notification">
                 <% @unread_notification.each do |noti| %>
                 <li>
                     <a href="/<%= @user.loginname %>/admin/notifications?start=<%= noti.created_at.strftime("%Y年%m月%d日") %>">
                         <i class="<%= noti.type_img %> <%= noti.type_color %>"></i><%= raw noti.title %>
+                        <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> <%= noti.created_at.strftime("%k:%M")  %></small>
                     </a>
                 </li>
                 <% end %>

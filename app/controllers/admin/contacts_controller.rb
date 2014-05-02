@@ -1,5 +1,6 @@
 class Admin::ContactsController < ApplicationController
 	include ConversationsHelper
+	include NotificationsHelper
 	before_filter :authenticate_user!
 	before_filter :set_user
 	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
@@ -72,6 +73,8 @@ class Admin::ContactsController < ApplicationController
 				#@conversation.users.push user
 			end
 			if @contact.save && @conversation.save
+				firend_to_me_notification(user,@user)
+				add_contact_notification(@user,user)
 				error_msg="新建好友成功"
 				status = true
 			else

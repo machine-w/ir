@@ -104,6 +104,7 @@ class Admin::FoldersController < ApplicationController
 		@folder.tile = get_data[:tile]
 		@folder.tile_color = get_data[:tile_color]
 		if @folder.save
+			modify_folder_notification(@user,@folder)
 			flash[:success] = "修改目录成功"
 		else
 			@folder.errors.full_messages.each do |msg|

@@ -53,6 +53,18 @@ class Chat.Controller
     html = html + "</div>"
     $(html)
 
+  headnotificationTemplate: (title,type_img,type_color,userloginname,date,time) ->
+    html =
+      """
+      <li>
+      <a href="/#{userloginname}/admin/notifications?start=#{date}">
+      <i class="#{type_img} #{type_color}"></i>#{title}
+      <small class="text-muted pull-right"><i class="fa fa-clock-o"></i>#{time}</small>
+      </a>
+      </li>
+      """
+    $(html)
+
   # userListTemplate: (userList) ->
   #   userHtml = ""
   #   for user in userList
@@ -76,6 +88,7 @@ class Chat.Controller
     #alert @username
     @channel = @dispatcher.subscribe(@username)
     @channel.bind 'user_message', @receiveMessage
+    @channel.bind 'user_notification', @receiveNotification
 
   receiveMessage: (message) =>
     #alert $('#head_message_num').text()
@@ -99,6 +112,13 @@ class Chat.Controller
         scrollTop: $("#message_box")[0].scrollHeight
       , 1000
 
+  receiveNotification: (message) =>
+    $('#ul_head_notification').append @headnotificationTemplate(message.title,message.type_img,message.type_color,message.user_loginname,message.date,message.time)
+    $('#head_notification_num').animate({backgroundColor: '#f56954'},500)
+    $('#head_notification_num').html((parseInt($('#head_notification_num').text())+1)+'')
+    $('#head_notification_num').animate({backgroundColor: '#f0ad4e'},500)
+    $('#head_notification_num2').html((parseInt($('#head_notification_num2').text())+1)+'')
+  
   # sendMessage: (e) =>
   #   e.preventDefault()
   #   if !$('#add_message').hasClass('disabled')
