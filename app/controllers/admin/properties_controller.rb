@@ -1,5 +1,6 @@
 class Admin::PropertiesController < ApplicationController
 	include ActionView::Helpers::TextHelper
+	include NotificationsHelper
 	before_filter :authenticate_user!
 	before_filter :set_user
 	before_filter :set_folder, only: [:create,:update,:destroy]
@@ -12,6 +13,7 @@ class Admin::PropertiesController < ApplicationController
 		end 
 		error_msg='错误：'
 		if @property.save
+			add_property_notification(@user,@folder,@property)
 			flash[:success] = "新建属性成功"
 		else
 			@property.errors.full_messages.each do |msg|
@@ -29,6 +31,7 @@ class Admin::PropertiesController < ApplicationController
 			@property.file_type=strip_tags(tags_params['file_type']).split(',') if tags_params.has_key?('file_type')
 		end 
 		if @property.update_attributes(properties_params)
+			modify_property_notification(@user,@folder,@property)
 			flash[:success] = "修改属性成功"
 		else
 			@property.errors.full_messages.each do |msg|
@@ -42,6 +45,7 @@ class Admin::PropertiesController < ApplicationController
 		@property=@folder.properties.find(params[:id])
 		#@property=Property.find(params[:id])
 		@property.destroy
+		del_property_notification(@user,@folder,@property)
 		redirect_to config_property_admin_folder_path(@folder), notice: '成功删除属性。'
 	end
 	private 

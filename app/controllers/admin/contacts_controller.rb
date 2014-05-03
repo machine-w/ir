@@ -101,6 +101,7 @@ class Admin::ContactsController < ApplicationController
 		status=true
     	contact=@user.contacts.find(params[:id])
     	if contact.destroy
+    		del_contact_notification(@user,contact.firend)
     		error_msg='成功删除好友'
 			status=true
     	else

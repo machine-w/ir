@@ -1,4 +1,5 @@
 class Admin::DocumentsController < ApplicationController
+	include NotificationsHelper
 	before_filter :authenticate_user!
 	before_filter :set_user
 	before_filter :set_folder, only: [:index,:create,:new]
@@ -18,7 +19,7 @@ class Admin::DocumentsController < ApplicationController
 			end 
 		end
 		if  error_msg == '' && @doc.save
-			#@folder.update_attribute(:doc_count, @folder.doc_count + 1 )
+			add_doc_notification(@user,@doc)
 			redirect_to admin_folder_path(@folder), notice: '成功新建文档。'
 		else
 			#redirect_to new_admin_folder_document_path(@folder), alert: error_msg
@@ -58,7 +59,7 @@ class Admin::DocumentsController < ApplicationController
 			end 
 		end
 		if  error_msg == '' && @document.save
-			#redirect_to edit_admin_document_path(@document), notice: '成功修改文档。'
+			modify_doc_notification(@user,@document)
 			redirect_to :back, notice: '成功修改文档。'
 		else
 			#redirect_to edit_admin_document_path(@document), alert: error_msg
@@ -73,6 +74,7 @@ class Admin::DocumentsController < ApplicationController
 	end
 	def destroy
 		@document.destroy
+		del_doc_notification(@user,@document)
 		redirect_to :back, notice: '成功删除文档。'
 	end
 	

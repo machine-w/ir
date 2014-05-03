@@ -26,19 +26,19 @@
 		<ul class="timeline">
 			<% pre_day ='' %>
 			<% @notifications.each do |noti| %>
-			<% noti.set_read! %>
+			
 				<% if noti.created_at.strftime("%Y年%m月%d日") != pre_day %>
 					<% pre_day = noti.created_at.strftime("%Y年%m月%d日") %>
 
-					<li class="time-label">
+					<li class="time-label" >
 						<span class="<%= noti.created_at.strftime("%w") == '0' ? 'bg-red' : 'bg-green' %>">
 							<%= pre_day %>
 						</span>
 					</li>
 				<% end %>
-				<li>
+				<li >
 					<i class="<%= noti.type_img %> <%= noti.type_color %>"></i>
-					<div class="timeline-item">
+					<div class="timeline-item" style="<%= 'background: #ddd' unless noti.unread  %>">
 						<span class="time"><i class="fa fa-clock-o"></i> 
 							<%= noti.created_at.strftime("%k:%M:%S") %></span>
 						<h3 class="timeline-header"><%= raw noti.title %></h3>
@@ -50,6 +50,7 @@
 						</div>
 					</div>
 				</li>
+			<% noti.set_read! %>
 			<% end %>
 			<li>
 				<i class="fa fa-clock-o"></i>

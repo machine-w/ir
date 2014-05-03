@@ -119,6 +119,7 @@ class Admin::FoldersController < ApplicationController
 		@folder.doc_default_content=folders_params[:doc_default_content]
 		if @folder.save
 			@folder.documents.each { |e| e.set_dirty_flag } #目录中全部文档治脏。
+			modify_view_folder_notification(@user,@folder)
 			flash[:success] = "修改文档视图成功"
 		else
 			@folder.errors.full_messages.each do |msg|
@@ -145,6 +146,7 @@ class Admin::FoldersController < ApplicationController
 		end
 		if  error_msg == '' && @folder.save
 			@folder.documents.each { |e| e.set_dirty_flag } #目录中全部文档治脏。
+			modify_static_folder_notification(@user,@folder)
 			redirect_to :back, notice: '成功修改静态属性。'
 		else
 			#redirect_to edit_admin_document_path(@document), alert: error_msg
