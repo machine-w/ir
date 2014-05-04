@@ -3,12 +3,13 @@ class Conversation
   include Mongoid::Timestamps
   include Mongoid::BaseModel
   before_save :users_size_gl_two
-  embeds_many :messages, cascade_callbacks: true
+  #embeds_many :messages, cascade_callbacks: true
+  has_many :messages, autosave: true
   has_and_belongs_to_many :users
 
   def set_readed(user)
-  	self.messages.where(from: user).each { |e| e.unread = false }
-  	self.save
+  	self.messages.where(from: user).each { |e| e.unread = false;e.save }
+  	#self.save
   end
   def clear_messages
   	self.messages.all.destroy

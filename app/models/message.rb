@@ -7,5 +7,6 @@ class Message
   belongs_to :add_document, class_name: "Document", inverse_of: nil
   field :content
   field :unread, :type => Boolean,:default => true 
-  embedded_in :conversation
+  #embedded_in :conversation
+  belongs_to :conversation
 end
