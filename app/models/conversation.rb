@@ -4,7 +4,7 @@ class Conversation
   include Mongoid::BaseModel
   before_save :users_size_gl_two
   #embeds_many :messages, cascade_callbacks: true
-  has_many :messages, autosave: true
+  has_many :messages, autosave: true,dependent: :destroy
   has_and_belongs_to_many :users
 
   def set_readed(user)

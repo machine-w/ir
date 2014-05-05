@@ -17,6 +17,6 @@ class Group
   end
 
   belongs_to :user
-  has_many :group_messages, autosave: true
+  has_many :group_messages, autosave: true,dependent: :destroy
   embeds_many :group_members, cascade_callbacks: true
 end
