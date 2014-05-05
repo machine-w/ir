@@ -30,6 +30,11 @@ InstitutionalRepos::Application.routes.draw do
             get :read_all
           end
         end
+        resources :groups, only: [:index, :new, :create] do
+          collection do
+            get :read_all
+          end
+        end
       end
       resources :conversations do
         collection do
@@ -62,6 +67,7 @@ InstitutionalRepos::Application.routes.draw do
       end
       resources :contacts, only: [:show, :edit, :update, :destroy]
       resources :notifications, only: [:show, :edit, :update, :destroy]
+      resources :groups, only: [:show, :edit, :update, :destroy]
     end
   #end
 end

@@ -24,7 +24,12 @@ class AvatarUploader < CarrierWave::Uploader::Base
   #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
   # end
   def default_url  #可以定义默认图片，如过用户没有上传图片，则可以使用默认的图片
-    "/images/avatar/#{model.gender}_#{version_name}.png"
+    if model.class.to_s.underscore == 'user'
+      "/images/avatar/#{model.gender}_#{version_name}.png"
+    else
+      "/images/avatar/#{model.class.to_s.underscore}_#{version_name}.png"
+    end
+    
   end
   #图片的处理，有不同版本大小，网站可以在不同的地方调用不同的图片大小
   version :normal do

@@ -1,0 +1,93 @@
+<% provide(:title, @user.username+'的群组') %>
+<% provide(:page_name, @user.username+'的群组') %>
+<% provide(:page_summary, "新增群组并参加群组聊天") %>
+<div class="row">
+	<div class="col-md-4">
+		<div class="nav-tabs-custom">
+			<ul class="nav nav-tabs pull-right">
+				<li ><a href="#tab_1-1" data-toggle="tab">我参与的群组</a></li>
+				<li class="active"><a href="#tab_2-2" data-toggle="tab">我建立的群组</a></li>
+				<li class="pull-left header"><i class="fa fa-users"></i>群组列表</li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane " id="tab_1-1">
+					<input type="text" class="search-query form-control" placeholder="检索群组" >
+					<ul class="nav nav-pills nav-stacked"style="overflow-y: auto;">
+						
+					</ul>
+				</div>
+				<div class="tab-pane active" id="tab_2-2">
+					<a class="btn btn-success btn-block btn-flat" data-toggle="modal" data-target="#group-modal">建立群组</a>
+					<ul class="nav nav-pills nav-stacked"style="overflow-y: auto;">
+						<% @my_groups.each do |group| %>
+						<li id="<%= group._id %>" class="img-circle" >
+							<a href="" onclick="return false;" data-toggle="tooltip" title="<%= group.description %>">
+								<small class="text-muted pull-right">
+									<button type="button" onclick="return false;" class="btn btn-default btn-sm"><i class="fa fa-cog text-blue"></i></button>
+									<button type="button" onclick="return false;" class="btn btn-default btn-sm"><i class="fa fa-times text-red"></i></button> 
+								</small>
+								<img src="<%= group.avatar_url('normal') %>" class=""><span style="font-size: 18px;font-weight: bold;color: #3c8dbc"><%= group.name %></span>
+							</a>
+						</li>
+						<% end %>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-8">
+		<div class="nav-tabs-custom">
+			<ul class="nav nav-tabs pull-right">
+				<li ><a href="#tab2_1-1" data-toggle="tab">群组成员</a></li>
+				<li class="active"><a href="#tab2_2-2" data-toggle="tab">群组聊天</a></li>
+				<li class="pull-left header"><i class="fa fa-comments"></i>群组详细信息</li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane " id="tab2_1-1">
+				</div>
+				<div class="tab-pane active" id="tab2_2-2">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- COMPOSE MESSAGE MODAL -->
+<div class="modal fade" id="group-modal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"><i class="fa fa-cogs"></i>配置群组</h4>
+			</div>
+			<%= form_for @new_group,url: user_admin_groups_path(@user.loginname),html: {role: "form",class: "form_w_val",:multipart => true}  do |f| %>
+			<div class="modal-body">
+				<div class="form-group">
+					<%= image_tag(@new_group.avatar_url(:sobig),class: "img-circle") if @new_group.avatar %>
+					<%= f.file_field :avatar,accept: 'image/png,image/gif,image/jpeg'%>
+					<%= f.hidden_field :avatar_cache %>
+				</div>
+				<div class="form-group">
+					<label for="add_folder_name" class="control-label">群组名</label>
+					<%= f.text_field :name,class: "form-control",id: "add_folder_name", placeholder: "我的群组", 'check-type' => "required", 'required-message' => "请填写群组名。", maxlength: "8" %>
+				</div>
+				<div class="form-group">								
+					<label class="checkbox">
+						<%= f.check_box :has_home, {:checked =>false,id:"add_folder_tile"}%>
+						是否建立群组首页
+					</label>
+				</div>
+				<div class="form-group">
+					<label for="add_folder_des" class="control-label">群组说明</label>
+					<%= f.text_area :description,class: "form-control",id: "add_folder_des", placeholder: "简单介绍一些吧" %>
+				</div>
+			</div>
+			
+			<div class="modal-footer clearfix">
+				<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>关闭</button>
+				<button type="submit" class="btn btn-success pull-left" onclick: "if($(this).closest('form').valid() == false){return false;}"><i class="fa fa-save"></i> 保存</button>
+			</div>
+			<% end %>
+		</div>
+	</div>
+</div>

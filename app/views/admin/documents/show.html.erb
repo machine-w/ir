@@ -58,14 +58,14 @@
 				<h4 class="modal-title"><i class="fa fa-table"></i><%= @document.title + '属性表' %></h4>
 			</div>
 			<%= form_for @document,url: admin_document_path(@document),html: {role: "form",class: "form_w_val",:multipart => true}  do |f| %>
-				<div class="modal-body">
-					<%= render partial: "admin/documents/form_property_list", locals: {document: @document,properties: @properties} %>
-				</div>
-				<div class="modal-footer clearfix">
-					<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>关闭</button>
-					<button type="submit" class="btn btn-success pull-left" onclick: "if($(this).closest('form').valid() == false){return false;}"><i class="fa fa-save"></i> 保存</button>
-				</div>
+			<div class="modal-body">
+				<%= render partial: "admin/documents/form_property_list", locals: {document: @document,properties: @properties} %>
+			</div>
+			<div class="modal-footer clearfix">
+				<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>关闭</button>
+				<button type="submit" class="btn btn-success pull-left" onclick: "if($(this).closest('form').valid() == false){return false;}"><i class="fa fa-save"></i> 保存</button>
+			</div>
 			<% end %>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+		</div>
+	</div>
+</div>
