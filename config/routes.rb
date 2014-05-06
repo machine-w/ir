@@ -67,7 +67,11 @@ InstitutionalRepos::Application.routes.draw do
       end
       resources :contacts, only: [:show, :edit, :update, :destroy]
       resources :notifications, only: [:show, :edit, :update, :destroy]
-      resources :groups, only: [:show, :edit, :update, :destroy]
+      resources :groups, only: [:show, :edit, :update, :destroy] do
+         member do
+           post :add_member
+         end
+      end
     end
   #end
 end

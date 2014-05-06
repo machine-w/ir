@@ -1,0 +1,29 @@
+{
+"messages":[
+<% @messages.each_with_index do |message,index| %>
+    {
+      "name": "<%= message.from.username %>",
+      "loginname": "<%= message.from.loginname %>",
+      "content": "<%= message.content.html_safe unless message.content.blank? %>",
+      "time": "<%= distance_of_time_in_words_to_now(message.created_at) %>前",
+      "avatar": "<%= message.from.avatar_url('normal') %>"
+    }
+<% unless index == @messages.count - 1%>
+    ,
+<% end %>
+<% end %>
+],
+"members":[
+<% @members.each_with_index do |member,index| %>
+    {
+      "name": "<%= member.user.username %>",
+      "loginname": "<%= member.user.loginname %>",
+      "type": "<%= member.type_name %>",
+      "avatar": "<%= member.user.avatar_url('normal') %>",
+      "department": "<%= member.user.department.name %>"
+    }
+<% unless index == @members.count - 1%>
+    ,
+<% end %>
+<% end %>
+]}

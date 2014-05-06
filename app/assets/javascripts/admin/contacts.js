@@ -111,7 +111,7 @@ $(function() {
           }
         }
       );
-  }
+  };
   view_conversation = function(url, button_id) {
     $.ajax({
       url: url,

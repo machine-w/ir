@@ -59,6 +59,47 @@ class Admin::GroupsController < ApplicationController
 		end
 		redirect_to :back
 	end
+	def show
+		@group=@user.groups.find(params[:id])
+		@messages=@group.group_messages.limit(100).asc(:created_at)
+		@members=@group.group_members.all.desc(:created_at)
+		respond_to do |format|
+			format.html
+			format.json  { render :file => "/admin/groups/show.json.erb", :content_type => 'application/json' }
+		end
+	end
+	def add_member
+		error_msg=''
+		status=true
+		@group=@user.groups.find(params[:id])
+		user = User.find(params['add_id'])
+		if @group.group_members.where(user: user).exists?
+			status = false
+			error_msg="已经添加过此用户"
+		else
+			member = @group.group_members.build({user: user,type: :normal})
+			if @group.save
+				error_msg="新建组成员成功"
+				status = true
+			else
+				@group.errors.full_messages.each do |msg|
+					error_msg += msg + ','
+				end
+				status = false
+			end
+		end
+		respond_to do |format|
+			format.html
+		    #format.xml  { render :xml => @users }
+		    #format.json  { render :json => @users.to_json }
+            msg = { status: status.to_s, message: error_msg,name: user.username,
+      				loginname: user.loginname,
+      				type: member.type_name,
+      				avatar: user.avatar_url('normal'),
+      				department: user.department.name }
+            format.json  { render :json => msg }
+        end
+	end
 	private
 	def groups_params
 		params.require(:group).permit(:name,:avatar,:has_home,:description)
