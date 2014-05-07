@@ -95,8 +95,50 @@ class Admin::GroupsController < ApplicationController
             msg = { status: status.to_s, message: error_msg,name: user.username,
       				loginname: user.loginname,
       				type: member.type_name,
+      				memberid: member._id.to_s,
       				avatar: user.avatar_url('normal'),
       				department: user.department.name }
+            format.json  { render :json => msg }
+        end
+	end
+	def del_member
+		error_msg=''
+		status=true
+		@group=@user.groups.find(params[:id])
+		member = @group.group_members.find(params['memberid'])		
+		if member.destroy && @group.save
+			error_msg="删除组成员成功"
+			status = true
+		else
+			@group.errors.full_messages.each do |msg|
+				error_msg += msg + ','
+			end
+			status = false
+		end
+		respond_to do |format|
+			format.html
+            msg = { status: status.to_s, message: error_msg}
+            format.json  { render :json => msg }
+        end
+	end
+	def modify_member
+		error_msg=''
+		status=true
+		@group=@user.groups.find(params[:id])
+		member = @group.group_members.find(params['memberid'])
+		member.type = params['type'].to_sym
+		if  @group.save
+			error_msg="修改组成员权限成功"
+			status = true
+		else
+			@group.errors.full_messages.each do |msg|
+				error_msg += msg + ','
+			end
+			status = false
+		end
+		respond_to do |format|
+			format.html
+            msg = { status: status.to_s, message: error_msg,type_name: member.type_name}
             format.json  { render :json => msg }
         end
 	end

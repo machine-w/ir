@@ -16,6 +16,7 @@
 "members":[
 <% @members.each_with_index do |member,index| %>
     {
+      "memberid": "<%= member._id.to_s %>",
       "name": "<%= member.user.username %>",
       "loginname": "<%= member.user.loginname %>",
       "type": "<%= member.type_name %>",
