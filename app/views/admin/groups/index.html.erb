@@ -5,17 +5,26 @@
 	<div class="col-lg-3 col-md-5 col-sm-6">
 		<div class="nav-tabs-custom">
 			<ul class="nav nav-tabs">
-				<li ><a href="#tab_1-1" data-toggle="tab">我参与的群组</a></li>
-				<li class="active"><a href="#tab_2-2" data-toggle="tab">我建立的群组</a></li>
+				<li class="active"><a href="#tab_1-1" data-toggle="tab">我参与的群组</a></li>
+				<li ><a href="#tab_2-2" data-toggle="tab">我建立的群组</a></li>
 			</ul>
 			<div class="tab-content">
-				<div class="tab-pane " id="tab_1-1">
+				<div class="tab-pane active" id="tab_1-1">
 					<input type="text" class="search-query form-control" placeholder="检索群组" >
 					<ul id="groups-list" class="nav nav-pills nav-stacked win-height" style="overflow-y: auto;">
-						
+						<% @join_groups.each do |group| %>
+						<li id="j_<%= group._id %>" class="img-circle" >
+							<a href="" onclick="view_group('<%= admin_group_path(group, :format => :json) %>','<%= group._id %>');return false;" data-toggle="tooltip" title="<%= group.description %>">
+								<small class="text-muted pull-right">
+									<button type="button" onclick="sign_out_group('<%= sign_out_admin_group_path(group, :format => :json) %>');return false;" class="btn btn-default btn-sm"><i class="fa fa-sign-out text-red"></i></button>
+								</small>
+								<img src="<%= group.avatar_url('normal') %>" class="img-circle"><span style="font-size: 18px;font-weight: bold;color: #3c8dbc"><%= group.name %></span><span class="badge bg-yellow"><%= group.user.username %></span>
+							</a>
+						</li>
+						<% end %>
 					</ul>
 				</div>
-				<div class="tab-pane active" id="tab_2-2">
+				<div class="tab-pane " id="tab_2-2">
 					<a class="btn btn-success btn-block btn-flat" data-toggle="modal" data-target="#group-modal">建立群组</a>
 					<ul id="my-groups-list" class="nav nav-pills nav-stacked win-height" style="overflow-y: auto;">
 						<% @my_groups.each do |group| %>

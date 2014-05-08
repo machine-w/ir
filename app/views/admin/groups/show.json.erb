@@ -5,7 +5,7 @@
       "name": "<%= message.from.username %>",
       "loginname": "<%= message.from.loginname %>",
       "content": "<%= message.content.html_safe unless message.content.blank? %>",
-      "time": "<%= distance_of_time_in_words_to_now(message.created_at) %>前",
+      "time": "<%= distance_of_time_in_words_to_now(message.created_at) %>",
       "avatar": "<%= message.from.avatar_url('normal') %>"
     }
 <% unless index == @messages.count - 1%>
@@ -21,10 +21,11 @@
       "loginname": "<%= member.user.loginname %>",
       "type": "<%= member.type_name %>",
       "avatar": "<%= member.user.avatar_url('normal') %>",
-      "department": "<%= member.user.department.name %>"
+      "department": "<%= member.user.department.name %>",
+      "disabled": "<%= (member.master? || member.user == @user) ? 'disabled' : '' %>"
     }
 <% unless index == @members.count - 1%>
     ,
 <% end %>
 <% end %>
-]}
+],"enable_edit_member": "<%= @group.enable_edit_member? @user %>"}

@@ -8,6 +8,7 @@ class Admin::GroupsController < ApplicationController
 
 	def index
 		@my_groups = @user.groups.all
+		@join_groups = Group.elem_match(group_members: { user_id: @user._id })
 		@new_group = @user.groups.build
 	end
 	def create
@@ -60,9 +61,14 @@ class Admin::GroupsController < ApplicationController
 		redirect_to :back
 	end
 	def show
-		@group=@user.groups.find(params[:id])
-		@messages=@group.group_messages.limit(100).asc(:created_at)
-		@members=@group.group_members.all.desc(:created_at)
+		@group=Group.find(params[:id])
+		if @group.group_members.where(user: @user).exists?
+			@messages=@group.group_messages.limit(100).asc(:created_at)
+			@members=@group.group_members.all.desc(:created_at)
+		else
+			@messages = []
+			@members = []
+		end
 		respond_to do |format|
 			format.html
 			format.json  { render :file => "/admin/groups/show.json.erb", :content_type => 'application/json' }
@@ -71,23 +77,30 @@ class Admin::GroupsController < ApplicationController
 	def add_member
 		error_msg=''
 		status=true
-		@group=@user.groups.find(params[:id])
+		@group=Group.find(params[:id])
 		user = User.find(params['add_id'])
-		if @group.group_members.where(user: user).exists?
-			status = false
-			error_msg="已经添加过此用户"
-		else
-			member = @group.group_members.build({user: user,type: :normal})
-			if @group.save
-				error_msg="新建组成员成功"
-				status = true
-			else
-				@group.errors.full_messages.each do |msg|
-					error_msg += msg + ','
-				end
+		if @group.enable_edit_member?(@user)
+			if @group.group_members.where(user: user).exists?
 				status = false
+				error_msg="已经添加过此用户"
+			else
+				member = @group.group_members.build({user: user,type: :normal})
+				if @group.save
+					error_msg="新建组成员成功"
+					status = true
+				else
+					@group.errors.full_messages.each do |msg|
+						error_msg += msg + ','
+					end
+					status = false
+				end
 			end
+		else
+			status = false
+			error_msg="无权修改组成员"
+			member = @group.group_members.build({user: user,type: :normal})
 		end
+
 		respond_to do |format|
 			format.html
 		    #format.xml  { render :xml => @users }
@@ -104,17 +117,23 @@ class Admin::GroupsController < ApplicationController
 	def del_member
 		error_msg=''
 		status=true
-		@group=@user.groups.find(params[:id])
-		member = @group.group_members.find(params['memberid'])		
-		if member.destroy && @group.save
-			error_msg="删除组成员成功"
-			status = true
-		else
-			@group.errors.full_messages.each do |msg|
-				error_msg += msg + ','
+		@group=Group.find(params[:id])
+		member = @group.group_members.find(params['memberid'])
+		if @group.enable_edit_member?(@user)
+			if member.destroy && @group.save
+				error_msg="删除组成员成功"
+				status = true
+			else
+				@group.errors.full_messages.each do |msg|
+					error_msg += msg + ','
+				end
+				status = false
 			end
+		else
 			status = false
-		end
+			error_msg="无权修改组成员"	
+		end	
+		
 		respond_to do |format|
 			format.html
             msg = { status: status.to_s, message: error_msg}
@@ -124,23 +143,60 @@ class Admin::GroupsController < ApplicationController
 	def modify_member
 		error_msg=''
 		status=true
-		@group=@user.groups.find(params[:id])
+		@group=Group.find(params[:id])
 		member = @group.group_members.find(params['memberid'])
-		member.type = params['type'].to_sym
-		if  @group.save
-			error_msg="修改组成员权限成功"
-			status = true
-		else
-			@group.errors.full_messages.each do |msg|
-				error_msg += msg + ','
+		if @group.enable_edit_member?(@user)
+			member.type = params['type'].to_sym
+			if  @group.save
+				error_msg="修改组成员权限成功"
+				status = true
+			else
+				@group.errors.full_messages.each do |msg|
+					error_msg += msg + ','
+				end
+				status = false
 			end
+		else
 			status = false
+			error_msg="无权修改组成员"
 		end
+		
 		respond_to do |format|
 			format.html
             msg = { status: status.to_s, message: error_msg,type_name: member.type_name}
             format.json  { render :json => msg }
         end
+	end
+	def sign_out
+		error_msg=''
+		status=true
+		@group=Group.find(params[:id])
+		if @group.group_members.where(user: @user).exists?
+			member=@group.group_members.where(user: @user).first
+			unless member.master?
+				if member.destroy && @group.save
+					error_msg="退出群组成功"
+					status = true
+				else
+					@group.errors.full_messages.each do |msg|
+						error_msg += msg + ','
+					end
+					status = false
+				end
+			else
+				status = false
+				error_msg="群建立者无法退出群"	
+			end
+		else
+			status = false
+			error_msg="无法找到该成员"	
+		end	
+		
+		respond_to do |format|
+			format.html
+			msg = { status: status.to_s, message: error_msg,group_id: @group._id.to_s }
+			format.json  { render :json => msg }
+		end
 	end
 	private
 	def groups_params
