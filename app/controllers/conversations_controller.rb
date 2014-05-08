@@ -6,9 +6,13 @@ class ConversationsController < ApplicationController
 	layout "admin_layout"
 	def show
 		@conversation=Conversation.find(params[:id])
-		@messages=@conversation.messages.limit(100).asc(:created_at)
 		@user_in_conversation=@conversation.users.entries
 	    @user_in_conversation.each{ |x| @firend = x if x != @user }
+	    if @user.contacts.where(firend: @firend).exists?
+	    	@messages=@conversation.messages.limit(100).asc(:created_at)
+	    else
+	    	@messages=[]
+	    end
 	    @conversation.set_readed(@conversation.get_other_user(@user))
 		respond_to do |format|
 			format.html
