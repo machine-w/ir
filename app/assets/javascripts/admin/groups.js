@@ -3,6 +3,7 @@ $(function() {
 	$('#add-group-member').attr("disabled",true);
 	$('#add-group-member').css("background-color", "white");
 	var member_item = Handlebars.compile('<tr id="{{member_id}}"><td><a href="{{userurl}}"><img src="{{avatar}}" class="img-circle"><span style="font-size: 18px;font-weight: bold;color: #3c8dbc">{{name}}</span></a></td><td><span class="badge bg-blue">{{department}}</span></td><td><div class="btn-group"><a class="btn btn-info dropdown-toggle {{disabled}}" data-toggle="dropdown">{{type}}<span class="fa fa-caret-down"></span></a><ul class="dropdown-menu"><li><a href="" onclick="modify_group_member(\'{{member_id}}\',\'admin\');return false;">管理员</a></li><li><a href="" onclick="modify_group_member(\'{{member_id}}\',\'normal\');return false;">组成员</a></li></ul></div></td><td><a class="btn btn-danger {{disabled}}" onclick="delete_group_member(\'{{member_id}}\');return false;"><span class="fa fa-times"></span>删除</a></td></tr>');
+	var mes = Handlebars.compile('<div class="item"><img src="{{avatar}}" alt="user image" class="online"/><p class="message"><a href="{{userurl}}" class="name"><small class="text-muted pull-right"><i class="fa fa-clock-o"></i>{{time}}</small>{{name}}</a>{{content}}</p></div>');
 	var not_firend = new Bloodhound({
 		datumTokenizer: Bloodhound.tokenizers.obj.whitespace('query'),
 		queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -240,20 +241,24 @@ view_group = function(url, button_id) {
 		success: function(result) {
             //$('#message_title').html('<i class="fa fa-comments-o"></i>与'+result['firend_username']+'的会话');
             $('#group_members_table tbody tr').remove();
+            $('#message_box').empty();
             $('#groups-list').children().removeClass("active");
             $('#my-groups-list').children().removeClass("active");
             $('#' + button_id).addClass("active");
             $('#j_' + button_id).addClass("active");
             if(result['enable_edit_member'] == 'true'){
-            	$('#add-group-member').attr("disabled",false);
-            	//$('#add-group-member').css("background-color", "white");
+                $('#add-group-member').attr("disabled",false);
             }else
             {
-            	$('#add-group-member').attr("disabled",true);
+                $('#add-group-member').attr("disabled",true);
             }
             $('#add-group-member').attr("add-member-url",'/admin/groups/'+button_id+'/add_member.json');
             $('#add-group-member').attr("delete-member-url",'/admin/groups/'+button_id+'/del_member.json');
             $('#add-group-member').attr("modify-member-url",'/admin/groups/'+button_id+'/modify_member.json');
+
+            $('#add_group_message').attr("add-message-url",'/admin/groups/'+button_id+'/add_message.json');
+            $('#add_group_message').attr("data-group-id",button_id);
+
             $.each(result['members'], function(index, value) {
 				$('#group_members_table tbody').append(member_item({
 					member_id: value['memberid'],
@@ -263,12 +268,59 @@ view_group = function(url, button_id) {
 					userurl: '/'+value['loginname'],
 					department: value['department'],
 					disabled: result['enable_edit_member'] == 'true' ? value['disabled'] : 'disabled'
-					//disabled: (value['disabled'] == 'disabled' || result['enable_edit_member'] == 'false') ? value['disabled'] : ''
 				}));
-				//alert(value['disabled']);
             });
+            $.each(result['messages'], function(index, value) {
+              $('#message_box').append(mes({
+                avatar: value['avatar'],
+                time: value['time'],
+                name: value['name'],
+                userurl: '/'+value['loginname'],
+                content: value['content']
+              }));
+            });
+            $("#message_box").animate({
+              scrollTop: $('#message_box')[0].scrollHeight
+            }, 1000);
         }
 	});
 	return false;
 };
+//发送消息
+$('#add_group_message').click(function() {
+  url = $(this).attr('add-message-url');
+  message = $('#message_content').val();
+  if (typeof url !== 'undefined' && message !== '') {
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: {
+        content: message
+      },
+      success: function(data) {
+        if (data['status'] == 'true') {
+          var time = new Date();
+          var time_format= time.getHours() + ':' + time.getMinutes();
+          $(mes({
+            avatar: $('#add_group_message').attr('data-myavatar'),
+            time: time_format,
+            name: $('#add_group_message').data('myname'),
+            userurl: '/'+$('#add_group_message').data('myloginname'),
+            content: $('#message_content').val()
+          })).appendTo('#message_box').hide().slideDown(300);
+          $("#message_box").animate({
+            scrollTop: $('#message_box')[0].scrollHeight
+          }, 1000);
+        } else {
+          Messenger().post({
+            message: data['message'],
+            type: 'error',
+            showCloseButton: true
+          });
+        }
+        $('#message_content').val('');
+      }
+    });
+  }
+});
 });

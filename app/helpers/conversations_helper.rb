@@ -56,8 +56,8 @@ module ConversationsHelper
 			firend = c.get_other_user(user)
 			item['firend'] = firend
 			#logger.info firend.username
-			item['mes_num'] = c.messages.where(unread: true,from: firend).desc('create_at').count
-			item['last_mes'] = c.messages.where(unread: true,from: firend).desc('create_at').last
+			item['mes_num'] = c.messages.where(unread: true,from: firend).count
+			item['last_mes'] = c.messages.where(unread: true,from: firend).last
 			result.push item if item['mes_num'] != 0
 		end
 		result

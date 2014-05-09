@@ -1,6 +1,6 @@
 class Admin::GroupsController < ApplicationController
-	include ConversationsHelper
 	include NotificationsHelper
+	include Admin::GroupsHelper
 	before_filter :authenticate_user!
 	before_filter :set_user
 	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
@@ -8,7 +8,8 @@ class Admin::GroupsController < ApplicationController
 
 	def index
 		@my_groups = @user.groups.all
-		@join_groups = Group.elem_match(group_members: { user_id: @user._id })
+		#@join_groups = Group.elem_match(group_members: { user_id: @user._id })
+		@join_groups = @user.my_join_groups
 		@new_group = @user.groups.build
 	end
 	def create
@@ -70,7 +71,7 @@ class Admin::GroupsController < ApplicationController
 			@members = []
 		end
 		respond_to do |format|
-			format.html
+			format.html { redirect_to user_admin_groups_path(@user.loginname) }
 			format.json  { render :file => "/admin/groups/show.json.erb", :content_type => 'application/json' }
 		end
 	end
@@ -197,6 +198,31 @@ class Admin::GroupsController < ApplicationController
 			msg = { status: status.to_s, message: error_msg,group_id: @group._id.to_s }
 			format.json  { render :json => msg }
 		end
+	end
+	def add_message
+		error_msg=''
+		status=true
+		@group=Group.find(params[:id])
+		if @group.group_members.where(user: @user).exists?
+			content=params.permit(:content)[:content]
+			if @group.group_messages.create(from: @user,content: content)
+				send_realtime_group_message(@group,@user,content)
+	    		error_msg='成功发送群消息'
+				status=true
+	    	else
+	    		error_msg='发送群消息失败'
+				status=false
+	    	end
+		else
+			status = false
+			error_msg="非群组成员无法发送消息"
+		end
+
+		respond_to do |format|
+			format.html
+            msg = { status: status.to_s, message: error_msg}
+            format.json  { render :json => msg }
+        end
 	end
 	private
 	def groups_params

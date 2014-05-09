@@ -84,7 +84,9 @@ class User
       super
     end
   end
-
+  def my_join_groups
+    Group.elem_match(group_members: { user_id: self._id })
+  end
   protected
   def set_default_depart
     self.department = Department.where(name: '未知单位').first if self.new_record?

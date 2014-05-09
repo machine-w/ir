@@ -24,8 +24,8 @@ class ConversationsController < ApplicationController
 		status=true
 		@conversation=Conversation.find(params[:id]);
 		content=params.permit(:content)[:content]
-		@conversation.messages.build(from: @user,content: content)
-		if @conversation.save
+		
+		if @conversation.messages.create(from: @user,content: content)
 			send_realtime_message(@conversation,@user,content)
     		error_msg='成功发送消息'
 			status=true

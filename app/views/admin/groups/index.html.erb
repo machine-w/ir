@@ -56,12 +56,19 @@
 					not-firend-url='<%= users_not_firend_user_admin_contacts_path(@user.loginname, :format => :json) %>' 
 					discipline-not-firend-url='<%= discipline_not_firend_user_admin_contacts_path(@user.loginname, :format => :json) %>' 
 					department-not-firend-url='<%= department_not_firend_user_admin_contacts_path(@user.loginname, :format => :json) %>'  class="search-query form-control" placeholder="添加组成员">
-					<table class="table table-striped table-middle" id="group_members_table">
+					<table class="table table-striped table-middle  win-height" id="group_members_table" style="overflow-y: auto;">
 						<tr>
 						</tr>
 					</table>
 				</div>
-				<div class="tab-pane active" id="tab2_2-2">
+				<div class="tab-pane box active" id="tab2_2-2">
+					<div class="chat win-height" id="message_box" style="overflow-y: auto;"></div>
+					<div class="input-group">
+						<input class="form-control" id="message_content" placeholder="输入消息"/>
+						<div class="input-group-btn">
+							<button class="btn btn-success" id="add_group_message" data-myavatar="<%= @user.avatar_url('normal') %>", data-myname="<%= @user.username %>" data-myloginname="<%= @user.loginname %>"><i class="fa fa-plus"></i>发送</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

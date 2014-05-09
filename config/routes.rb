@@ -69,7 +69,7 @@ InstitutionalRepos::Application.routes.draw do
       resources :notifications, only: [:show, :edit, :update, :destroy]
       resources :groups, only: [:show, :edit, :update, :destroy] do
          member do
-           post :add_member,:del_member,:modify_member,:sign_out
+           post :add_member,:del_member,:modify_member,:sign_out,:add_message
          end
       end
     end

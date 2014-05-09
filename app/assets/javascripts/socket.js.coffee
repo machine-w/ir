@@ -23,6 +23,25 @@ class Chat.Controller
       """
     $(html)
 
+  headgroupmessageTemplate: (small_message,avatar,group,username,groupname,time) ->
+    html =
+      """
+      <li id="usermesageid-#{group}">
+          <a href="/admin/groups/#{group}">
+              <div class="pull-left">
+                  <img src="#{avatar}" alt="user image" class="img-circle"/>
+              </div>
+              <h4>
+                  #{groupname}
+                  <small class="badge bg-green">1</small>
+                  <small class="badge bg-yellow"><i class="fa fa-clock-o"></i>#{time}</small>
+              </h4>
+              <p><code>#{username}</code>#{small_message}</p>
+          </a>
+      </li>
+      """
+    $(html)
+
   boxmessageTemplate: (message,avatar,showname,time,userurl, doc_title= undefined,doc_summary = undefined,doc_url = undefined) ->
     html =
       """
@@ -88,6 +107,7 @@ class Chat.Controller
     #alert @username
     @channel = @dispatcher.subscribe(@username)
     @channel.bind 'user_message', @receiveMessage
+    @channel.bind 'group_message', @receiveGroupMessage
     @channel.bind 'user_notification', @receiveNotification
 
   receiveMessage: (message) =>
@@ -108,6 +128,27 @@ class Chat.Controller
     else
       @dispatcher.trigger 'set_mes_readed',{con_id:message.conversation}
       @boxmessageTemplate(message.message,message.avatar,message.showname,message.time,'/'+message.source_loginname).appendTo($('#message_box')).hide().slideDown(300)
+      $("#message_box").animate
+        scrollTop: $("#message_box")[0].scrollHeight
+      , 1000
+
+  receiveGroupMessage: (message) =>
+    #alert message.group
+    if $('#add_group_message').length == 0 || $('#add_group_message').data('group-id') != message.group
+      if $('#ul_head_group_message').children('#groupmessageid-'+message.group).length == 0
+        $('#ul_head_group_message').append @headgroupmessageTemplate(message.small_message,message.avatar,message.group,message.username,message.groupname,message.time)
+      else
+        mes_li=$('#ul_head_group_message').children('#groupmessageid-'+message.group)
+        mes_li.find('p').html("<code>"+message.username+"</code>"+message.small_message)
+        mes_li.find('.bg-green').html((parseInt(mes_li.find('.bg-green').text())+1)+'')
+        mes_li.find('.bg-yellow').html('<i class="fa fa-clock-o"></i>'+message.time)
+      $('#head_group_message_num').animate({backgroundColor: '#f0ad4e'},500)
+      $('#head_group_message_num').html((parseInt($('#head_group_message_num').text())+1)+'')
+      $('#head_group_message_num').animate({backgroundColor: '#5bc0de'},500)
+      $('#head_group_message_num2').html((parseInt($('#head_group_message_num2').text())+1)+'')
+    else
+      #@dispatcher.trigger 'set_mes_readed',{con_id:message.conversation}
+      @boxmessageTemplate(message.message,message.useravatar,message.username,message.time,'/'+message.loginname).appendTo($('#message_box')).hide().slideDown(300)
       $("#message_box").animate
         scrollTop: $("#message_box")[0].scrollHeight
       , 1000
