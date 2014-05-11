@@ -9,4 +9,9 @@ class GroupMessage
   #field :unread, :type => Boolean,:default => true 
   belongs_to :group
   embeds_many :unreads,class_name: "GmReaded", cascade_callbacks: true
+  def set_readed(user)
+  	if self.unreads.where(user: user).exists?
+  		self.unreads.where(user: user).destroy
+  	end
+  end
 end

@@ -1,6 +1,7 @@
 {
 "messages":[
 <% @messages.each_with_index do |message,index| %>
+<% message.set_readed(@user) %>
     {
       "name": "<%= message.from.username %>",
       "loginname": "<%= message.from.loginname %>",

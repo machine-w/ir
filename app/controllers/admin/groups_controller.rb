@@ -8,9 +8,9 @@ class Admin::GroupsController < ApplicationController
 
 	def index
 		@my_groups = @user.groups.all
-		#@join_groups = Group.elem_match(group_members: { user_id: @user._id })
 		@join_groups = @user.my_join_groups
 		@new_group = @user.groups.build
+		@ref_group_id=params[:g]
 	end
 	def create
 		@group = @user.groups.build(groups_params)
@@ -71,7 +71,7 @@ class Admin::GroupsController < ApplicationController
 			@members = []
 		end
 		respond_to do |format|
-			format.html { redirect_to user_admin_groups_path(@user.loginname) }
+			format.html { redirect_to :action => 'index', :user_id => @user.loginname, :g => params[:id] }
 			format.json  { render :file => "/admin/groups/show.json.erb", :content_type => 'application/json' }
 		end
 	end
@@ -225,6 +225,10 @@ class Admin::GroupsController < ApplicationController
             msg = { status: status.to_s, message: error_msg}
             format.json  { render :json => msg }
         end
+	end
+	def read_all
+		set_unread_group_messages(@user)
+		redirect_to :back, notice: '全部组信息已设为已读'
 	end
 	private
 	def groups_params

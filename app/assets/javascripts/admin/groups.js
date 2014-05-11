@@ -2,6 +2,7 @@ $(function() {
 	$('.win-height').css('max-height', $(window).height() - 300);
 	$('#add-group-member').attr("disabled",true);
 	$('#add-group-member').css("background-color", "white");
+
 	var member_item = Handlebars.compile('<tr id="{{member_id}}"><td><a href="{{userurl}}"><img src="{{avatar}}" class="img-circle"><span style="font-size: 18px;font-weight: bold;color: #3c8dbc">{{name}}</span></a></td><td><span class="badge bg-blue">{{department}}</span></td><td><div class="btn-group"><a class="btn btn-info dropdown-toggle {{disabled}}" data-toggle="dropdown">{{type}}<span class="fa fa-caret-down"></span></a><ul class="dropdown-menu"><li><a href="" onclick="modify_group_member(\'{{member_id}}\',\'admin\');return false;">管理员</a></li><li><a href="" onclick="modify_group_member(\'{{member_id}}\',\'normal\');return false;">组成员</a></li></ul></div></td><td><a class="btn btn-danger {{disabled}}" onclick="delete_group_member(\'{{member_id}}\');return false;"><span class="fa fa-times"></span>删除</a></td></tr>');
 	var mes = Handlebars.compile('<div class="item"><img src="{{avatar}}" alt="user image" class="online"/><p class="message"><a href="{{userurl}}" class="name"><small class="text-muted pull-right"><i class="fa fa-clock-o"></i>{{time}}</small>{{name}}</a>{{content}}</p></div>');
 	var not_firend = new Bloodhound({
@@ -282,6 +283,20 @@ view_group = function(url, button_id) {
             $("#message_box").animate({
               scrollTop: $('#message_box')[0].scrollHeight
             }, 1000);
+            //清理消息按钮
+           if ($('#ul_head_group_message').children('#groupmessageid-'+button_id).length !== 0) {
+             var mes_li = $('#ul_head_group_message').children('#groupmessageid-' + button_id);
+             var mes_num = parseInt(mes_li.find('.bg-green').text());
+             $('#head_group_message_num').animate({
+               backgroundColor: '#f0ad4e'
+             }, 500);
+             $('#head_group_message_num').html((parseInt($('#head_group_message_num').text() ) - mes_num) + '');
+             $('#head_group_message_num').animate({
+               backgroundColor: '#5bc0de'
+             }, 500);
+             $('#head_group_message_num2').html((parseInt($('#head_group_message_num2').text() ) - mes_num) + '');
+             mes_li.remove();
+           }
         }
 	});
 	return false;
@@ -323,4 +338,5 @@ $('#add_group_message').click(function() {
     });
   }
 });
+$('#j_' + $('#groups-list').attr('data-ref-group') + ' a').trigger("click");
 });

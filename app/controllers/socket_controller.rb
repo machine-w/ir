@@ -31,6 +31,10 @@ class SocketController < WebsocketRails::BaseController
     @conversation=Conversation.find(message[:con_id])
     @conversation.set_readed(@conversation.get_other_user(current_user))
   end
+  def set_gmes_readed
+    @group=Group.find(message[:group_id])
+    @group.group_messages.desc('created_at').limit(10).each { |e| e.set_readed(current_user) }
+  end
   private
   def fix_logged_in
     if user_signed_in?

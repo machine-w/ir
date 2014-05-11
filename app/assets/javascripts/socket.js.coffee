@@ -26,7 +26,7 @@ class Chat.Controller
   headgroupmessageTemplate: (small_message,avatar,group,username,groupname,time) ->
     html =
       """
-      <li id="usermesageid-#{group}">
+      <li id="groupmessageid-#{group}">
           <a href="/admin/groups/#{group}">
               <div class="pull-left">
                   <img src="#{avatar}" alt="user image" class="img-circle"/>
@@ -147,7 +147,7 @@ class Chat.Controller
       $('#head_group_message_num').animate({backgroundColor: '#5bc0de'},500)
       $('#head_group_message_num2').html((parseInt($('#head_group_message_num2').text())+1)+'')
     else
-      #@dispatcher.trigger 'set_mes_readed',{con_id:message.conversation}
+      @dispatcher.trigger 'set_gmes_readed',{group_id:message.group}
       @boxmessageTemplate(message.message,message.useravatar,message.username,message.time,'/'+message.loginname).appendTo($('#message_box')).hide().slideDown(300)
       $("#message_box").animate
         scrollTop: $("#message_box")[0].scrollHeight

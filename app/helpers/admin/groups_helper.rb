@@ -16,4 +16,9 @@ module Admin::GroupsHelper
 		end
 		result
 	end
+	def set_unread_group_messages(user)
+		user.my_join_groups.each do |g|
+			g.group_messages.each { |e| e.set_readed(user) }
+		end
+	end
 end
