@@ -17,7 +17,8 @@ class Admin::GroupsController < ApplicationController
 		error_msg='错误：'
 		@group.group_members.build(user:@user,type: :master)
 		if @group.save
-			flash[:success] = "新建目录成功"
+			add_group_notification(@user,@group)
+			flash[:success] = "新建群组成功"
 		else
 			@group.errors.full_messages.each do |msg|
    				error_msg += msg + ','
@@ -31,7 +32,7 @@ class Admin::GroupsController < ApplicationController
 		status=true
     	group=@user.groups.find(params[:id])
     	if group.destroy
-    		#del_contact_notification(@user,contact.firend)
+    		del_group_notification(@user,group)
     		error_msg='成功删除群组'
 			status=true
     	else
@@ -52,7 +53,8 @@ class Admin::GroupsController < ApplicationController
 		error_msg='错误：'
 
 		if group.update_attributes(groups_params)
-			flash[:success] = "修改目录成功"
+			modify_group_notification(@user,group)
+			flash[:success] = "修改群组成功"
 		else
 			@group.errors.full_messages.each do |msg|
    				error_msg += msg + ','
@@ -87,6 +89,7 @@ class Admin::GroupsController < ApplicationController
 			else
 				member = @group.group_members.build({user: user,type: :normal})
 				if @group.save
+					add_group_member_notification(@user,@group,member)
 					error_msg="新建组成员成功"
 					status = true
 				else
@@ -122,6 +125,7 @@ class Admin::GroupsController < ApplicationController
 		member = @group.group_members.find(params['memberid'])
 		if @group.enable_edit_member?(@user)
 			if member.destroy && @group.save
+				del_group_member_notification(@user,@group,member)
 				error_msg="删除组成员成功"
 				status = true
 			else
@@ -149,6 +153,7 @@ class Admin::GroupsController < ApplicationController
 		if @group.enable_edit_member?(@user)
 			member.type = params['type'].to_sym
 			if  @group.save
+				modify_group_member_notification(@user,@group,member)
 				error_msg="修改组成员权限成功"
 				status = true
 			else
@@ -176,6 +181,7 @@ class Admin::GroupsController < ApplicationController
 			member=@group.group_members.where(user: @user).first
 			unless member.master?
 				if member.destroy && @group.save
+					logout_group_notification(@user,@group)
 					error_msg="退出群组成功"
 					status = true
 				else

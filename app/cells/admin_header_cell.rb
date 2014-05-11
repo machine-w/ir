@@ -12,6 +12,7 @@ class AdminHeaderCell < Cell::Rails
 		@unread_message=get_unread_messages(args[:user])
 		@all_count = 0
 		@unread_message.each { |var| @all_count += var['mes_num'] }
+		@all_count= 99 if @all_count > 99
 		render
 	end
 	def groups(args)
@@ -19,6 +20,7 @@ class AdminHeaderCell < Cell::Rails
 		@unread_message=get_group_unread_messages(args[:user])
 		@all_count = 0
 		@unread_message.each { |var| @all_count += var['mes_num'] }
+		@all_count= 99 if @all_count > 99
 		render
 	end
 	def notifications(args)
