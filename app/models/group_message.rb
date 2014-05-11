@@ -6,6 +6,7 @@ class GroupMessage
   belongs_to :from, class_name: "User", inverse_of: nil
   belongs_to :add_document, class_name: "Document", inverse_of: nil
   field :content
-  field :unread, :type => Boolean,:default => true 
+  #field :unread, :type => Boolean,:default => true 
   belongs_to :group
+  embeds_many :unreads,class_name: "GmReaded", cascade_callbacks: true
 end

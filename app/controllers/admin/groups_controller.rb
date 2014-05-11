@@ -205,7 +205,9 @@ class Admin::GroupsController < ApplicationController
 		@group=Group.find(params[:id])
 		if @group.group_members.where(user: @user).exists?
 			content=params.permit(:content)[:content]
-			if @group.group_messages.create(from: @user,content: content)
+			message=@group.group_messages.build(from: @user,content: content)
+			@group.group_members.each { |m| message.unreads.build(user: m.user) unless m.user == @user }
+			if message.save
 				send_realtime_group_message(@group,@user,content)
 	    		error_msg='成功发送群消息'
 				status=true

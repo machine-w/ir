@@ -9,8 +9,9 @@ module Admin::GroupsHelper
 		user.my_join_groups.each do |g|
 			item={}
 			item['group'] = g
-			item['mes_num'] = g.group_messages.count
-			item['last_mes'] = g.group_messages.last
+			unread = g.group_messages.elem_match(unreads: { user_id: user._id })
+			item['mes_num'] = unread.count
+			item['last_mes'] = unread.last
 			result.push item if item['mes_num'] != 0
 		end
 		result
