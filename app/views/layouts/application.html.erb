@@ -10,7 +10,7 @@
         <%= javascript_include_tag "application", "data-turbolinks-track" => true %>  
     </head>
     <body class="<%= bg_skin(yield(:bgclass)) %>" id="ir-body" data-uri="<%= request.host %>:<%= request.port %>/websocket">
-        <header class="header">
+        <header class="header opacity75">
             <a href="/" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
                 tju IR
@@ -50,7 +50,7 @@
         <%= yield %>
         <%= javascript_include_tag "app", "data-turbolinks-track" => true %>
         <%= javascript_include_tag "bottomcommon", "data-turbolinks-track" => true %>
-        
+
         <%= notice_message_with_js %>
     </body>
 </html>
