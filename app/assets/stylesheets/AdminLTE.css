@@ -2991,3 +2991,7 @@ tr > td.control-col {
     zoom:1
 }
 
+.img-home-circle {
+  border-radius: 25%;
+}
+

@@ -11,7 +11,7 @@
     </head>
     <body class="<%= bg_skin(yield(:bgclass)) %>" id="ir-body" data-uri="<%= request.host %>:<%= request.port %>/websocket">
         <header class="header opacity75">
-            <a href="/" class="logo">
+            <a href="<%= admin_user_path(@user.loginname) %>" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
                 tju IR
             </a>

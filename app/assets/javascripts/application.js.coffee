@@ -58,6 +58,7 @@
 ###############################
 #背景图片插件
 #= require jquery.backstretch.min
+#= require jquery.infinitescroll.min
 $ ->
 	fill_array_options = (arg) ->
     if(arg.attr('value')=='[]')
