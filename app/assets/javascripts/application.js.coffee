@@ -48,8 +48,16 @@
 #= require websocket_rails/main
 #
 #= require socket
-
-
+##############################从admincommon移过来
+#= require iCheck/icheck.min
+#= require bootstrap-select
+#= require select2
+#= require select2_locale_zh-CN
+#= require tagmanager
+#= require switch/bootstrap-switch.min
+###############################
+#背景图片插件
+#= require jquery.backstretch.min
 $ ->
 	fill_array_options = (arg) ->
     if(arg.attr('value')=='[]')
@@ -62,6 +70,8 @@ $ ->
 	$('.inputmask').inputmask();
 	$('.inputnumber').inputmask("integer");
 	$('.inputdecimal').inputmask("decimal");
+	# 设置选择框（admincommon移过来）
+	$('.select2').select2({allowClear: true});
 	# 所有sel_color类的录入框全都选颜色
 	$(".sel_color").colorpicker();
 	# 所有sel_date类的录入框全都选日期

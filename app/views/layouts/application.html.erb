@@ -7,21 +7,50 @@
         <%= stylesheet_link_tag "application", media: "all","data-turbolinks-track" => true %>
         <%= csrf_meta_tags %>
         <%= render 'layouts/shim' %>
+        <%= javascript_include_tag "application", "data-turbolinks-track" => true %>  
     </head>
     <body class="<%= bg_skin(yield(:bgclass)) %>" id="ir-body" data-uri="<%= request.host %>:<%= request.port %>/websocket">
         <header class="header">
-            <a href="index.html" class="logo">
+            <a href="/" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
                 tju IR
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">
+                <div class="navbar-right">
+                    <% if current_user %>
+                    <ul class="nav navbar-nav">
+                        <!-- Messages: style can be found in dropdown.less-->
+                        <%= render_cell :admin_header, :messages,:user => @user %>
+                        <!-- groups: style can be found in dropdown.less-->
+                        <%= render_cell :admin_header, :groups,:user => @user %>
+                        <!-- Notifications: style can be found in dropdown.less -->
+                        <%= render_cell :admin_header, :notifications,:user => @user %>
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <%= render_cell :admin_header, :userinfo,:user => @user %>
+                    </ul>
+                    <% else %>
+                    <ul class="nav navbar-nav">
+                        <li class="">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="glyphicon glyphicon-user"></i>
+                                <span>游客<i class="caret"></i></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><%= link_to t("common.login"), new_user_session_path %></li>
+                                <li><%= link_to t("common.logup"), new_user_registration_path %></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <% end %>
+                </div>
             </nav>
         </header>
         
         <%= yield %>
-
-        <%= javascript_include_tag "application", "data-turbolinks-track" => true %>    
+        <%= javascript_include_tag "app", "data-turbolinks-track" => true %>
+        <%= javascript_include_tag "bottomcommon", "data-turbolinks-track" => true %>
+        
         <%= notice_message_with_js %>
     </body>
 </html>
