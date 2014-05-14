@@ -1,0 +1,28 @@
+<div class="doc_item">
+<div class="col-md-2 col-md-offset-1">
+	<div class="pull-right">
+		<img src="<%= doc.folder.user.avatar_url('big') %>" class="img-home-circle" style="width: 90px;height: 90px;">
+	</div>
+</div>
+<div class="col-md-9 ">
+	<div class="box box-success ">
+		<div class="box-header">
+			<h1 class="box-title big-title">
+				<%= link_to doc.title, admin_document_path(doc) %>
+			</h1>
+			<div class="box-tools pull-right">
+				<%= doc.folder.name %>
+			</div>
+		</div>
+		<div class="box-body">
+			<%= raw doc.get_summary_content %>
+		</div>
+		<div class="box-footer">
+			<code><%= doc.folder.user.username %></code>
+			<div class ="pull-right">
+				<div class="label bg-aqua"></div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>

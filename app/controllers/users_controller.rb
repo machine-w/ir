@@ -5,8 +5,9 @@ class UsersController < ApplicationController
   layout "admin_layout", :only => :admin
   #add_breadcrumb "主页", :root_path
   def show
-    @docs =[]
-    @user.folders.each { |e| @docs+= e.documents.all.entries }
+    documents =[]
+    @user.folders.each { |e| documents+= e.documents.all.entries }
+    @docs = Kaminari.paginate_array(documents).page(params[:page]).per(10)
   end
   def admin
      drop_breadcrumb("后台", admin_user_path(@user.loginname))

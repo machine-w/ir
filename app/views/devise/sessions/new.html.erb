@@ -1,7 +1,7 @@
 <% provide(:title, '用户登录') %>
-<% provide(:bgclass, 'bg-black') %>
-<div class="form-box" id="login-box">
-  <div class="header"><%=t("common.login") %></div>
+<% provide(:bgclass, 'skin-black') %>
+<div class="form-box opacity95" id="login-box">
+  <div class="header opacity85"><%=t("common.login") %></div>
   <%= form_for(resource, :as => resource_name, :url => session_path(resource_name),:html => {:class => 'form_w_val'}) do |f| %>
   <div class ="body bg-gray">
     <%= devise_error_messages! %>

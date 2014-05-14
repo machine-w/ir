@@ -11,7 +11,7 @@
     </head>
     <body class="<%= bg_skin(yield(:bgclass)) %>" id="ir-body" data-uri="<%= request.host %>:<%= request.port %>/websocket">
         <header class="header opacity75">
-            <a href="<%= admin_user_path(@user.loginname) %>" class="logo">
+            <a href="/" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
                 tju IR
             </a>
@@ -21,13 +21,13 @@
                     <% if current_user %>
                     <ul class="nav navbar-nav">
                         <!-- Messages: style can be found in dropdown.less-->
-                        <%= render_cell :admin_header, :messages,:user => @user %>
+                        <%= render_cell :admin_header, :messages,:user => current_user %>
                         <!-- groups: style can be found in dropdown.less-->
-                        <%= render_cell :admin_header, :groups,:user => @user %>
+                        <%= render_cell :admin_header, :groups,:user => current_user %>
                         <!-- Notifications: style can be found in dropdown.less -->
-                        <%= render_cell :admin_header, :notifications,:user => @user %>
+                        <%= render_cell :admin_header, :notifications,:user => current_user %>
                         <!-- User Account: style can be found in dropdown.less -->
-                        <%= render_cell :admin_header, :userinfo,:user => @user %>
+                        <%= render_cell :admin_header, :userinfo,:user => current_user %>
                     </ul>
                     <% else %>
                     <ul class="nav navbar-nav">
@@ -50,7 +50,7 @@
         <%= yield %>
         <%= javascript_include_tag "app", "data-turbolinks-track" => true %>
         <%= javascript_include_tag "bottomcommon", "data-turbolinks-track" => true %>
-
+        <%= javascript_include_tag "picback", "data-turbolinks-track" => true %>
         <%= notice_message_with_js %>
     </body>
 </html>

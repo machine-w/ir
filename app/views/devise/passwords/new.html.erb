@@ -1,7 +1,7 @@
 <% provide(:title, '忘记密码') %>
-<% provide(:bgclass, 'bg-black') %>
-<div class="form-box" id="login-box">
-  <div class="header"><%=t("common.forget_password") %></div>
+<% provide(:bgclass, 'skin-black') %>
+<div class="form-box opacity95" id="login-box">
+  <div class="header opacity85"><%=t("common.forget_password") %></div>
   <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post,:class => 'form_w_val'}) do |f| %>
   <div class ="body bg-gray">
     <div class="form-group">
