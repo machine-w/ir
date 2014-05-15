@@ -58,7 +58,10 @@
 ###############################
 #背景图片插件
 #= require jquery.backstretch.min
+#无限下拉
 #= require jquery.infinitescroll.min
+#瀑布流
+#= require masonry.pkgd.min
 $ ->
 	fill_array_options = (arg) ->
     if(arg.attr('value')=='[]')

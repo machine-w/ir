@@ -1,3 +1,23 @@
 <% provide(:title, '首页') %>
 <% provide(:bgclass, 'skin-black') %>
+<div class="row">
+	<br>
+	<br>
+	<br>
+</div>
+<div class="row opacity95">
+	<div class="col-md-11 col-md-offset-1">
+		<div id="masonry-container">
+			<%= render :partial => 'doc',:collection => @docs%>
+		</div>
+	</div>
+	<div class="loading">
+   		<span>正在加载...</span>
+	</div>
+</div>
 
+<%= paginate @docs %>
+
+
+<%= javascript_include_tag "inscroll", "data-turbolinks-track" => true %>
+<%= javascript_include_tag "pubu", "data-turbolinks-track" => true %>

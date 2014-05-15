@@ -1,0 +1,21 @@
+<div class="pitem">
+	<div class="box box-success">
+		<div class="box-header" style="overflow-x: auto;">
+			<h1 class="box-title big-title">
+				<%= link_to doc.title, admin_document_path(doc) %>
+			</h1>
+			<div class="box-tools pull-right">
+				<%= doc.folder.name %>
+			</div>
+		</div>
+		<div class="box-body" style="overflow-x: auto;">
+			<%= raw doc.get_summary_content %>
+		</div>
+		<div class="box-footer">
+			<code><%= doc.folder.user.username %></code>
+			<div class ="pull-right">
+				<div class="label bg-aqua"></div>
+			</div>
+		</div>
+	</div>
+</div>
