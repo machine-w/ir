@@ -2711,7 +2711,7 @@ tr > td.control-col {
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
-  border: 0px solid #555;
+  border: 2px solid #555;
   margin: 10px 10px;
 }
 .skin-black .sidebar-form input[type="text"],
@@ -2964,6 +2964,12 @@ tr > td.control-col {
     opacity:0.75;
     -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(opacity=75)";
     filter:alpha(opacity=75);
+    zoom:1
+}
+.opacity80 { /* 75% opaque */
+    opacity:0.80;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(opacity=80)";
+    filter:alpha(opacity=80);
     zoom:1
 }
 .opacity85 { /* 75% opaque */

@@ -1,0 +1,8 @@
+<% if @home_user %>
+	<%= link_to "#{@home_user.username}的空间",user_path(@home_user.loginname),class: "navbar-brand",style: "font-size: 36px;color: rgb(5, 13, 44);font-weight: bold;font-family: 'Microsoft JhengHei'" %>
+	<% if @current_user && @current_user != @home_user %>
+		<%= link_to "交谈", user_admin_contacts_path(@current_user.loginname,:firend => @home_user.loginname),class: "btn btn-primary navbar-btn" %>
+	<% end %>
+	
+<% end %>
+

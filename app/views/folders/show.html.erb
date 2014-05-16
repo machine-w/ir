@@ -7,7 +7,7 @@
 </div>
 <div class="row opacity95">
 	<div class="col-md-7" id="doc_container">
-		<%= render :partial => 'doc',:collection => @docs%>
+		<%= render :partial => '/users/doc',:collection => @docs%>
 	</div>
 	<div class="col-md-5">
 		<%= render_cell :sidebar, :search,:user => @home_user %>

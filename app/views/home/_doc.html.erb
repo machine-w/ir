@@ -1,20 +1,28 @@
 <div class="pitem">
-	<div class="box box-success">
+	<div class="box box-default">
 		<div class="box-header" style="overflow-x: auto;">
 			<h1 class="box-title big-title">
-				<%= link_to doc.title, admin_document_path(doc) %>
+				<%= link_to truncate(doc.title, :length => 10), document_path(doc) %>
 			</h1>
 			<div class="box-tools pull-right">
-				<%= doc.folder.name %>
+				<%= distance_of_time_in_words_to_now(doc.created_at) %>
 			</div>
 		</div>
 		<div class="box-body" style="overflow-x: auto;">
 			<%= raw doc.get_summary_content %>
 		</div>
 		<div class="box-footer">
-			<code><%= doc.folder.user.username %></code>
+			<a href="<%= user_path(doc.folder.user.loginname) %>" class="">
+			<img src="<%= doc.folder.user.avatar_url(:small) %>" class="img-circle">
+			<%= doc.folder.user.username %>
+			</a>
 			<div class ="pull-right">
-				<div class="label bg-aqua"></div>
+				<% doc.all_identify_properties.each do |pro| %>
+                  <% (doc.attr_value(pro.name) || []).each do |i| %>
+                      <small class="badge" style="background-color: <%= pro.identify_color %> !important;"><%= i %></small>
+                    <% end %>
+                <% end %>
+				<!-- <div class="label bg-aqua"></div> -->
 			</div>
 		</div>
 	</div>

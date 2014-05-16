@@ -88,6 +88,7 @@ class Admin::DocumentsController < ApplicationController
 			@document = Document.find(params[:id])
 			@properties =@document.all_dynamic_properties
 			@folder = @document.folder
+			render_404 if @folder.user != @user #以后目录共享功能时有问题
 		rescue
 			redirect_to admin_user_url(@user.loginname), notice: '成功删除文档。'
 		end

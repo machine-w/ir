@@ -62,6 +62,7 @@
 #= require jquery.infinitescroll.min
 #瀑布流
 #= require masonry.pkgd.min
+#= require imagesloaded.pkgd.min
 $ ->
 	fill_array_options = (arg) ->
     if(arg.attr('value')=='[]')

@@ -6,10 +6,11 @@ class UsersController < ApplicationController
   #add_breadcrumb "主页", :root_path
   def show
     documents =[]
-    @user.folders.each { |e| documents+= e.documents.all.entries }
+    @home_user.folders.each { |e| documents+= e.documents.all.entries }
     @docs = Kaminari.paginate_array(documents).page(params[:page]).per(10)
   end
   def admin
+     @user=current_user
      drop_breadcrumb("后台", admin_user_path(@user.loginname))
      @tile_folders=@user.folders.has_tile
   end
@@ -18,7 +19,7 @@ class UsersController < ApplicationController
     @all_users = User.all
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @users }
+      #format.xml  { render :xml => @users }
       #format.json  { render :json => @users.to_json }
       format.json  { render :file => "users/index.json.erb", :content_type => 'application/json' }
     end
@@ -30,11 +31,11 @@ class UsersController < ApplicationController
       redirect_to request.path.downcase, :status => 301
       return
     end
-    @user = User.where(:loginname => /^#{params[:id]}$/i).first
-    render_404 if @user.nil?
+    @home_user = User.where(:loginname => /^#{params[:id]}$/i).first
+    render_404 if @home_user.nil?
   end
   def correct_user
-    unless !current_user.nil? && @user == current_user
+    unless !current_user.nil? && @home_user == current_user
       flash[:notice]="请登录后再访问"
       redirect_to root_path
     end

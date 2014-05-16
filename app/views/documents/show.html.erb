@@ -1,0 +1,39 @@
+<% provide(:title, '用户空间') %>
+<% provide(:bgclass, 'skin-black') %>
+<div class="row">
+	<br>
+	<br>
+	<br>
+</div>
+<div class="row opacity95">
+	<div class="col-md-7 col-md-offset-1">
+		<div class="box box-success">
+			<div class="box-header">
+				<h1 class="box-title big-title"><%= @document.title %></h1>
+				
+				<div class="box-tools pull-right">
+				<% @document.all_identify_properties.each do |pro| %>
+                  <% (@document.attr_value(pro.name) || []).each do |i| %>
+                      <small class="badge" style="background-color: <%= pro.identify_color %> !important;"><%= i %></small>
+                    <% end %>
+                <% end %>
+				</div>
+			</div>
+			<div class="box-body">
+				<%= raw @document.get_content %>
+			</div>
+			<div class="box-footer">
+				<%= distance_of_time_in_words_to_now(@document.created_at) %>
+				<div class ="pull-right">
+					<div class="label bg-aqua">标签</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-4">
+		<%= render_cell :sidebar, :search,:user => @home_user %>
+		<%= render_cell :sidebar, :folders,:user => @home_user %>
+		<%= render_cell :sidebar, :tags,:user => @home_user %>
+	</div>
+</div>

@@ -15,6 +15,7 @@ class Folder
   field :tile_color, :default => '#00c0ef'
 
   scope :has_tile, where(tile: true)
+  default_scope asc(:created_at)
 
   belongs_to :user
   belongs_to :folder_type

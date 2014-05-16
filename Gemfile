@@ -89,6 +89,9 @@ gem 'truncate_html', '~> 0.9.2'
 
 # websocket
 gem 'websocket-rails', :git => 'git://github.com/DanKnox/websocket-rails.git'
+
+# by star
+gem 'by_star', :git => "git://github.com/radar/by_star"
 group :doc do
   gem 'sdoc', '0.3.20', require: false
 end

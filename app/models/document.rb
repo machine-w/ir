@@ -2,6 +2,7 @@ class Document
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::BaseModel
+  include Mongoid::ByStar
   include TruncateHtmlHelper
   require 'nokogiri'
   field :title
@@ -11,6 +12,8 @@ class Document
   field :content_html_summary
   field :dirty_flag, :type => Boolean , :default => false #判断是否有属性被修改，如果被修改，则看内容时需要重新编译
   field :sort, :type => Integer, :default => 0
+
+  default_scope desc(:created_at)
 
   belongs_to :folder
   has_and_belongs_to_many :third_disciplines
