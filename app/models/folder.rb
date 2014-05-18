@@ -22,6 +22,7 @@ class Folder
   belongs_to :folder_group
   embeds_many :properties
   embeds_many :attritubes, cascade_callbacks: true
+  embeds_one :permission
   has_many :documents, :dependent => :destroy
 
   validates_presence_of :name

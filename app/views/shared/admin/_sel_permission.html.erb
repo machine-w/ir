@@ -1,0 +1,57 @@
+<div class="form-group">
+	<input type="checkbox" class="switch switch-small pull-right" data-on="primary" data-off="default" data-on-label="设置" data-off-label="继承" id="sel_permission_inherit" name="permission[inherit]" />				
+</div>
+<hr>
+<div id="sel_permission_config_pane">
+	<div class="form-group">
+		<input type="checkbox" class="switch switch-small pull-right" data-on="success" data-off="danger" data-on-label="公开" data-off-label="私有" id="sel_permission_private" name="permission[private]" />
+	</div>
+	<hr>
+	<div id="sel_permission_public_pane">
+		<div class='form-group'>
+			<label for='sel_permission_public_type' class='control-label'>选择公开范围: </label>
+			<%= select_tag("permission[public_type]", options_for_select([['所有用户','1'],['登录用户','2'],['自定义范围','3']]),{id: "sel_permission_public_type", class: "form-control select2"}) %>
+		</div>
+		<div id="sel_permission_scope_pane">
+			<div class='form-group'>
+				<label for='sel_permission_public_scope' class='control-label'>选择自定义范围: </label>
+				<%= select_tag("permission[public_type]", options_for_select([['我的单位','1'],['选择单位','2'],['我的学科','3'],['选择学科','4'],['我建立的群组','5'],['我参与的群组','6'],['我的全部好友','7'],['选择用户','8']]),{id: "sel_permission_public_scope", class: "form-control select2"}) %>
+			</div>
+			<div class='form-group' id="sel_permission_sel_department_pane">
+				<label for='sel_permission_select_department' class='control-label'>选择单位: </label>
+				<% departments=Department.all.map { |i| [i.name,i._id] } %>
+				<%= select_tag("permission[sel_department]", options_for_select(departments),{id: "sel_permission_select_department", multiple: true,class: "form-control select2"}) %>
+			</div>
+			<div class='form-group' id="sel_permission_sel_discipline_pane">
+				<label for='sel_permission_select_discipline' class='control-label'>选择学科: </label>
+				<%= select_tag("permission[sel_discipline]", grouped_options_for_select(SecondDiscipline.all.inject({}) { |result,i| result[i.name]=i.third_disciplines.inject([]) { |mem, e| mem.push([e.name,e._id]) }; result }),{id: "sel_permission_select_discipline", multiple: true,class: "form-control select2"}) %>
+			</div>
+			<div class='form-group' id="sel_permission_sel_mygroup_pane">
+				<label for='sel_permission_select_mygroup' class='control-label'>选择我建立的组: </label>
+				<% groups=user.groups.all.map { |i| [i.name,i._id] } %>
+				<%= select_tag("permission[sel_mygroup]", options_for_select(groups),{id: "sel_permission_select_mygroup", multiple: true,class: "form-control select2"}) %>
+			</div>
+			<div class='form-group' id="sel_permission_sel_joingroup_pane">
+				<label for='sel_permission_select_joingroup' class='control-label'>选择我参与的组: </label>
+				<% jgroups=user.my_join_groups.map { |i| [i.name,i._id] } %>
+				<%= select_tag("permission[sel_joingroup]", options_for_select(jgroups),{id: "sel_permission_select_joingroup", multiple: true,class: "form-control select2"}) %>
+			</div>
+			<div class='form-group' id="sel_permission_sel_member_pane">
+				<label for='sel_permission_select_member' class='control-label'>选择用户: </label>
+				<input id="sel_permission_select_member" type="text"
+					in-firend-url='<%= users_in_firend_user_admin_contacts_path(user.loginname, :format => :json) %>' 
+					not-firend-url='<%= users_not_firend_user_admin_contacts_path(user.loginname, :format => :json) %>' 
+					discipline-not-firend-url='<%= discipline_not_firend_user_admin_contacts_path(user.loginname, :format => :json) %>' 
+					department-not-firend-url='<%= department_not_firend_user_admin_contacts_path(user.loginname, :format => :json) %>'  class="form-control">
+			</div>
+		</div>
+		<hr>
+		<div class="form-group" >
+			<label class='control-label'>选择公开结束时间: </label>
+			<input type='text' name='permission[end_date]' class='form-control sel_date' />
+		</div>
+	</div>
+
+</div>
+
+<%= javascript_include_tag "admin/sel_permission", "data-turbolinks-track" => true %>

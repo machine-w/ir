@@ -18,7 +18,10 @@
 						<i class="fa fa-edit"></i>
 						<% end %>
 						<a class="btn btn-info" data-toggle="modal" data-target="#property-modal"><i class="fa  fa-align-justify"></i></a>
-						<button class="btn btn-primary"><i class="fa fa-eye"></i></button>
+						<a class="btn btn-warning" data-toggle="modal" data-target="#permission-modal"><i class="fa fa-cog"></i></a>
+						<%= link_to document_path(@document),class: "btn btn-primary" do %>
+						<i class="fa fa-eye"></i>
+						<% end %>
 						<button class="btn btn-primary"><i class="fa fa-long-arrow-left"></i></button>
 						<button class="btn btn-primary"><i class="fa fa-long-arrow-right"></i></button>
 						<div class="btn-group">
@@ -40,7 +43,7 @@
 				<%= raw @document.get_content %>
 			</div>
 			<div class="box-footer">
-				<code>作者</code>
+				<code><%= distance_of_time_in_words_to_now(@document.created_at) %></code>
 				<div class ="pull-right">
 					<div class="label bg-aqua">标签</div>
 				</div>
@@ -60,6 +63,26 @@
 			<%= form_for @document,url: admin_document_path(@document),html: {role: "form",class: "form_w_val",:multipart => true}  do |f| %>
 			<div class="modal-body">
 				<%= render partial: "admin/documents/form_property_list", locals: {document: @document,properties: @properties} %>
+			</div>
+			<div class="modal-footer clearfix">
+				<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>关闭</button>
+				<button type="submit" class="btn btn-success pull-left" onclick: "if($(this).closest('form').valid() == false){return false;}"><i class="fa fa-save"></i> 保存</button>
+			</div>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="permission-modal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"><i class="fa fa-table"></i><%= @document.title + '访问权限' %></h4>
+			</div>
+			<%= form_for @document,url: admin_document_path(@document),html: {role: "form",class: "form_w_val",:multipart => true}  do |f| %>
+			<div class="modal-body">
+			<%= render partial: "shared/admin/sel_permission", locals: {permission: @document.permission,user: @user} %>
 			</div>
 			<div class="modal-footer clearfix">
 				<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>关闭</button>
