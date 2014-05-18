@@ -1,0 +1,9 @@
+	<div class="col-md-11 col-md-offset-1">
+		<div id="masonry-container">
+			<%= render :partial => '/shared/front/pubu_doc',collection: @docs,as: :doc%>
+		</div>
+	</div>
+	<div class="loading">
+   		<span>正在加载...</span>
+	</div>
+	<%= javascript_include_tag "pubu", "data-turbolinks-track" => true %>

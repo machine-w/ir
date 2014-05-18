@@ -6,18 +6,13 @@
 	<br>
 </div>
 <div class="row opacity95">
-	<div class="col-md-11 col-md-offset-1">
-		<div id="masonry-container">
-			<%= render :partial => 'doc',:collection => @docs%>
-		</div>
-	</div>
-	<div class="loading">
-   		<span>正在加载...</span>
-	</div>
+	<% if session[:view_pubu] == 'pubu' %>
+		<%= render :partial => '/shared/front/pubu_view',locals: {docs: @docs}%>
+	<% else %>
+		<%= render :partial => '/shared/front/list_view',locals: {docs: @docs}%>
+	<% end %>
 </div>
 
-<%= paginate @docs %>
+	<%= paginate @docs %>
+	<%= javascript_include_tag "inscroll", "data-turbolinks-track" => true %>
 
-
-<%= javascript_include_tag "inscroll", "data-turbolinks-track" => true %>
-<%= javascript_include_tag "pubu", "data-turbolinks-track" => true %>

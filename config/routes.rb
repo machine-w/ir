@@ -1,10 +1,12 @@
 InstitutionalRepos::Application.routes.draw do
+  post "fixview/pubu"
+  post "fixview/fixheader"
   #get "upload/serve"
   get "/upload/grid/*path" => "upload#serve"
   # get "documents/create"
   # get "properties/create"
   get "users/index"
-  devise_for :users, :path => "account", :controllers => { :registrations => :registrations }
+  devise_for :users, :path => "account", :controllers => { registrations: :registrations,sessions: :sessions }
   root :to => "home#index"
   
   

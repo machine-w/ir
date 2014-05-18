@@ -40,7 +40,8 @@ class User
   field :verified, :type => Mongoid::Boolean, :default => false
   field :state, :type => Integer, :default => 1
   field :guest, :type => Mongoid::Boolean, :default => false
-  
+  field :view_pubu, :default => 'list'
+  field :view_fixheader, :type => Mongoid::Boolean, :default => false
   index :loginname => 1
   index :email => 1
   validates_presence_of :loginname,:department_id,:user_type_id

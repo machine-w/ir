@@ -1,0 +1,10 @@
+<div class="col-md-7" id="doc_container">
+	<%= render :partial => '/shared/front/list_doc',collection: docs,as: :doc%>
+</div>
+<div class="col-md-5">
+	<%= render_cell :sidebar, :search,:user => @home_user %>
+	<%= render_cell :sidebar, :folders,:user => @home_user %>
+	<%= render_cell :sidebar, :topusers,:user => @home_user %>
+	<%= render_cell :sidebar, :topdocs,:user => @home_user %>
+	<%= render_cell :sidebar, :tags,:user => @home_user %>
+</div>

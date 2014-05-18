@@ -6,16 +6,12 @@
 	<br>
 </div>
 <div class="row opacity95">
-	<div class="col-md-7" id="doc_container">
-		<%= render :partial => 'doc',:collection => @docs%>
-	</div>
-	<div class="col-md-5">
-		<%= render_cell :sidebar, :search,:user => @home_user %>
-		<%= render_cell :sidebar, :folders,:user => @home_user %>
-		<%= render_cell :sidebar, :tags,:user => @home_user %>
-	</div>
+	<% if session[:view_pubu] == 'pubu' %>
+		<%= render :partial => '/shared/front/pubu_view',locals: {docs: @docs}%>
+	<% else %>
+		<%= render :partial => '/shared/front/list_view',locals: {docs: @docs}%>
+	<% end %>
+	
 </div>
-<%= paginate @docs %>
-
-
-<%= javascript_include_tag "inscroll", "data-turbolinks-track" => true %>
+	<%= paginate @docs %>
+    <%= javascript_include_tag "inscroll", "data-turbolinks-track" => true %>

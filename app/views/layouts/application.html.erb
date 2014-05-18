@@ -9,7 +9,7 @@
         <%= render 'layouts/shim' %>
         <%= javascript_include_tag "application", "data-turbolinks-track" => true %>  
     </head>
-    <body class="<%= bg_skin(yield(:bgclass)) %>" id="ir-body" data-uri="<%= request.host %>:<%= request.port %>/websocket">
+    <body class="<%= bg_skin(yield(:bgclass)) %>" id="ir-body" data-uri="<%= request.host %>:<%= request.port %>/websocket" data-viewpubu="<%= session[:view_pubu] %>" data-fixheader="<%= session[:view_fixheader] %>">
         <header class="header opacity80">
             <a href="/" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
@@ -49,9 +49,11 @@
         </header>
         
         <%= yield %>
+
         <%= javascript_include_tag "app", "data-turbolinks-track" => true %>
         <%= javascript_include_tag "bottomcommon", "data-turbolinks-track" => true %>
         <%= javascript_include_tag "picback", "data-turbolinks-track" => true %>
+        <%= javascript_include_tag "front", "data-turbolinks-track" => true %>
         <%= notice_message_with_js %>
     </body>
 </html>
