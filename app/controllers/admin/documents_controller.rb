@@ -3,7 +3,7 @@ class Admin::DocumentsController < ApplicationController
 	before_filter :authenticate_user!
 	before_filter :set_user
 	before_filter :set_folder, only: [:index,:create,:new]
-	before_filter :set_document, only: [:edit,:update,:show,:destroy]
+	before_filter :set_document, only: [:edit,:update,:show,:destroy,:config_permission]
 	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
 	layout "admin_layout"
 	def create
@@ -77,7 +77,14 @@ class Admin::DocumentsController < ApplicationController
 		del_doc_notification(@user,@document)
 		redirect_to :back, notice: '成功删除文档。'
 	end
-	
+	def config_permission
+		error_msg= ''
+		if  error_msg == '' && @document.save
+			redirect_to :back, notice: '成功修改权限。'
+		else
+			redirect_to :back, alert: error_msg
+		end
+	end
 	private 
 	def set_folder
 		@folder = @user.folders.find(params[:folder_id])

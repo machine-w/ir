@@ -80,7 +80,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title"><i class="fa fa-table"></i><%= @document.title + '访问权限' %></h4>
 			</div>
-			<%= form_for @document,url: admin_document_path(@document),html: {role: "form",class: "form_w_val",:multipart => true}  do |f| %>
+			<%= form_for @document,url: config_permission_admin_document_path(@document),html: {role: "form",class: "form_w_val"}  do |f| %>
 			<div class="modal-body">
 			<%= render partial: "shared/admin/sel_permission", locals: {permission: @document.permission,user: @user} %>
 			</div>

@@ -66,6 +66,9 @@ InstitutionalRepos::Application.routes.draw do
       end
       resources :documents, only: [:show, :edit, :update, :destroy] do
           resources :attritubes
+          member do
+           patch :config_permission
+          end
       end
       resources :contacts, only: [:show, :edit, :update, :destroy]
       resources :notifications, only: [:show, :edit, :update, :destroy]

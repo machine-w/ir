@@ -1,4 +1,10 @@
 $ ->
+	selMemberTemplate = (avatar,name,id) ->
+		html =
+			"""
+			<a id="#{id}" class="sel_permission_select_member_del"><img src="#{avatar}" data-toggle="tooltip" title="#{name}" class="img-circle"><i class="fa fa-times"></i></a>
+			"""
+		$(html)
 	hide_options =  ->
 		$("#sel_permission_config_pane").hide();
 		$("#sel_permission_public_pane").hide();
@@ -56,7 +62,6 @@ $ ->
 	discipline_not_firend.initialize()
 	in_firend.initialize()
 
-	tags_select_member = $("#sel_permission_select_member").tagsManager({});
 	typehead_select_member = $("#sel_permission_select_member").typeahead(
 	  hint: true
 	  highlight: true
@@ -109,7 +114,14 @@ $ ->
 	      "</div>"
 	    ].join("\n")
 	    suggestion: Handlebars.compile("<p><img src=\"{{avatar_small}}\" class=\"img-circle\"><strong>{{name}}</strong><br><small>{{department}}-{{user_type}}</small></p>")
-	)
-	typehead_select_member.on "typeahead:selected", (e, d) ->
-		tags_select_member.tagsManager "pushTag", d.value
+	);
+	typehead_select_member.on "typeahead:selected", (evt, data) ->
+		$("#sel_permission_select_member_val").val($("#sel_permission_select_member_val").val()+","+data.id)
+		$(selMemberTemplate(data.avatar_small,data.name,data.id)).prependTo('#sel_permission_sel_member_container').hide().slideDown(300);
+		$("[data-toggle='tooltip']").tooltip();
+		$(".sel_permission_select_member_del").click ->
+			val = $("#sel_permission_select_member_val").val()
+			re = new RegExp(",#{$(this).attr('id')}", "g");
+			$("#sel_permission_select_member_val").val(val.replace re, "")
+			$(this).slideUp(300).remove();
     			
