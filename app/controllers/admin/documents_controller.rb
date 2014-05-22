@@ -79,7 +79,7 @@ class Admin::DocumentsController < ApplicationController
 	end
 	def config_permission
 		error_msg= ''
-		if  error_msg == '' && @document.save
+		if  error_msg == ''
 			redirect_to :back, notice: '成功修改权限。'
 		else
 			redirect_to :back, alert: error_msg

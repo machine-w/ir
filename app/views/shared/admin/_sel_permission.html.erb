@@ -10,12 +10,12 @@
 	<div id="sel_permission_public_pane">
 		<div class='form-group'>
 			<label for='sel_permission_public_type' class='control-label'>选择公开范围: </label>
-			<%= select_tag("permission[public_type]", options_for_select([['所有用户','1'],['登录用户','2'],['自定义范围','3']]),{id: "sel_permission_public_type", class: "form-control select2"}) %>
+			<%= select_tag("permission[public_type]", options_for_select([['所有用户','all'],['登录用户','user'],['自定义范围','scope']]),{id: "sel_permission_public_type", class: "form-control select2"}) %>
 		</div>
 		<div id="sel_permission_scope_pane">
 			<div class='form-group'>
 				<label for='sel_permission_public_scope' class='control-label'>选择自定义范围: </label>
-				<%= select_tag("permission[public_type]", options_for_select([['我的单位','1'],['选择单位','2'],['我的学科','3'],['选择学科','4'],['我建立的群组','5'],['我参与的群组','6'],['我的全部好友','7'],['选择用户','8']]),{id: "sel_permission_public_scope", class: "form-control select2"}) %>
+				<%= select_tag("permission[public_scope]", options_for_select([['我的单位','my_department'],['选择单位','sel_department'],['我的学科','my_discipline'],['选择学科','sel_discipline'],['我建立的群组','my_group'],['我参与的群组','join_group'],['我的好友','my_contact'],['选择好友','sel_contact'],['选择用户','user_list']]),{id: "sel_permission_public_scope", multiple: true,class: "form-control select2"}) %>
 			</div>
 			<div class='form-group' id="sel_permission_sel_department_pane">
 				<label for='sel_permission_select_department' class='control-label'>选择单位: </label>
@@ -36,6 +36,11 @@
 				<% jgroups=user.my_join_groups.map { |i| [i.name,i._id] } %>
 				<%= select_tag("permission[sel_joingroup]", options_for_select(jgroups),{id: "sel_permission_select_joingroup", multiple: true,class: "form-control select2"}) %>
 			</div>
+			<div class='form-group' id="sel_permission_sel_contact_pane">
+				<label for='sel_permission_select_contact' class='control-label'>选择我的好友: </label>
+				<% contacts=user.contacts.map { |i| [i.firend.username,i.firend._id] } %>
+				<%= select_tag("permission[sel_contact]", options_for_select(contacts),{id: "sel_permission_select_contact", multiple: true,class: "form-control select2"}) %>
+			</div>
 			<div class='form-group' id="sel_permission_sel_member_pane">
 				<label for='sel_permission_select_member' class='control-label'>选择用户: </label>
 				<input id="sel_permission_select_member" type="text"
@@ -44,7 +49,7 @@
 					discipline-not-firend-url='<%= discipline_not_firend_user_admin_contacts_path(user.loginname, :format => :json) %>' 
 					department-not-firend-url='<%= department_not_firend_user_admin_contacts_path(user.loginname, :format => :json) %>'  class="form-control">
 				<div id="sel_permission_sel_member_container"></div>
-				<input id="sel_permission_select_member_val" name="permission[member_list]" type="hidden" />
+				<input id="sel_permission_select_member_val" name="permission[member_list]" type="hidden" value="[]"/>
 			</div>
 
 		</div>
