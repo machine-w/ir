@@ -19,7 +19,7 @@ class Document
   has_and_belongs_to_many :third_disciplines
   has_and_belongs_to_many :tags
   embeds_many :attritubes, cascade_callbacks: true
-  embeds_one :permission
+  embeds_one :permission, autobuild: true
   validates_presence_of :title
 
   #保存前确定是新文档还是文档更新

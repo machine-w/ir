@@ -18,6 +18,7 @@ class Admin::DocumentsController < ApplicationController
 				error_msg += "#{property.show_name}为必填字段;" if property.req?
 			end 
 		end
+		#@doc.build_permission({inherit: true})
 		if  error_msg == '' && @doc.save
 			add_doc_notification(@user,@doc)
 			redirect_to admin_folder_path(@folder), notice: '成功新建文档。'
@@ -64,8 +65,7 @@ class Admin::DocumentsController < ApplicationController
 		else
 			#redirect_to edit_admin_document_path(@document), alert: error_msg
 			redirect_to :back, alert: error_msg
-		end
-		
+		end	
 	end
 	def show
 		@identify_properties = @document.all_identify_properties
@@ -79,7 +79,8 @@ class Admin::DocumentsController < ApplicationController
 	end
 	def config_permission
 		error_msg= ''
-		if  error_msg == ''
+		error_msg= set_permission(params,@document)
+		if  error_msg == '' && @document.save
 			redirect_to :back, notice: '成功修改权限。'
 		else
 			redirect_to :back, alert: error_msg

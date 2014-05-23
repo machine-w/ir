@@ -54,4 +54,53 @@ class ApplicationController < ActionController::Base
     @user=current_user
   end
 
+  def set_permission(param,host)
+    error_msg = ""
+    result=param.require(:permission).permit(:inherit,:private,:public_type,{:public_scope => []},{:sel_department => []},{:sel_discipline => []},{:sel_mygroup => []},{:sel_joingroup => []},{:sel_contact => []},:member_list,:end_date)
+    unless result[:public_scope].blank?
+      result[:public_scope].map! do |e|
+        scope = PermissionScope.find_or_initialize_by(type: e) unless e.blank?
+        #logger.debug "111111#{e}222222"
+        case e
+        when 'sel_department'
+          scope.array_value = result[:sel_department]
+        when 'sel_discipline'
+          scope.array_value = result[:sel_discipline]
+        when 'my_group'
+          scope.array_value = result[:sel_mygroup]
+        when 'join_group'
+          scope.array_value = result[:sel_joingroup]
+        when 'sel_contact'
+          scope.array_value = result[:sel_contact]
+        when 'user_list'
+          logger.debug result[:member_list]
+          scope.array_value = JSON.parse(result[:member_list])
+        end
+        scope
+      end
+    end
+    if result.has_key? :inherit
+      host.permission.inherit = false
+      if result.has_key? :private
+        host.permission.privated = false
+        host.permission.public_type = result['public_type']
+        begin
+          unless result['end_date'].blank?
+            host.permission.end_date = Date.strptime(result['end_date'], "%Y年%m月%d日")
+          else
+            host.permission.end_date = nil
+          end
+        rescue
+          error_msg ="日期格式错误;"
+        end
+        host.permission.permission_scopes = result['public_scope']
+      else
+        host.permission.privated = true
+      end   
+    else
+      host.permission.inherit = true
+    end
+    error_msg
+  end
+  
 end
