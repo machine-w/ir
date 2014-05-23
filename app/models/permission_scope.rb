@@ -10,4 +10,49 @@ class PermissionScope
   # embeds_many :departments,class_name: "PsDepartment"
   # embeds_many :disciplines,class_name: "PsDiscipline"
   embedded_in :permission
+
+  def get_users
+  	result=[]
+  	self.array_value.each do |user_id|
+  		begin
+  			result.push User.find(user_id)
+  		rescue
+  			next
+  		end 
+  	end 
+  	result
+  end
+  def get_departments
+  	result=[]
+  	self.array_value.each do |depart_id|
+  		begin
+  			result.push Department.find(depart_id)
+  		rescue
+  			next
+  		end 
+  	end 
+  	result
+  end
+  def get_disciplines
+  	result=[]
+  	self.array_value.each do |dis_id|
+  		begin
+  			result.push ThirdDiscipline.find(dis_id)
+  		rescue
+  			next
+  		end 
+  	end 
+  	result
+  end
+  def get_groups
+  	result=[]
+  	self.array_value.each do |group_id|
+  		begin
+  			result.push Group.find(group_id)
+  		rescue
+  			next
+  		end 
+  	end 
+  	result
+  end
 end

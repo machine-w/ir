@@ -147,7 +147,7 @@ $ ->
 			#$("#sel_permission_select_member_val").val(val.replace re, "")
 			vals= JSON.parse $("#sel_permission_select_member_val").val()
 			val_id = "#{$(this).attr('id')}".substring(11)
-			alert val_id
+			#alert val_id
 			unless vals.indexOf(val_id) == -1
 				vals.splice vals.indexOf(val_id), 1
 			$("#sel_permission_select_member_val").val JSON.stringify(vals)

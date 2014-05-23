@@ -67,15 +67,15 @@ class User
   belongs_to :user_type
   has_many :folders, :dependent => :destroy
   has_many :folder_groups, :dependent => :destroy
-  has_many :contacts
-  has_many :groups
-  has_many :notifications
+  has_many :contacts,:dependent => :destroy
+  has_many :groups,:dependent => :destroy
+  has_many :notifications,:dependent => :destroy
   #has_many :contacted, class_name: "Contact", inverse_of: :firend
   has_and_belongs_to_many :third_disciplines
-  has_and_belongs_to_many :conversations
+  has_and_belongs_to_many :conversations,:dependent => :destroy
 
-  before_save :set_default_depart
-
+  #before_save :set_default_depart
+  after_destroy :destroy_other_relation
 
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
@@ -89,7 +89,13 @@ class User
     Group.elem_match(group_members: { user_id: self._id })
   end
   protected
-  def set_default_depart
-    self.department = Department.where(name: '未知单位').first if self.new_record?
+  # def set_default_depart
+  #   #self.department = Department.where(name: '未知单位').first if self.new_record?
+  # end
+  def destroy_other_relation
+    Contact.where(firend: self).destroy
+    Message.where(from: self).destroy
+    self.my_join_groups.each { |e| e.group_members.where(user: self).destroy; e.save }
+    GroupMessage.where(from: self).destroy
   end
 end

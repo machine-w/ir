@@ -51,14 +51,9 @@
 				<div id="sel_permission_sel_member_container">
 					<% user_id_list=[] %>
 					<% if permission.permission_scopes.where(type_cd: 9).exists? %>
-					<% permission.permission_scopes.where(type_cd: 9).first.array_value.reverse_each do |user_id| %>
-						<% begin %>
-						<% user= User.find(user_id) %>
-						<% user_id_list.push user_id %>
-						<a id="permission-<%= user_id %>" class="sel_permission_select_member_del"><img src="<%= user.avatar_url('normal') %>" data-toggle="tooltip" title="<%= user.username %>" class="img-circle"><i class="fa fa-times"></i></a>
-						<% rescue%>
-						<% nil %>
-						<% end %>
+					<% permission.permission_scopes.where(type_cd: 9).first.get_users.reverse_each do |user| %>
+						<% user_id_list.push user._id.to_s %>
+						<a id="permission-<%= user._id %>" class="sel_permission_select_member_del"><img src="<%= user.avatar_url('normal') %>" data-toggle="tooltip" title="<%= user.username %>" class="img-circle"><i class="fa fa-times"></i></a>
 					<% end %>
 					<% end %>
 				</div>
