@@ -6,7 +6,6 @@
 # load validation tool
 #= require bootstrap3-validation
 #= require iCheck/icheck.min
-#= require app
 
 
 $ ->

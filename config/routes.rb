@@ -58,8 +58,8 @@ InstitutionalRepos::Application.routes.draw do
     namespace 'admin' do
       resources :folders, only: [:show, :edit, :update, :destroy] do
           member do
-            get :config_property,:config_doc_view,:config_static_properties
-            put :update_doc_view,:update_static_properties
+            get :config_property,:config_doc_view,:config_static_properties,:config_permission
+            put :update_doc_view,:update_static_properties,:update_permission
           end
           resources :properties
           resources :documents, only: [:index, :new, :create]
@@ -68,6 +68,7 @@ InstitutionalRepos::Application.routes.draw do
           resources :attritubes
           member do
            patch :config_permission
+           get :permission_model
           end
       end
       resources :contacts, only: [:show, :edit, :update, :destroy]

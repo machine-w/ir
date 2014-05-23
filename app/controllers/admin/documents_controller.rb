@@ -3,7 +3,7 @@ class Admin::DocumentsController < ApplicationController
 	before_filter :authenticate_user!
 	before_filter :set_user
 	before_filter :set_folder, only: [:index,:create,:new]
-	before_filter :set_document, only: [:edit,:update,:show,:destroy,:config_permission]
+	before_filter :set_document, only: [:edit,:update,:show,:destroy,:config_permission,:permission_model]
 	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
 	layout "admin_layout"
 	def create
@@ -85,6 +85,9 @@ class Admin::DocumentsController < ApplicationController
 		else
 			redirect_to :back, alert: error_msg
 		end
+	end
+	def permission_model
+		render :layout => 'blank'
 	end
 	private 
 	def set_folder

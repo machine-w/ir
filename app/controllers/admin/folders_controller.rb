@@ -2,7 +2,7 @@ class Admin::FoldersController < ApplicationController
 	include NotificationsHelper
 	before_filter :authenticate_user!
 	before_filter :set_user
-	before_filter :set_folder, only: [:show, :edit, :update, :destroy, :config_property,:config_doc_view,:update_doc_view,:config_static_properties,:update_static_properties]
+	before_filter :set_folder, only: [:show, :edit, :update, :destroy, :config_property,:config_doc_view,:update_doc_view,:config_static_properties,:config_permission,:update_permission,:update_static_properties]
 	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
 	layout "admin_layout"
 	def create
@@ -72,6 +72,22 @@ class Admin::FoldersController < ApplicationController
 		@static_properties=@folder.properties.enable_static
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
 		drop_breadcrumb("配置静态属性", config_doc_view_admin_folder_path(@folder))
+	end
+	def config_permission
+		
+	end
+	def update_permission
+		error_msg= ''
+		error_msg= set_permission(params,@folder)
+		if  error_msg == '' && @folder.save
+
+			redirect_to :back, notice: '成功修改权限。'
+		else
+			@folder.errors.full_messages.each do |msg|
+   				error_msg += msg + ','
+   			end
+			redirect_to :back, alert: error_msg
+		end
 	end
 	def update
 		get_data = folders_params

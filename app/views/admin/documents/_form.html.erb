@@ -1,5 +1,9 @@
 <%= form_for document,url: (document.new_record? ? admin_folder_documents_path(document.folder) : admin_document_path(document)),html: {role: "form",class: "form_w_val",:multipart => true}  do |f| %>
-
+<% unless document.new_record? %>
+<div class="form-group">
+	<a class="btn btn-warning btn-block btn-flat btn-lg" data-toggle="modal" data-target="#permission-modal">修改访问权限</a>
+</div>
+<% end %>
 <div class="form-group">
 	<%= f.button "保存", class: "btn btn-success btn-block btn-flat btn-lg",onclick: "if($(this).closest('form').valid() == false){$('#add_document_property').collapse({toggle: !$('#add_document_property').hasClass('in') });$('#add_document_content').collapse({toggle: $('#add_document_content').hasClass('in') });return false;}" %>
 </div>
@@ -42,4 +46,7 @@
 		</div>
 	</div>
 </div>
+<% end %>
+<% unless document.new_record? %>
+	<%= render partial: "admin/documents/config_document_permission", locals: {doc: document,user: user} %>
 <% end %>

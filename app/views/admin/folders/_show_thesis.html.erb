@@ -17,8 +17,7 @@
                       <i class="fa fa-edit"></i>
                   <% end %>
                   <button class="btn btn-primary btn-xs "><i class="fa fa-eye"></i></button>
-                  <button class="btn btn-primary btn-xs "><i class="fa fa-long-arrow-left"></i></button>
-                  <button class="btn btn-primary btn-xs "><i class="fa fa-long-arrow-right"></i></button>
+                  <!-- <a class="btn btn-warning btn-xs" href="<%= permission_model_admin_document_path(doc) %>" data-toggle="modal" data-target="#permission-modal"><i class="fa fa-cog"></i></a> -->
                   <button class="btn btn-primary btn-xs "><i class="fa fa-share-square-o"></i></button>
                   <button class="btn btn-primary btn-xs" data-widget="collapse"><i class="fa fa-minus"></i></button>
                   
@@ -43,3 +42,10 @@
 </div>
 <% end %>
 <%= paginate @documents, :theme => 'twitter-bootstrap-3' %>
+
+<div class="modal fade" id="permission-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    </div>
+  </div>
+</div>
