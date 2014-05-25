@@ -38,7 +38,7 @@ class Document
   after_save :increase_folder_count, :if => "@was_a_new_record"
   #删除文档后，减少目录文档数
   after_destroy :decrease_folder_count
-
+  after_destroy :destroy_relation_message
 
 
   def all_dynamic_properties
@@ -110,12 +110,14 @@ class Document
   def set_dirty_flag
     self.update_attribute(:dirty_flag, true)
   end
-  def visiable?(visitor)
+  def visiable?(visitor,listorsearch = true)
     doc_permission = self.permission
     return true if self.folder.user == visitor
     if doc_permission.inherit
       self.folder.visiable?(visitor)
     elsif doc_permission.privated
+      false
+    elsif listorsearch && doc_permission.list_search_visiable == false
       false
     elsif doc_permission.all?
       true
@@ -175,6 +177,11 @@ class Document
     self.update_attribute(:content_html, fill_properties(self.get_original_content))
     self.update_attribute(:content_html_summary,truncate_html(self.content_html))
     self.dirty_flag=false
+  end
+
+  def destroy_relation_message
+    Message.where(add_document: self).destroy
+    GroupMessage.where(add_document: self).destroy
   end
 
 end

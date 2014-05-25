@@ -10,7 +10,7 @@
 			<div class="box-header">
 			</div>
 			<div class="box-body">
-				<%= render partial: "shared/admin/sel_permission", locals: {permission: @folder.permission,user: @user} %>
+				<%= render partial: "shared/admin/sel_permission", locals: {permission: @folder.permission,user: @user,is_folder: true} %>
 				<div class="form-group">
 					<%= f.button "保存", class: "btn btn-success  btn-block btn-flat  btn-lg",onclick: "if($(this).closest('form').valid() == false){return false;}" %>
 				</div>

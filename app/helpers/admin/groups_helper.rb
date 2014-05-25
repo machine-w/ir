@@ -21,4 +21,24 @@ module Admin::GroupsHelper
 			g.group_messages.each { |e| e.set_readed(user) }
 		end
 	end
+	def auto_send_group_message(doc,group_id_array)
+		if current_user
+			group_id_array.each do |group_id| 
+				begin
+				 	@group=Group.find(group_id)
+				 	if @group.group_members.where(user: current_user).exists?
+				 		content="公开文档到群组。"
+				 		message=@group.group_messages.build(from: current_user,content: content,add_document: doc)
+				 		@group.group_members.each { |m| message.unreads.build(user: m.user) unless m.user == current_user }
+				 		if message.save
+				 			send_realtime_group_message(@group,current_user,content)
+				 		end
+				 	end
+				 rescue	
+				 	next
+				 end 
+				
+			end
+		end
+	end
 end

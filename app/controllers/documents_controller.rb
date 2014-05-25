@@ -4,7 +4,7 @@ class DocumentsController < ApplicationController
 		begin
 			@document = Document.find(params[:id])
 			@home_user = @document.folder.user
-			render_404 unless @document.visiable?(current_user)
+			render_404 unless @document.visiable?(current_user,false)
 		rescue
 			render_404
 		end

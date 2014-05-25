@@ -68,5 +68,24 @@ module ConversationsHelper
 			c.set_readed(c.get_other_user(user))
 		end
 	end
+	def auto_send_message(doc,user_id_array)
+		if current_user
+			user_id_array.each do |user_id| 
+				begin
+				 	firend=User.find(user_id)
+				 	conversation=get_conversation(current_user,firend)
+				 	if conversation
+				 		content = "对您公开文档。"
+				 		if conversation.messages.create(from: current_user,content: content,add_document: doc)
+				 			send_realtime_message(conversation,current_user,content)
+				 		end
+				 	end
+				 rescue	
+				 	next
+				 end 
+				
+			end
+		end
+	end
 	
 end

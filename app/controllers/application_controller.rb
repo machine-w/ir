@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include Admin::GroupsHelper
+  include ConversationsHelper
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -56,25 +58,29 @@ class ApplicationController < ActionController::Base
 
   def set_permission(param,host)
     error_msg = ""
-    result=param.require(:permission).permit(:inherit,:private,:public_type,{:public_scope => []},{:sel_department => []},{:sel_discipline => []},{:sel_mygroup => []},{:sel_joingroup => []},{:sel_contact => []},:member_list,:end_date)
+    result=param.require(:permission).permit(:inherit,:private,:public_type,{:public_scope => []},{:sel_department => []},{:sel_discipline => []},{:sel_mygroup => []},{:sel_joingroup => []},{:sel_contact => []},:member_list,:end_date,:list_search_visiable,:send_message,:send_group_message)
     unless result[:public_scope].blank?
       result[:public_scope].map! do |e|
         scope = PermissionScope.find_or_initialize_by(type: e) unless e.blank?
         #logger.debug "111111#{e}222222"
         case e
         when 'sel_department'
-          scope.array_value = result[:sel_department]
+          scope.array_value = result[:sel_department] || []
         when 'sel_discipline'
-          scope.array_value = result[:sel_discipline]
+          scope.array_value = result[:sel_discipline] || []
         when 'my_group'
-          scope.array_value = result[:sel_mygroup]
+          scope.array_value = result[:sel_mygroup] || []
+          auto_send_group_message(host,scope.array_value) if result.has_key?(:send_group_message) && host.class == Document
         when 'join_group'
-          scope.array_value = result[:sel_joingroup]
+          scope.array_value = result[:sel_joingroup] || []
+          auto_send_group_message(host,scope.array_value) if result.has_key?(:send_group_message) && host.class == Document
         when 'sel_contact'
-          scope.array_value = result[:sel_contact]
+          scope.array_value = result[:sel_contact] || []
+          auto_send_message(host,scope.array_value) if result.has_key?(:send_message) && host.class == Document
         when 'user_list'
           logger.debug result[:member_list]
           scope.array_value = JSON.parse(result[:member_list])
+          auto_send_message(host,scope.array_value) if result.has_key?(:send_message) && host.class == Document
         end
         scope
       end
@@ -84,6 +90,7 @@ class ApplicationController < ActionController::Base
       if result.has_key? :private
         host.permission.privated = false
         host.permission.public_type = result['public_type']
+        host.permission.list_search_visiable = result.has_key?(:list_search_visiable) ? true : false
         begin
           unless result['end_date'].blank?
             host.permission.end_date = Date.strptime(result['end_date'], "%Y年%m月%d日")

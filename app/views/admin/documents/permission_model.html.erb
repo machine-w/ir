@@ -4,7 +4,7 @@
 </div>
 <%= form_for @document,url: config_permission_admin_document_path(@document),html: {role: "form",class: "form_w_val"}  do |f| %>
 <div class="modal-body">
-	<%= render partial: "shared/admin/sel_permission", locals: {permission: @document.permission,user: @user} %>
+	<%= render partial: "shared/admin/sel_permission", locals: {permission: @document.permission,user: @user,is_folder: false} %>
 </div>
 <div class="modal-footer clearfix">
 	<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>关闭</button>

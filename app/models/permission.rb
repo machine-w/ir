@@ -4,6 +4,7 @@ class Permission
 
   field :inherit, :type => Boolean , :default => true
   field :privated, :type => Boolean , :default => true
+  field :list_search_visiable, :type => Boolean , :default => true
   as_enum :public_type, :all => 1, :user => 2, :scope => 3
   field :end_date, :type => Date
 
