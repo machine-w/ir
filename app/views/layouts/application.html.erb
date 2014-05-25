@@ -10,13 +10,14 @@
         <%= javascript_include_tag "application", "data-turbolinks-track" => true %>  
     </head>
     <body class="<%= bg_skin(yield(:bgclass)) %>" id="ir-body" data-uri="<%= request.host %>:<%= request.port %>/websocket" data-viewpubu="<%= session[:view_pubu] %>" data-fixheader="<%= session[:view_fixheader] %>">
-        <header class="header opacity80">
+        <header class="header opacity90">
             <a href="/" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
                 tju IR
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">
+                <%= render_cell :header, :commontitle,:huser => @home_user,:cuser => current_user %>
                 <%= render_cell :header, :usertitle,:huser => @home_user,:cuser => current_user %>
                 <div class="navbar-right">
                     <% if current_user %>

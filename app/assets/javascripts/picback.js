@@ -1,4 +1,4 @@
 $(function() {
-	$.backstretch("/images/back1.jpg");
+	$.backstretch("/images/back4.jpg");
 });
 	

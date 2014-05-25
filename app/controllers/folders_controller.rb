@@ -9,7 +9,9 @@ class FoldersController < ApplicationController
   	begin
   		folder = Folder.find(params[:id])
   		documents =[]
-  		documents+= folder.documents.all.entries
+  		folder.documents.all.each do |doc| 
+        documents.push doc if doc.visiable?(current_user)
+      end
   		@docs = Kaminari.paginate_array(documents).page(params[:page]).per(10)
       @home_user = folder.user
   	rescue

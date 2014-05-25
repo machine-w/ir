@@ -6,7 +6,10 @@ class UsersController < ApplicationController
   #add_breadcrumb "主页", :root_path
   def show
     documents =[]
-    @home_user.folders.each { |e| documents+= e.documents.all.entries }
+    #@home_user.folders.each { |e| documents+= e.documents.all.entries.reject { |doc| doc.visiable?(current_user)} }
+    Document.or(@home_user.folders.map { |f| {folder: f} }).each do |doc| 
+      documents.push doc if doc.visiable?(current_user)
+    end
     @docs = Kaminari.paginate_array(documents).page(params[:page]).per(10)
   end
   def admin

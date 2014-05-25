@@ -55,4 +55,51 @@ class PermissionScope
   	end 
   	result
   end
+  def visiable?(visitor,user)
+    case self.type
+    when :my_department
+      if visitor.department == user.department
+        return true 
+      else
+        return false
+      end
+    when :sel_department
+      if self.get_departments.include?(visitor.department)
+        return true 
+      else
+        return false
+      end
+    when :my_discipline
+      if (visitor.third_disciplines.entries & user.third_disciplines.entries) != [] 
+        return true
+      else
+        return false
+      end
+    when :sel_discipline
+      if (visitor.third_disciplines.entries & self.get_disciplines) != [] 
+        return true
+      else
+        return false
+      end
+    when :my_group,:join_group
+      if (visitor.my_join_groups.entries & self.get_groups) != []
+        return true
+      else
+        return false
+      end
+    when :my_contact
+      if user.contacts.where(firend: visitor).exists?
+        return true
+      else
+        return false
+      end
+    when :sel_contact,:user_list
+      if self.get_users.include?(visitor)
+        return true
+      else
+        return false
+      end
+
+    end
+  end
 end

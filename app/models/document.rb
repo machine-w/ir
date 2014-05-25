@@ -15,6 +15,14 @@ class Document
 
   default_scope desc(:created_at)
 
+  # scope :browse, ->(visitor) do  
+  #   result = []
+  #   where(name: name).each do  |e|  
+  #     result.push e if e.visiable?(visitor)
+  #   end
+  #   result
+  # end
+
   belongs_to :folder
   has_and_belongs_to_many :third_disciplines
   has_and_belongs_to_many :tags
@@ -30,6 +38,9 @@ class Document
   after_save :increase_folder_count, :if => "@was_a_new_record"
   #删除文档后，减少目录文档数
   after_destroy :decrease_folder_count
+
+
+
   def all_dynamic_properties
     self.folder.properties.enable_not_static
   end
@@ -99,7 +110,33 @@ class Document
   def set_dirty_flag
     self.update_attribute(:dirty_flag, true)
   end
+  def visiable?(visitor)
+    doc_permission = self.permission
+    return true if self.folder.user == visitor
+    if doc_permission.inherit
+      self.folder.visiable?(visitor)
+    elsif doc_permission.privated
+      false
+    elsif doc_permission.all?
+      true
+    elsif doc_permission.user?
+      visitor.nil? ? false : true
+    elsif doc_permission.scope?
+      if visitor.nil?
+        false
+      else
+        doc_permission.permission_scopes.each do |scope| 
+          return true if scope.visiable?(visitor,self.folder.user)
+        end
+        false
+      end
+    end
+  end
+
+
   private
+
+
   def set_newdoc_flag
     @was_a_new_record = new_record?
     return true

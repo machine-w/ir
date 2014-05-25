@@ -9,6 +9,7 @@ class Group
   field :sort, :type => Integer, :default => 0
   field :has_home, :type => Boolean,:default => false
 
+  scope :have_home, where(has_home: true)
   validates_presence_of :name
 
   before_save do |group|

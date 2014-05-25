@@ -1,0 +1,34 @@
+<% unless @home_user %>
+<a href="#" class="navbar-btn sidebar-toggle dropdown-toggle" data-toggle="dropdown" role="button">
+	<span class="sr-only">Toggle navigation</span>
+	<span class="icon-bar"></span>
+	<span class="icon-bar"></span>
+	<span class="icon-bar"></span>
+</a>
+<div class="dropdown-menu dropdown-select-menu">
+	<div class='form-group'>
+		<label for='select_department' class='control-label'>选择单位: </label>
+		<% departments=Department.all.map { |i| [i.name,i._id] }.unshift(['','']) %>
+		<%= select_tag("sel_department", options_for_select(departments),{id: "select_department",class: "form-control select2"}) %>
+	</div>
+	<div class='form-group'>
+		<label for='elect_discipline' class='control-label'>选择学科: </label>
+		<%= select_tag("sel_discipline", grouped_options_for_select(SecondDiscipline.all.inject({}) { |result,i| result[i.name]=i.third_disciplines.inject([]) { |mem, e| mem.push([e.name,e._id]) }; result }),{id: "select_discipline",class: "form-control select2"}) %>
+	</div>
+	<div class='form-group'>
+		<label for='select_group' class='control-label'>选择学科: </label>
+		<% groups=Group.have_home.map { |i| [i.name,i._id] }.unshift(['','']) %>
+		<%= select_tag("sel_group", options_for_select(groups),{id: "select_group",class: "form-control select2"}) %>
+	</div>
+</div>
+
+<form class="navbar-form navbar-left" role="search">
+	<div class="input-group">
+		<input type="text" name="q" class="form-control" placeholder="检索文档"/>
+		<span class="input-group-btn">
+			<button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+		</span>
+	</div>
+</form>
+	
+<% end %>
