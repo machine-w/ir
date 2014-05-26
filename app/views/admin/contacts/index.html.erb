@@ -65,10 +65,10 @@
 					<div class="attachment">
 						<h4><%= mes.add_document.title %></h4>
 						<p class="filename">
-							<%= raw truncate_html(mes.add_document.title, length: 15, omission: '...')  %>
+							<%= raw mes.add_document.get_message_content %>
 						</p>
 						<div class="pull-right">
-							<a class="btn btn-primary btn-sm btn-flat">前往</a>
+							<%= link_to "查看文档",document_path(mes.add_document),class: "btn btn-primary btn-sm btn-flat" %>
 						</div>
 					</div>
 					<% end %>

@@ -63,6 +63,12 @@ class Document
     end
     self.content_html_summary
   end
+  def get_message_content
+    if self.dirty_flag
+      clean_content
+    end
+    truncate_html(self.content_html_summary, length: 15, omission: '...')
+  end
   def get_original_content
     if self.content_have_attr.gsub(/\&nbsp;/, '').strip.blank?
       self.folder.doc_default_content

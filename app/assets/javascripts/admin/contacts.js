@@ -125,14 +125,15 @@ $(function() {
         $('#add_message').attr('data-firendloginname', result['firend_loginname']);
         $('#add_message').attr('data-firendid', result['firend_id']);
         $('#' + button_id).addClass("active");
-        var mes = Handlebars.compile('<div class="item"><img src="{{avatar}}" alt="user image" class="online"/><p class="message"><a href="{{userurl}}" class="name"><small class="text-muted pull-right"><i class="fa fa-clock-o"></i>{{time}}</small>{{name}}</a>{{content}}</p></div>');
+        var mes = Handlebars.compile('<div class="item"><img src="{{avatar}}" alt="user image" class="online"/><p class="message"><a href="{{userurl}}" class="name"><small class="text-muted pull-right"><i class="fa fa-clock-o"></i>{{time}}</small>{{name}}</a>{{content}}</p>{{add_document}}</div>');
         $.each(result['messages'], function(index, value) {
           $('#message_box').append(mes({
             avatar: value['avatar'],
             time: value['time'],
             name: value['name'],
             userurl: '/'+value['loginname'],
-            content: value['content']
+            content: value['content'],
+            add_document: value['add_document']
           }));
         });
         $("#message_box").animate({

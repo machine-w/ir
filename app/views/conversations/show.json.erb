@@ -6,7 +6,8 @@
       "loginname": "<%= user.loginname %>",
       "content": "<%= message.content.html_safe unless message.content.blank? %>",
       "time": "<%= distance_of_time_in_words_to_now(message.created_at) %>前",
-      "avatar": "<%= user.avatar_url('normal') %>"
+      "avatar": "<%= user.avatar_url('normal') %>",
+      "add_document": <%= raw message.add_document ? raw("<div class='attachment'><h4>#{message.add_document.title}</h4><p class='filename'>#{message.add_document.get_message_content}</p><div class='pull-right'>#{link_to '查看文档',document_path(message.add_document),class: 'btn btn-primary btn-sm btn-flat'}</div></div>") : "\"\"" %>
     }
 <% unless index == @messages.count - 1%>
     ,
