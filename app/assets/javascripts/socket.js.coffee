@@ -64,7 +64,7 @@ class Chat.Controller
             #{doc_summary}
           </p>
           <div class="pull-right">
-            <a class="btn btn-primary btn-sm btn-flat">Open</a>
+            <a class="btn btn-primary btn-sm btn-flat" href="#{doc_url}">查看文档</a>
           </div>
         </div>
         """
@@ -127,7 +127,7 @@ class Chat.Controller
       $('#head_message_num2').html((parseInt($('#head_message_num2').text())+1)+'')
     else
       @dispatcher.trigger 'set_mes_readed',{con_id:message.conversation}
-      @boxmessageTemplate(message.message,message.avatar,message.showname,message.time,'/'+message.source_loginname).appendTo($('#message_box')).hide().slideDown(300)
+      @boxmessageTemplate(message.message,message.avatar,message.showname,message.time,'/'+message.source_loginname,message.add_document_title,message.add_document_content,message.add_document_url).appendTo($('#message_box')).hide().slideDown(300)
       $("#message_box").animate
         scrollTop: $("#message_box")[0].scrollHeight
       , 1000
@@ -148,7 +148,7 @@ class Chat.Controller
       $('#head_group_message_num2').html((parseInt($('#head_group_message_num2').text())+1)+'')
     else
       @dispatcher.trigger 'set_gmes_readed',{group_id:message.group}
-      @boxmessageTemplate(message.message,message.useravatar,message.username,message.time,'/'+message.loginname).appendTo($('#message_box')).hide().slideDown(300)
+      @boxmessageTemplate(message.message,message.useravatar,message.username,message.time,'/'+message.loginname,message.add_document_title,message.add_document_content,message.add_document_url).appendTo($('#message_box')).hide().slideDown(300)
       $("#message_box").animate
         scrollTop: $("#message_box")[0].scrollHeight
       , 1000

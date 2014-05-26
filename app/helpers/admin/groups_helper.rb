@@ -1,7 +1,14 @@
 module Admin::GroupsHelper
 	def send_realtime_group_message(group,from_user,message)
+		result={}
 		group.group_members.all.each do |m|
-			WebsocketRails[m.user.loginname].trigger(:group_message, {:group => group._id.to_s,:username => from_user.username,:loginname => from_user.loginname, :message => message,small_message: truncate(message, :length => 10),avatar: group.avatar_url('normal'),useravatar: from_user.avatar_url('normal'),groupname: group.name,time: Time.now.strftime("%H:%M")}) unless m.user == from_user
+			result={:group => group._id.to_s,:username => from_user.username,:loginname => from_user.loginname, :message => message.content,small_message: truncate(message.content, :length => 10),avatar: group.avatar_url('normal'),useravatar: from_user.avatar_url('normal'),groupname: group.name,time: Time.now.strftime("%H:%M")}
+			if message.add_document
+				result[:add_document_title] = message.add_document.title
+				result[:add_document_content] = message.add_document.get_message_content
+				result[:add_document_url] = document_path(message.add_document)
+			end
+			WebsocketRails[m.user.loginname].trigger(:group_message, result) unless m.user == from_user
 		end  
 	end
 	def get_group_unread_messages(user)
@@ -31,7 +38,7 @@ module Admin::GroupsHelper
 				 		message=@group.group_messages.build(from: current_user,content: content,add_document: doc)
 				 		@group.group_members.each { |m| message.unreads.build(user: m.user) unless m.user == current_user }
 				 		if message.save
-				 			send_realtime_group_message(@group,current_user,content)
+				 			send_realtime_group_message(@group,current_user,message)
 				 		end
 				 	end
 				 rescue	

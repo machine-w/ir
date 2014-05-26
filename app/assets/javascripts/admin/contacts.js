@@ -125,16 +125,30 @@ $(function() {
         $('#add_message').attr('data-firendloginname', result['firend_loginname']);
         $('#add_message').attr('data-firendid', result['firend_id']);
         $('#' + button_id).addClass("active");
-        var mes = Handlebars.compile('<div class="item"><img src="{{avatar}}" alt="user image" class="online"/><p class="message"><a href="{{userurl}}" class="name"><small class="text-muted pull-right"><i class="fa fa-clock-o"></i>{{time}}</small>{{name}}</a>{{content}}</p>{{add_document}}</div>');
+        var mes = Handlebars.compile('<div class="item"><img src="{{avatar}}" alt="user image" class="online"/><p class="message"><a href="{{userurl}}" class="name"><small class="text-muted pull-right"><i class="fa fa-clock-o"></i>{{time}}</small>{{name}}</a>{{content}}</p></div>');
+        var mes_with_doc = Handlebars.compile('<div class="item"><img src="{{avatar}}" alt="user image" class="online"/><p class="message"><a href="{{userurl}}" class="name"><small class="text-muted pull-right"><i class="fa fa-clock-o"></i>{{time}}</small>{{name}}</a>{{content}}</p><div class="attachment"><h4>{{add_document_title}}</h4><p class="filename">{{add_document_content}}</p><div class="pull-right"><a href="{{add_document_url}}" class="btn btn-primary btn-sm btn-flat">查看文档</a></div></div></div>');
         $.each(result['messages'], function(index, value) {
-          $('#message_box').append(mes({
-            avatar: value['avatar'],
-            time: value['time'],
-            name: value['name'],
-            userurl: '/'+value['loginname'],
-            content: value['content'],
-            add_document: value['add_document']
-          }));
+          if(value['add_document_title'] == '') {
+            $('#message_box').append(mes({
+              avatar: value['avatar'],
+              time: value['time'],
+              name: value['name'],
+              userurl: '/'+value['loginname'],
+              content: value['content']
+            }));
+          }else
+          {
+            $('#message_box').append(mes_with_doc({
+              avatar: value['avatar'],
+              time: value['time'],
+              name: value['name'],
+              userurl: '/'+value['loginname'],
+              content: value['content'],
+              add_document_title: value['add_document_title'],
+              add_document_content: value['add_document_content'],
+              add_document_url: value['add_document_url']
+            }));
+          }
         });
         $("#message_box").animate({
           scrollTop: $('#message_box')[0].scrollHeight

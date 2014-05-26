@@ -7,7 +7,11 @@
       "loginname": "<%= message.from.loginname %>",
       "content": "<%= message.content.html_safe unless message.content.blank? %>",
       "time": "<%= distance_of_time_in_words_to_now(message.created_at) %>",
-      "avatar": "<%= message.from.avatar_url('normal') %>"
+      "avatar": "<%= message.from.avatar_url('normal') %>",
+      "add_document_title": "<%= message.add_document ? message.add_document.title : "" %>",
+      "add_document_content": "<%= message.add_document ? "" : "" %>",
+      <% #暂时没有好办法，取得文档内容，先留空 %>
+      "add_document_url": "<%= message.add_document ? document_path(message.add_document) : "" %>"
     }
 <% unless index == @messages.count - 1%>
     ,

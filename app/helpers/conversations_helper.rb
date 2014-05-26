@@ -30,7 +30,13 @@ module ConversationsHelper
 	end
 	def send_realtime_message(conversation,from_user,message)
 		target_user = conversation.get_other_user(from_user)
-		WebsocketRails[target_user.loginname].trigger(:user_message, {:conversation => conversation._id.to_s,:source_loginname => from_user.loginname, :target_loginname => target_user.loginname,:message => message.content,small_message: truncate(message.content, :length => 10),avatar: from_user.avatar_url('normal'),showname: from_user.username,time: Time.now.strftime("%H:%M")})
+		result={:conversation => conversation._id.to_s,:source_loginname => from_user.loginname, :target_loginname => target_user.loginname,:message => message.content,small_message: truncate(message.content, :length => 10),avatar: from_user.avatar_url('normal'),showname: from_user.username,time: Time.now.strftime("%H:%M")}
+		if message.add_document
+			result[:add_document_title] = message.add_document.title
+			result[:add_document_content] = message.add_document.get_message_content
+			result[:add_document_url] = document_path(message.add_document)
+		end
+		WebsocketRails[target_user.loginname].trigger(:user_message,result )
 	end
 	def save_message(source_id,target_id,content)
 		#p "#{source_id}\n"
