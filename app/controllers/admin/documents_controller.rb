@@ -28,7 +28,12 @@ class Admin::DocumentsController < ApplicationController
 		end
 	end
 	def index
-		@documents=@folder.documents.all.page(params[:page]).per(10)
+		@query_key=params[:q]
+		if @query_key.blank?
+			@documents=@folder.documents.all.page(params[:page]).per(12)
+		else
+			@documents=@folder.documents.where(title: /.*#{@query_key}.*/).page(params[:page]).per(12)
+		end
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
 	end
 	def new

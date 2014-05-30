@@ -1,5 +1,5 @@
-<%= paginate @documents, :theme => 'twitter-bootstrap-3' %>
-<% @documents.each do |doc| %>
+<%= paginate documents, :theme => 'twitter-bootstrap-3' %>
+<% documents.each do |doc| %>
 <div class="row">
     <div class="col-md-12">
         <div class="box box-info">
@@ -16,7 +16,9 @@
                   <%= link_to edit_admin_document_path(doc),class: "btn btn-success btn-xs" do %>
                       <i class="fa fa-edit"></i>
                   <% end %>
-                  <button class="btn btn-primary btn-xs "><i class="fa fa-eye"></i></button>
+                  <%= link_to document_path(doc),class: "btn btn-primary btn-xs " do %>
+                  <i class="fa fa-eye"></i>
+                  <% end %>
                   <!-- <a class="btn btn-warning btn-xs" href="<%= permission_model_admin_document_path(doc) %>" data-toggle="modal" data-target="#permission-modal"><i class="fa fa-cog"></i></a> -->
                   <button class="btn btn-primary btn-xs "><i class="fa fa-share-square-o"></i></button>
                   <button class="btn btn-primary btn-xs" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -41,7 +43,7 @@
     </div>
 </div>
 <% end %>
-<%= paginate @documents, :theme => 'twitter-bootstrap-3' %>
+<%= paginate documents, :theme => 'twitter-bootstrap-3' %>
 
 <div class="modal fade" id="permission-modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">

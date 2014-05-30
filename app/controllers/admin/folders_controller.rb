@@ -45,7 +45,13 @@ class Admin::FoldersController < ApplicationController
 	def show
 		#@folder = Folder.find(params[:id])
 		@document=@folder.documents.new
-		@documents=@folder.documents.all.page(params[:page]).per(15)
+		@query_key=params[:q]
+		if @query_key.blank?
+			@documents=@folder.documents.all.page(params[:page]).per(12)
+		else
+			@documents=@folder.documents.where(title: /.*#{@query_key}.*/).page(params[:page]).per(12)
+		end
+		
 		@properties =@folder.all_dynamic_properties
 		@identify_properties = @folder.all_identify_properties
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))

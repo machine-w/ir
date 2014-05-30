@@ -14,14 +14,22 @@
   </div>
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     
-    <form class="navbar-form navbar-left navbar-input-group" role="search">
+<!--     <form  class="navbar-form navbar-left navbar-input-group" role="search">
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="关键词">
+        <input type="text"  class="form-control" placeholder="关键词">
       </div>
       <button type="submit" class="btn btn-default">查找</button>
-    </form>
+    </form> -->
+    <%= form_tag("", method: "get",class: "navbar-form navbar-left navbar-input-group") do %>
+    <div class="input-group">
+      <input type="text" name="q" class="form-control" placeholder="检索文档" value='<%= query_key %>'/>
+      <span class="input-group-btn">
+        <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+      </span>
+    </div>
+    <% end %>
     
-    <ul class="nav navbar-nav navbar-right">
+<!--     <ul class="nav navbar-nav navbar-right">
       <li class="active"><a href="#">全部状态</a></li>
       <li><a href="#">状态一</a></li>
       <li><a href="#">状态一</a></li>
@@ -35,6 +43,6 @@
           <li><a href="#">状态一</a></li>
         </ul>
       </li>
-    </ul>
+    </ul> -->
   </div>
 </nav>

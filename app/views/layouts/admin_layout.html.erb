@@ -54,14 +54,14 @@
                     <!-- Sidebar user panel -->
                     <%= render_cell :admin_sidebar, :avatar,:user => @user %>
                     <!-- search form -->
-                    <form action="#" method="get" class="sidebar-form">
+                    <%= form_tag("/#{@user.loginname}/admin/search", method: "post",class: "sidebar-form") do %>
                         <div class="input-group">
                             <input type="text" name="q" class="form-control" placeholder="检索全部文档"/>
                             <span class="input-group-btn">
                                 <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
-                    </form>
+                    <% end %>
                     <!-- /.search form -->
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <%= render_cell :admin_sidebar, :folders,:user => @user %>

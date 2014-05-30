@@ -1,7 +1,7 @@
 <% provide(:title, @folder.name) %>
 <% provide(:page_name, @folder.name) %>
 <% provide(:page_summary, @folder.description) %>
-<%= render partial: 'shared/show_navbar',locals: {folder: @folder} %>
+<%= render partial: 'shared/show_navbar',locals: {folder: @folder,query_key: @query_key} %>
 <%= config_tab(0) %>
 <% case @folder.folder_type.list_view
   when :thesis %><%= render partial: 'show_thesis',locals: {folder: @folder,document: @document,documents: @documents,identify_properties: @identify_properties} %>
