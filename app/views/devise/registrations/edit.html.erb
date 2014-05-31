@@ -54,6 +54,11 @@
             <label class="control-label">涉及学科</label>
             <%= f.select 'third_disciplines',grouped_options_for_select(SecondDiscipline.all.inject({}) { |result,i| result[i.name]=i.third_disciplines.inject([]) { |mem, e| mem.push([e.name,e._id]) }; result },@user.third_disciplines.all.map { |e| e._id }),{},{class: "form-control select2",multiple: true} %>
       </div>
+      <div class="form-group">
+            <label class="control-label">主页背景图(留空使用默认背景)</label>
+            <% pictures=Picture.all.map { |i| [i.name,i._id,{'data-img'=> i.image_url}] }.unshift(['','']) %>
+            <%= f.select 'backpictures', options_for_select(pictures,@user.backpictures.all.map { |e| e.picture._id }),{},{class: "form-control select2-with-pic",multiple: true} %>
+      </div>
     </div>
     <div class="box-footer">
       <%= f.submit t("common.change_user"),  class: "btn btn-primary",id: "edit_user_submit",onclick: "if($(this).closest('form').valid() == false){return false;}" %>

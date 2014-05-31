@@ -63,6 +63,9 @@
 #瀑布流
 #= require masonry.pkgd.min
 #= require imagesloaded.pkgd.min
+format = (state) ->
+	originalOption = state.element;
+	"<img class='flag' width='100' src='" + $(originalOption).data('img') + "'/>" + state.text
 $ ->
 	fill_array_options = (arg) ->
     if(arg.attr('value')=='[]')
@@ -77,6 +80,7 @@ $ ->
 	$('.inputdecimal').inputmask("decimal");
 	# 设置选择框（admincommon移过来）
 	$('.select2').select2({allowClear: true});
+	$('.select2-with-pic').select2({formatResult: format,formatSelection: format});
 	# 所有sel_color类的录入框全都选颜色
 	$(".sel_color").colorpicker();
 	# 所有sel_date类的录入框全都选日期

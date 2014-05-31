@@ -73,7 +73,7 @@ class User
   #has_many :contacted, class_name: "Contact", inverse_of: :firend
   has_and_belongs_to_many :third_disciplines
   has_and_belongs_to_many :conversations,:dependent => :destroy
-
+  embeds_many :backpictures, cascade_callbacks: true
   #before_save :set_default_depart
   after_destroy :destroy_other_relation
 
@@ -87,6 +87,18 @@ class User
   end
   def my_join_groups
     Group.elem_match(group_members: { user_id: self._id })
+  end
+  def get_backpicture
+    pics= []
+    self.backpictures.all.each do |b|  
+      case b.type
+      when :system
+        pics.push(b.picture.image_url) if b.picture
+      when :custom
+        pics.push(b.image_url)
+      end
+    end
+    pics.to_json
   end
   protected
   # def set_default_depart

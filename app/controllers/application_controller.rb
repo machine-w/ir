@@ -43,10 +43,15 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:loginname,:username, :email, :password,:password_confirmation,:department,:user_type,:gender) }
     devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:login,:email, :password, :remember_me) }
     devise_parameter_sanitizer.for(:account_update) do |u|
-      results = u.permit(:username,:email, :password,:password_confirmation,:current_password,:department,{:third_disciplines => []},:user_type, :avatar, :avatar_cache,:gender)
+      results = u.permit(:username,:email, :password,:password_confirmation,:current_password,:department,{:third_disciplines => []},{:backpictures => []},:user_type, :avatar, :avatar_cache,:gender)
       results[:department] = Department.find(results[:department])
       results[:user_type] = UserType.find(results[:user_type])
       results[:third_disciplines].map! { |e| ThirdDiscipline.find(e) unless e.blank? }
+
+      results[:backpictures].map! { |e| Backpicture.new(type_cd: 1,picture: Picture.find(e)) unless e.blank? }
+      logger.debug results[:backpictures]
+      logger.debug results[:third_disciplines]
+      results[:backpictures]=[] if results[:backpictures].count == 1 && results[:backpictures][0].nil?
       results
     end
   end
