@@ -8,6 +8,8 @@ class HeaderCell < Cell::Rails
   def commontitle(args)
   	@home_user=args[:huser]
   	@current_user=args[:cuser]
+    @query_key=args[:query_key]
+    @ddg_name =args[:ddg_name]
     render
   end
 

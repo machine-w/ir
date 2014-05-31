@@ -13,6 +13,7 @@ class PermissionScope
 
   def get_users
   	result=[]
+    self.array_value=[] if self.array_value.nil?
   	self.array_value.each do |user_id|
   		begin
   			result.push User.find(user_id)
@@ -24,6 +25,7 @@ class PermissionScope
   end
   def get_departments
   	result=[]
+    self.array_value=[] if self.array_value.nil?
   	self.array_value.each do |depart_id|
   		begin
   			result.push Department.find(depart_id)
@@ -35,6 +37,7 @@ class PermissionScope
   end
   def get_disciplines
   	result=[]
+    self.array_value=[] if self.array_value.nil?
   	self.array_value.each do |dis_id|
   		begin
   			result.push ThirdDiscipline.find(dis_id)
@@ -46,6 +49,7 @@ class PermissionScope
   end
   def get_groups
   	result=[]
+    self.array_value=[] if self.array_value.nil?
   	self.array_value.each do |group_id|
   		begin
   			result.push Group.find(group_id)

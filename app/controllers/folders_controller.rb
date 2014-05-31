@@ -9,7 +9,13 @@ class FoldersController < ApplicationController
   	begin
   		folder = Folder.find(params[:id])
   		documents =[]
-  		folder.documents.all.each do |doc| 
+      @query_key=params[:q]
+      if @query_key.blank?
+        @all_docs=folder.documents.all
+      else
+        @all_docs=folder.documents.all.where(title: /.*#{@query_key}.*/)
+      end
+  		@all_docs.each do |doc| 
         documents.push doc if doc.visiable?(current_user)
       end
   		@docs = Kaminari.paginate_array(documents).page(params[:page]).per(10)

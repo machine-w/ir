@@ -1,5 +1,7 @@
 InstitutionalRepos::Application.routes.draw do
-  post ":user_id/search"  => "search#index"
+  get "discipline/:id" => "discipline#show"
+  get "department/:id" => "department#show"
+  #post ":user_id/search"  => "search#index"
   post ":user_id/admin/search" => "admin/search#index"
   post "fixview/pubu"
   #get "upload/serve"

@@ -7,10 +7,16 @@ class UsersController < ApplicationController
   def show
     documents =[]
     #@home_user.folders.each { |e| documents+= e.documents.all.entries.reject { |doc| doc.visiable?(current_user)} }
-    Document.or(@home_user.folders.map { |f| {folder: f} }).each do |doc| 
+    @query_key=params[:q]
+    if @query_key.blank?
+      @all_docs=Document.or(@home_user.folders.map { |f| {folder: f} })
+    else
+      @all_docs=Document.or(@home_user.folders.map { |f| {folder: f} }).where(title: /.*#{@query_key}.*/)
+    end
+    @all_docs.each do |doc| 
       documents.push doc if doc.visiable?(current_user)
     end
-    @docs = Kaminari.paginate_array(documents).page(params[:page]).per(10)
+    @docs = Kaminari.paginate_array(documents).page(params[:page]).per(12)
   end
   def admin
      @user=current_user

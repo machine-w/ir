@@ -152,9 +152,11 @@ class Document
   def increase_folder_count
     #logger.info "add count"
     self.folder.update_attribute(:doc_count, self.folder.doc_count + 1 )
+    #self.folder.inc(:doc_count, 1 )
   end
   def decrease_folder_count
     self.folder.update_attribute(:doc_count, self.folder.doc_count - 1 )
+    #self.folder.inc(:doc_count )
   end
   def fill_content_with_property
     self.content_html=fill_properties(self.get_original_content)

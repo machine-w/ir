@@ -1,23 +1,29 @@
 class SidebarCell < Cell::Rails
 
   def search(args)
-  	@user=args[:user]
+  	@home_user=args[:huser]
+    @current_user=args[:cuser]
+    @query_key=args[:query_key]
     render
   end
   def folders(args)
-  	@user=args[:user]
+  	@home_user=args[:huser]
+    @current_user=args[:cuser]
     render
   end
   def topdocs(args)
-    @user=args[:user]
+    @home_user=args[:huser]
+    @current_user=args[:cuser]
     render
   end
   def topusers(args)
-    @user=args[:user]
+    @home_user=args[:huser]
+    @current_user=args[:cuser]
     render
   end
   def tags(args)
-  	@user=args[:user]
+  	@home_user=args[:huser]
+    @current_user=args[:cuser]
     render
   end
 
