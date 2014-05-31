@@ -29,7 +29,7 @@
 		<%= @ddg_name %>
 	</div>
 <% end %>
-<%= form_tag("", method: "get",class: "navbar-form navbar-left") do %>
+<%= form_tag("", method: "get",class: "navbar-form navbar-left col-xs-2",id:"front-header-search") do %>
 <div class="input-group">
 	<input type="text" name="q" class="form-control" placeholder="检索文档" value='<%= @query_key %>'/>
 	<span class="input-group-btn">
