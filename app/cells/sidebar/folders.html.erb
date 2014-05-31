@@ -9,7 +9,13 @@
 			</div>
 		</div>
 		<div class="box-body">
-			建设中......
+			<div class="list-group">
+			<% @public_folders.each do |f| %>
+				<a href="<%= folder_path(f) %>" class="list-group-item <%= 'active' if @cur_folder == f %>" >
+					<i class="fa <%= f.folder_type.image_path %>"></i> <span><%= f.name %></span>
+				</a>
+			<% end -%>
+		</div>
 		</div>
 		<div class="box-footer">
 			

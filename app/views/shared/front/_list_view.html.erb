@@ -3,7 +3,7 @@
 </div>
 <div class="col-md-5">
 	<%= render_cell :sidebar, :search,:huser => @home_user,:cuser => current_user,:query_key => @query_key %>
-	<%= render_cell :sidebar, :folders,:huser => @home_user,:cuser => current_user%>
+	<%= render_cell :sidebar, :folders,:huser => @home_user,:cuser => current_user,:cur_folder => @folder%>
 	<%= render_cell :sidebar, :topusers,:huser => @home_user,:cuser => current_user%>
 	<%= render_cell :sidebar, :topdocs,:huser => @home_user,:cuser => current_user%>
 	<%= render_cell :sidebar, :tags,:huser => @home_user,:cuser => current_user%>
