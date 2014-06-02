@@ -9,7 +9,8 @@
       "email": "<%= user[0].email %>",
       "department": "<%= user[0].department.name if user[0].department %>",
       "user_type": "<%= user[0].user_type.name if user[0].user_type %>",
-      "avatar_small": "<%= user[0].avatar_url('normal') %>"
+      "avatar_small": "<%= user[0].avatar_url('normal') %>",
+      "login_name": "<%= user[0].loginname %>"
     }
 <% unless index == @all_users.count - 1%>
     ,

@@ -1,0 +1,8 @@
+[
+<% @all_shared_folders.each_with_index do |folder,index| %>
+  folder.to_json
+<% unless index == @all_users.count - 1%>
+    ,
+<% end %>
+<% end %>
+]

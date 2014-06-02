@@ -82,12 +82,14 @@
 			<label class='control-label'>选择公开结束时间: </label>
 			<input type='text' name='permission[end_date]' class='form-control sel_date' value='<%= permission.end_date.strftime("%Y年%m月%d日") if permission.end_date %>' />
 		</div>
+		<% unless is_folder %>
 		<div class="form-group">
 			<label class="checkbox">
 				<%= check_box_tag "permission[list_search_visiable]",1,permission.list_search_visiable %>
 				是否在列表与检索界面显示
 			</label>
 		</div>
+		<% end %>
 	</div>
 
 </div>

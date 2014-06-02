@@ -22,7 +22,11 @@ InstitutionalRepos::Application.routes.draw do
       member do
         get :admin
       end
-      resources :folders, only: [:index, :new, :create]
+      resources :folders, only: [:index, :new, :create] do
+        collection do
+          get :shared
+        end
+      end 
       namespace 'admin' do
         resources :folders, only: [:index, :new, :create]
         resources :contacts, only: [:index, :new, :create] do
@@ -61,8 +65,8 @@ InstitutionalRepos::Application.routes.draw do
     namespace 'admin' do
       resources :folders, only: [:show, :edit, :update, :destroy] do
           member do
-            get :config_property,:config_doc_view,:config_static_properties,:config_permission
-            put :update_doc_view,:update_static_properties,:update_permission
+            get :config_property,:config_doc_view,:config_static_properties,:config_permission,:config_share_permission
+            put :update_doc_view,:update_static_properties,:update_permission,:update_share_permission
           end
           resources :properties
           resources :documents, only: [:index, :new, :create]

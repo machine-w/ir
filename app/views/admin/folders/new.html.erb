@@ -18,7 +18,11 @@
 					<label for="add_folder_type" class="control-label">目录类型</label>
 					<%= f.collection_select :folder_type, FolderType.all, :id, :name, {},{class: "form-control select2",id:"add_folder_type"} %>
 				</div>
-
+				<div class="form-group">
+					<label for="add_folder_parent" class="control-label">继承目录</label>
+					<%= f.hidden_field :parent_folder,class: "form-control",id: "add_folder_parent" %>
+					<a class="btn btn-default btn-block" data-toggle="modal" data-target="#parent-modal">无继承目录</a>
+				</div>
 				<div class="form-group">
 					<label for="add_folder_group">目录集</label>
 					<%= f.hidden_field :folder_group,class: "form-control",id: "add_folder_group" %>
@@ -47,3 +51,40 @@
 		</div>
 	</div>
 </div>
+
+<div class="modal fade" id="parent-modal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"><i class="fa fa-indent"></i>选择继承目录</h4>
+			</div>
+			<div class="modal-body">
+				
+				<div class="row">
+					<div class="col-md-6">
+						<label  class="control-label">我的目录：</label>
+						<ul class="nav nav-pills nav-stacked" id='my-folder-list' data-myfoldersurl="<%= user_admin_folders_path(@user.loginname,format: :json) %>" style="overflow-y: auto;">
+						</ul>
+					</div>
+					<div class="col-md-6">
+						<label  class="control-label">其他人的目录：</label>
+						<input type="text" id='sel-parent-folder-user'
+				in-firend-url='<%= users_in_firend_user_admin_contacts_path(@user.loginname, :format => :json) %>' 
+				not-firend-url='<%= users_not_firend_user_admin_contacts_path(@user.loginname, :format => :json) %>' 
+				discipline-not-firend-url='<%= discipline_not_firend_user_admin_contacts_path(@user.loginname, :format => :json) %>' 
+				department-not-firend-url='<%= department_not_firend_user_admin_contacts_path(@user.loginname, :format => :json) %>' class="search-query form-control typeahead" placeholder="查找共享目录用户" >
+						<ul class="nav nav-pills nav-stacked" id='shared-folder-list' style="overflow-y: auto;">
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer clearfix">
+				<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>关闭</button>
+				<button type="submit" class="btn btn-success pull-left" onclick: ""><i class="fa fa-caret-right"></i>确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%= javascript_include_tag "admin/sel_parent_folder", "data-turbolinks-track" => true %>

@@ -23,6 +23,7 @@ class Folder
   embeds_many :properties
   embeds_many :attritubes, cascade_callbacks: true
   embeds_one :permission, autobuild: true
+  embeds_one :share_permission, :class_name => 'Permission', autobuild: true
   has_many :documents, :dependent => :destroy
   has_many :child_folders, :class_name => 'Folder', :inverse_of => :parent_folder
   belongs_to :parent_folder, :class_name => 'Folder', :inverse_of => :child_folders
@@ -82,9 +83,32 @@ class Folder
       end
     end
   end
+  def share_visiable?(visitor)
+    return true if self.user == visitor
+    folder_permission = self.share_permission
+    if folder_permission.inherit
+      self.parent_folder.nil? ? false : self.parent_folder.visiable?(visitor)
+    elsif folder_permission.privated
+      false
+    elsif folder_permission.all?
+      true
+    elsif folder_permission.user?
+      visitor.nil? ? false : true
+    elsif folder_permission.scope?
+      if visitor.nil?
+        false
+      else
+        folder_permission.permission_scopes.each do |scope| 
+          return true if scope.visiable?(visitor,self.user)
+        end
+        false
+      end
+    end
+  end
   protected
   def set_permission
     if self.new_record?
+      self.build_share_permission({inherit: false,privated: true})
       unless self.parent_folder.nil?
         self.build_permission({inherit: true})
       else

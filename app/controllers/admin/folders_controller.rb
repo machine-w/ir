@@ -2,7 +2,7 @@ class Admin::FoldersController < ApplicationController
 	include NotificationsHelper
 	before_filter :authenticate_user!
 	before_filter :set_user
-	before_filter :set_folder, only: [:show, :edit, :update, :destroy, :config_property,:config_doc_view,:update_doc_view,:config_static_properties,:config_permission,:update_permission,:update_static_properties]
+	before_filter :set_folder, only: [:show, :edit, :update, :destroy, :config_property,:config_doc_view,:update_doc_view,:config_static_properties,:config_permission,:update_permission,:update_static_properties,:config_share_permission,:update_share_permission]
 	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
 	layout "admin_layout"
 	def create
@@ -40,8 +40,13 @@ class Admin::FoldersController < ApplicationController
 		@folder_group_json=@user.folder_groups.all.to_json(:only => [ :_id, :name ])
 	end
 	def index
-
+		@folders =@user.folders.all
+		respond_to do |format|
+			format.html
+			format.json { render :json => @folders.to_json(include: {:folder_type => { only: [:image_path]}},only: [:_id,:name]) }  
+		end
 	end
+
 	def show
 		#@folder = Folder.find(params[:id])
 		@document=@folder.documents.new
@@ -87,6 +92,21 @@ class Admin::FoldersController < ApplicationController
 		error_msg= set_permission(params,@folder)
 		if  error_msg == '' && @folder.save
 
+			redirect_to :back, notice: '成功修改权限。'
+		else
+			@folder.errors.full_messages.each do |msg|
+   				error_msg += msg + ','
+   			end
+			redirect_to :back, alert: error_msg
+		end
+	end
+	def config_share_permission
+		
+	end
+	def update_share_permission
+		error_msg= ''
+		error_msg= set_share_permission(params,@folder)
+		if  error_msg == '' && @folder.save
 			redirect_to :back, notice: '成功修改权限。'
 		else
 			@folder.errors.full_messages.each do |msg|

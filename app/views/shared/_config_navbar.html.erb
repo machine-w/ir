@@ -5,14 +5,13 @@
 	<li><a href="<%= config_doc_view_admin_folder_path(folder) %>">文档视图</a></li>
 	<li><a href="<%= config_static_properties_admin_folder_path(folder) %>">静态属性</a></li>
 	<li><a href="<%= config_permission_admin_folder_path(folder) %>">访问权限</a></li>
-	<li><a href="#">文档状态</a></li>
 	<li class="dropdown">
 		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-			继承与投稿<span class="caret"></span>
+			目录继承<span class="caret"></span>
 		</a>
 		<ul class="dropdown-menu">
-			<li><a href="#">继承与投稿的开放范围</a></li>
-			<li><a href="#">属性的继承权限</a></li>
+			<li><a href="<%= config_share_permission_admin_folder_path(folder) %>">继承范围</a></li>
+			<li><a href="#">继承权限</a></li>
 		</ul>
 	</li>
 </ul>

@@ -114,5 +114,58 @@ class ApplicationController < ActionController::Base
     end
     error_msg
   end
+  def set_share_permission(param,host)
+    error_msg = ""
+    result=param.require(:permission).permit(:inherit,:private,:public_type,{:public_scope => []},{:sel_department => []},{:sel_discipline => []},{:sel_mygroup => []},{:sel_joingroup => []},{:sel_contact => []},:member_list,:end_date,:list_search_visiable,:send_message,:send_group_message)
+    unless result[:public_scope].blank?
+      result[:public_scope].map! do |e|
+        scope = PermissionScope.find_or_initialize_by(type: e) unless e.blank?
+        #logger.debug "111111#{e}222222"
+        case e
+        when 'sel_department'
+          scope.array_value = result[:sel_department] || []
+        when 'sel_discipline'
+          scope.array_value = result[:sel_discipline] || []
+        when 'my_group'
+          scope.array_value = result[:sel_mygroup] || []
+          auto_send_group_message(host,scope.array_value) if result.has_key?(:send_group_message) && host.class == Document
+        when 'join_group'
+          scope.array_value = result[:sel_joingroup] || []
+          auto_send_group_message(host,scope.array_value) if result.has_key?(:send_group_message) && host.class == Document
+        when 'sel_contact'
+          scope.array_value = result[:sel_contact] || []
+          auto_send_message(host,scope.array_value) if result.has_key?(:send_message) && host.class == Document
+        when 'user_list'
+          logger.debug result[:member_list]
+          scope.array_value = JSON.parse(result[:member_list])
+          auto_send_message(host,scope.array_value) if result.has_key?(:send_message) && host.class == Document
+        end
+        scope
+      end
+    end
+    if result.has_key? :inherit
+      host.share_permission.inherit = false
+      if result.has_key? :private
+        host.share_permission.privated = false
+        host.share_permission.public_type = result['public_type']
+        host.share_permission.list_search_visiable = result.has_key?(:list_search_visiable) ? true : false
+        begin
+          unless result['end_date'].blank?
+            host.share_permission.end_date = Date.strptime(result['end_date'], "%Y年%m月%d日")
+          else
+            host.share_permission.end_date = nil
+          end
+        rescue
+          error_msg ="日期格式错误;"
+        end
+        host.share_permission.permission_scopes = result['public_scope']
+      else
+        host.share_permission.privated = true
+      end   
+    else
+      host.share_permission.inherit = true
+    end
+    error_msg
+  end
   
 end
