@@ -221,7 +221,18 @@ class Admin::FoldersController < ApplicationController
 		@folder = @user.folders.find(params[:id])
 	end
 	def folders_params
-		params.require(:folder).permit(:name,:folder_type,:folder_group,:tile,:tile_color,:description,:doc_default_content)
+		results = params.require(:folder).permit(:name,:folder_type,:parent_folder,:folder_group,:tile,:tile_color,:description,:doc_default_content)
+		if results[:parent_folder].blank?
+			results[:parent_folder] = nil
+		else
+			begin
+				results[:parent_folder] = Folder.find(results[:parent_folder])
+			rescue
+				results[:parent_folder] = nil
+			end
+			
+		end
+		results
 	end
 	def property_params
 		all_array=@folder.properties.enable_static.map { |i| i.muli_enum? ? {i.name => [] } : i.name }

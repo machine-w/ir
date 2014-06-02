@@ -95,3 +95,25 @@ $ ->
 			$.each result, (index, value) ->
 				$(selFoderTemplate(value.folder_type.image_path,value.name,value._id.$oid)).prependTo('#my-folder-list').hide().slideDown(300);
 
+	$("#new_folder_update_parent").click ->
+		if $('#shared-folder-list').children('.active').length > 0
+			$("#add_folder_parent").val($('#shared-folder-list').children('.active')[0].id)
+			$("#add_folder_parent_btn").removeClass('btn-default')
+			$("#add_folder_parent_btn").addClass('btn-primary')
+			$("#add_folder_parent_btn").text($('#shared-folder-list').children('.active').children('a').text())
+		else if $('#my-folder-list').children('.active').length > 0
+			$("#add_folder_parent").val($('#my-folder-list').children('.active')[0].id)
+			$("#add_folder_parent_btn").removeClass('btn-default')
+			$("#add_folder_parent_btn").addClass('btn-primary')
+			$("#add_folder_parent_btn").text($('#my-folder-list').children('.active').children('a').text())
+		else
+			$("#add_folder_parent").val('')
+			$("#add_folder_parent_btn").removeClass('btn-primary')
+			$("#add_folder_parent_btn").addClass('btn-default')
+			$("#add_folder_parent_btn").text('无继承目录')
+		$('#my-folder-list').children().removeClass('active')
+		$('#shared-folder-list').children().removeClass('active')
+			
+		
+			
+

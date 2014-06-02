@@ -21,7 +21,7 @@
 				<div class="form-group">
 					<label for="add_folder_parent" class="control-label">继承目录</label>
 					<%= f.hidden_field :parent_folder,class: "form-control",id: "add_folder_parent" %>
-					<a class="btn btn-default btn-block" data-toggle="modal" data-target="#parent-modal">无继承目录</a>
+					<a class="btn btn-default btn-block" id="add_folder_parent_btn" data-toggle="modal" data-target="#parent-modal">无继承目录</a>
 				</div>
 				<div class="form-group">
 					<label for="add_folder_group">目录集</label>
@@ -81,7 +81,7 @@
 			</div>
 			<div class="modal-footer clearfix">
 				<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>关闭</button>
-				<button type="submit" class="btn btn-success pull-left" onclick: ""><i class="fa fa-caret-right"></i>确定</button>
+				<button type="submit" class="btn btn-success pull-left" data-dismiss="modal" id="new_folder_update_parent"><i class="fa fa-caret-right"></i>确定</button>
 			</div>
 		</div>
 	</div>
