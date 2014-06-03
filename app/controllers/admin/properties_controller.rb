@@ -1,7 +1,5 @@
 class Admin::PropertiesController < ApplicationController
 	#include ActionView::Helpers::TextHelper
-	#include ActionView::Helpers::SanitizeHelper
-	#include ActionView::Helpers::SanitizeHelper
 	include ActionView::Helpers::SanitizeHelper
 	include ActionController::Base::Helpers
 	include NotificationsHelper
@@ -31,8 +29,8 @@ class Admin::PropertiesController < ApplicationController
 		@property=@folder.properties.find(params[:id])
 		error_msg='错误：'
 		if params.has_key?('hidden-property')
-			@property.enum_option=strip_tags(tags_params['enum_option']).split(',') if tags_params.has_key?('enum_option')
-			@property.file_type=strip_tags(tags_params['file_type']).split(',') if tags_params.has_key?('file_type')
+			@property.enum_option=ActionController::Base.helpers.strip_tags(tags_params['enum_option']).split(',') if tags_params.has_key?('enum_option')
+			@property.file_type=ActionController::Base.helpers.strip_tags(tags_params['file_type']).split(',') if tags_params.has_key?('file_type')
 		end 
 		if @property.update_attributes(properties_params)
 			modify_property_notification(@user,@folder,@property)
