@@ -1,0 +1,42 @@
+	<% provide(:title, "配置:"+@folder.name) %>
+	<% provide(:page_name, "配置:"+@folder.name) %>
+	<% provide(:page_summary, "配置目录共享的属性权限") %>
+	<%= render partial: 'shared/config_navbar',locals: {folder: @folder} %>
+	<%= config_tab(5) %>
+	<h4 class="page-header">
+		<form action="" method="get" class="sidebar-form">
+			<div class="input-group">
+				<input type="text" name="q" class="form-control" placeholder="搜索属性" value="<%= @query_key %>">
+				<span class="input-group-btn">
+					<button type="submit" name="seach" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+				</span>
+			</div>
+		</form>
+	</h4>
+	<div class="row connectedSortable">
+		<% @properties.each_with_index do |p,i| %>
+			<% unless p.name.blank? %>
+				<div class="col-md-3 col-sm-6 ">
+					<div class="box box-solid box-<%= p.get_color %>">
+						<div class="box-header">
+							<h3 class="box-title"><i class='fa <%= p.type_image() %>'></i>|<%= p.name %></h3>
+							<div class="box-tools pull-right">
+								<button class="btn btn-<%= p.get_color %> btn-sm" data-widget="collapse"><i class="fa fa-cog"></i></button>
+							</div>
+						</div>
+						<div class="box-body property-box ">
+							<div class="form-group">
+								<%= select_tag :inherit_type, options_for_select([['私有', 'private'], ['只读', 'protect'],['共有', 'public']],p.inherit_type),{class: "form-control select-share-property",'data-url' => update_share_admin_folder_property_path(@folder,p,:format => :json)} %>
+							</div>
+						</div>
+<!-- 						<div class="box-footer property-box">
+						</div> -->
+					</div><!-- /.box -->
+				</div><!-- /.col -->
+			
+			<% if ((i+1) % 4) == 0 %>
+			</div><div class="row connectedSortable">
+			<% end %>
+			<% end %>
+		<% end %>
+	</div>

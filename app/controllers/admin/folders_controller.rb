@@ -2,7 +2,7 @@ class Admin::FoldersController < ApplicationController
 	include NotificationsHelper
 	before_filter :authenticate_user!
 	before_filter :set_user
-	before_filter :set_folder, only: [:show, :edit, :update, :destroy, :config_property,:config_doc_view,:update_doc_view,:config_static_properties,:config_permission,:update_permission,:update_static_properties,:config_share_permission,:update_share_permission]
+	before_filter :set_folder, only: [:show, :edit, :update, :destroy, :config_property,:config_doc_view,:update_doc_view,:config_static_properties,:config_permission,:update_permission,:update_static_properties,:config_share_permission,:update_share_permission,:config_share_property]
 	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
 	layout "admin_layout"
 	def create
@@ -70,9 +70,24 @@ class Admin::FoldersController < ApplicationController
 	end
 	def config_property
 		@property=@folder.properties.build
-		@properties=@folder.properties.all
+		@query_key=params[:q]
+		if @query_key.blank?
+			@properties=@folder.properties.all
+		else
+			@properties=@folder.properties.where(name: /.*#{@query_key}.*/)
+		end
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
 		drop_breadcrumb("配置文档属性", config_property_admin_folder_path(@folder))
+	end
+	def config_share_property
+		@query_key=params[:q]
+		if @query_key.blank?
+			@properties=@folder.properties.all
+		else
+			@properties=@folder.properties.where(name: /.*#{@query_key}.*/)
+		end
+		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
+		drop_breadcrumb("配置共享权限", config_property_admin_folder_path(@folder))
 	end
 	def config_doc_view
 		@properties=@folder.properties.all
@@ -85,7 +100,7 @@ class Admin::FoldersController < ApplicationController
 		drop_breadcrumb("配置静态属性", config_doc_view_admin_folder_path(@folder))
 	end
 	def config_permission
-		
+		drop_breadcrumb("配置共享范围", config_property_admin_folder_path(@folder))
 	end
 	def update_permission
 		error_msg= ''

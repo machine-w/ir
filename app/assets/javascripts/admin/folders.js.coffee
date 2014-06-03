@@ -186,6 +186,29 @@ $ ->
      summer_note.closest('form').submit ->
        summer_note.val summer_note.code()
      true
+
+    #配置共享属性开放权限
+    $('.select-share-property').select2()
+    $(".select-share-property").on "change", (e) ->
+    	sel_val = e.val
+    	$.ajax
+    		url: $(this).data('url')
+    		type: "put"
+    		data: {inherit_type: sel_val}
+    		success: (result) ->
+    			if result['status'] == 'true'
+    				Messenger().post
+    					message: result['message'],
+    					type: 'success',
+    					showCloseButton: true
+    			else
+    				Messenger().post
+    					message: result['message'],
+    					type: 'error',
+    					showCloseButton: true
+    			
+    			
+    	false
  
 
 
