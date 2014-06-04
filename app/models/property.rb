@@ -43,6 +43,7 @@ class Property
 	scope :grid_show, where(static: false,disable: false,view_in_grid: true)
 	scope :identify_property, where(disable: false,be_identify: true)
 	scope :tree_all_property, where(:inherit_type_cd.ne => 1)
+	scope :tree_public_property, where(:inherit_type_cd => 0)
 	embedded_in :folder
 
 	validates_presence_of :name,:show_name,:type,:static,:require,:disable,:view_in_grid,:inherit_type

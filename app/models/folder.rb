@@ -71,22 +71,64 @@ class Folder
     end
     properties
   end
+  def tree_dynamic_properties
+    properties=[]
+      properties = self.properties.tree_public_property.enable_not_static.entries
+      properties.each { |e| e.set_inherit }
+      properties = self.parent_folder.tree_dynamic_properties + properties unless self.parent_folder.nil?
+    properties
+  end
   def all_dynamic_properties
-    self.properties.enable_not_static
+    properties=[]
+    properties = self.properties.enable_not_static.entries
+    properties = properties + self.parent_folder.tree_dynamic_properties  unless self.parent_folder.nil?
+    properties
+  end
+  def tree_enable_properties
+    properties=[]
+      properties = self.properties.tree_all_property.enable_all.entries
+      properties.each { |e| e.set_inherit }
+      properties = self.parent_folder.tree_enable_properties + properties unless self.parent_folder.nil?
+    properties
   end
   def all_enable_properties
-    self.properties.enable_all
+    properties=[]
+    properties = self.properties.enable_all.entries
+    properties = properties + self.parent_folder.tree_enable_properties  unless self.parent_folder.nil?
+    properties
+  end
+  def tree_identify_properties
+    properties=[]
+      properties = self.properties.identify_property.entries
+      properties.each { |e| e.set_inherit }
+      properties = self.parent_folder.tree_identify_properties + properties unless self.parent_folder.nil?
+    properties
   end
   def all_identify_properties
-    self.properties.identify_property
+    properties=[]
+    properties = self.properties.identify_property.entries
+    properties = properties + self.parent_folder.tree_identify_properties  unless self.parent_folder.nil?
+    properties
   end
   #数据表中没有必要显示静态属性
+  def tree_grid_show_properties
+    properties=[]
+      properties = self.properties.tree_all_property.grid_show.entries
+      properties.each { |e| e.set_inherit }
+      properties = self.parent_folder.tree_grid_show_properties + properties unless self.parent_folder.nil?
+    properties
+  end
   def all_grid_show_properties
-    self.properties.grid_show
+    properties=[]
+    properties = self.properties.grid_show.entries
+    properties = properties + self.parent_folder.tree_grid_show_properties  unless self.parent_folder.nil?
+    properties
   end
   def attr_value(property_name)
     if self.attritubes.where(property_name: property_name).exists?
       self.attritubes.where(property_name: property_name).first.get_value
+    elsif self.parent_folder
+        self.parent_folder.attr_value(property_name)
     else
       nil
     end
@@ -94,6 +136,8 @@ class Folder
   def content_attr_value(property_name)
     if self.attritubes.where(property_name: property_name).exists?
       self.attritubes.where(property_name: property_name).first.get_content_value
+    elsif self.parent_folder
+        self.parent_folder.content_attr_value(property_name)
     else
       ''
     end

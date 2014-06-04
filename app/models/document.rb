@@ -42,13 +42,22 @@ class Document
 
 
   def all_dynamic_properties
-    self.folder.properties.enable_not_static
+    properties=[]
+    properties = self.folder.properties.enable_not_static.entries
+    properties = properties + self.folder.parent_folder.tree_dynamic_properties  unless self.folder.parent_folder.nil?
+    properties
   end
   def all_enable_properties
-    self.folder.properties.enable_all
+    properties=[]
+    properties = self.folder.properties.enable_all.entries
+    properties = properties + self.folder.parent_folder.tree_enable_properties  unless self.folder.parent_folder.nil?
+    properties
   end
   def all_identify_properties
-    self.folder.properties.identify_property
+    properties=[]
+    properties = self.folder.properties.identify_property.entries
+    properties = properties + self.folder.parent_folder.tree_identify_properties  unless self.folder.parent_folder.nil?
+    properties
   end
   #暂时只返回填入的内容
   def get_content

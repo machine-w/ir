@@ -48,7 +48,7 @@ class Admin::PropertiesController < ApplicationController
 		status=true
 		@property=@folder.properties.find(params[:id])
 		if @property.update_attribute(:inherit_type, params[:inherit_type])
-			modify_property_notification(@user,@folder,@property)
+			#modify_property_notification(@user,@folder,@property)
 			error_msg="成功修改属性#{@property.name}共享属性"
 			status=true
 		else

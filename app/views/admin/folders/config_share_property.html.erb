@@ -26,7 +26,7 @@
 						</div>
 						<div class="box-body property-box ">
 							<div class="form-group">
-								<%= select_tag :inherit_type, options_for_select([['私有', 'private'], ['只读', 'protect'],['共有', 'public']],p.inherit_type),{class: "form-control select-share-property",'data-url' => update_share_admin_folder_property_path(@folder,p,:format => :json)} %>
+								<%= select_tag :inherit_type, options_for_select([['私有', 'private'], ['只读', 'protect'],['公有', 'public']],p.inherit_type),{class: "form-control select-share-property",'data-url' => update_share_admin_folder_property_path(@folder,p,:format => :json)} %>
 							</div>
 						</div>
 <!-- 						<div class="box-footer property-box">
