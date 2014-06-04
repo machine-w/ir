@@ -34,10 +34,47 @@ class Folder
     folder.tile = (folder.tile == "1") ? true : false
     true
   end
+  def tree_properties(key)
+    properties=[]
+    if key.blank?
+      properties = self.properties.tree_all_property.entries
+      properties.each { |e| e.set_inherit }
+      properties = self.parent_folder.tree_properties(key) + properties unless self.parent_folder.nil?
+    else
+      properties = self.properties.tree_all_property.where(name: /.*#{key}.*/).entries
+      properties.each { |e| e.set_inherit }
+      properties = self.parent_folder.tree_properties(key) + properties unless self.parent_folder.nil?
+    end
+    properties
+  end
+  def tree_have_property?(p_name)
+      if self.properties.where(name: p_name).exists?
+        # logger.debug { "#{self.name}true" }
+        # logger.debug { "#{p_name}" }
+        return true
+      elsif self.parent_folder.nil?
+        # logger.debug { "#{self.name}false" }
+        # logger.debug { "#{p_name}" }
+        return false
+      else  
+        return self.parent_folder.tree_have_property?(p_name)
+      end
+  end
+  def all_all_properties(key)
+    properties=[]
+    if key.blank?
+      properties = self.properties.all.entries
+      properties = self.parent_folder.tree_properties(key) + properties unless self.parent_folder.nil?
+    else
+      properties = self.properties.where(name: /.*#{key}.*/).entries
+      properties = self.parent_folder.tree_properties(key) + properties unless self.parent_folder.nil?
+    end
+    properties
+  end
   def all_dynamic_properties
     self.properties.enable_not_static
   end
-  def all_properties
+  def all_enable_properties
     self.properties.enable_all
   end
   def all_identify_properties

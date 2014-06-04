@@ -42,11 +42,12 @@ class Property
 	scope :enable_all, where(disable: false)
 	scope :grid_show, where(static: false,disable: false,view_in_grid: true)
 	scope :identify_property, where(disable: false,be_identify: true)
+	scope :tree_all_property, where(:inherit_type_cd.ne => 1)
 	embedded_in :folder
 
 	validates_presence_of :name,:show_name,:type,:static,:require,:disable,:view_in_grid,:inherit_type
-	validates_uniqueness_of :name,message: "同一目录属性不可以重名！"
-
+	validates_uniqueness_of :name,message: "同一目录属性重名！"
+	validate :val_name
 	before_save do |property|
 		property.static = (property.static == "1") ? true : false
 		property.disable = (property.disable == "1") ? true : false
@@ -96,14 +97,17 @@ class Property
 		self.show_name.blank? ? self.name : self.show_name
 	end
 	def is_inherit?
-		false
+		@inherit ? true : false
+	end
+	def set_inherit
+		@inherit = true
 	end
 	def get_color
 		color='primary'
 		color='success' if self.view_in_grid
 		color='warning' if self.static
-		color='info' if self.is_inherit?
-		color='default' if self.disable
+		color='info' if self.disable
+		color='default' if  self.is_inherit?
 		color
 	end
 	def is_identify?
@@ -111,5 +115,11 @@ class Property
 	end
 	def static_css
 		self.static ? 'is-static' : ''
+	end
+	private
+	def val_name
+		if folder.parent_folder && folder.parent_folder.tree_have_property?(name)
+			errors.add(:name, "父目录中有同名属性！")
+		end
 	end
 end

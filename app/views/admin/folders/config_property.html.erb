@@ -23,29 +23,32 @@
 							<div class="box-tools pull-right">
 								<button class="btn btn-<%= p.get_color %> btn-sm" data-widget="collapse"><i class="fa fa-cog"></i></button>
 								 <!-- <button class="btn btn-default btn-sm" data-widget="remove" onclick = "$(this).next().submit()"><i class="fa fa-times"></i></button> -->
-								 <%= link_to admin_folder_property_path(@folder,p) , method: :delete, data: { confirm: "属性#{p.name}将被删除" },class: "btn btn-danger btn-sm" do %>
+								 <% unless p.is_inherit? %>
+								 	<%= link_to admin_folder_property_path(@folder,p) , method: :delete, data: { confirm: "属性#{p.name}将被删除" },class: "btn btn-danger btn-sm " do %>
                     				<i class="fa fa-times"></i>
-                  				 <% end %>
+                  				 	<% end %>
+								 <% end %>
+								 
 								 
 							</div>
 						</div>
 						<%= form_for p, url: admin_folder_property_path(@folder,p), method: :put, html: {role: "form",class: "form_w_val"} do |f| %>
 						<div class="box-body property-box" style="display:none">
 							<div class="form-group">
-								<%= f.text_field :name, placeholder: "属性名（建议使用英文字母组合）", class: "form-control", 'check-type' => "required", 'required-message' => "请填写属性名", maxlength: "15" %>
+								<%= f.text_field :name, placeholder: "属性名（建议使用英文字母组合）", class: "form-control ", 'check-type' => "required", 'required-message' => "请填写属性名", maxlength: "15",disabled: (p.is_inherit? ? 'true' : nil) %>
 							</div>
 							<div class="form-group">
-								<%= f.text_field :show_name, placeholder: "属性显示名称", class: "form-control",'check-type' => "required", 'required-message' => "请填写属性显示名", maxlength: "30" %>
+								<%= f.text_field :show_name, placeholder: "属性显示名称", class: "form-control",'check-type' => "required", 'required-message' => "请填写属性显示名", maxlength: "30",disabled: (p.is_inherit? ? 'true' : nil)  %>
 							</div>
 							<div style="-moz-border-radius: 5px;  -webkit-border-radius: 5px; border: 1.5px solid #600; padding: 10px;">
 								<% if [:string, :text, :integer,:number,:file,:array,:pdf,:picture,:video,:music].include? p.type %>
 								<div class="form-group">
 									<div class="row" >
 										<div class="col-xs-6">
-											<%= f.text_field :min_value,placeholder: "最小值",class: "form-control inputnumber",maxlength: "6" %>
+											<%= f.text_field :min_value,placeholder: "最小值",class: "form-control inputnumber",maxlength: "6",disabled: (p.is_inherit? ? 'true' : nil)  %>
 										</div>
 										<div class="col-xs-6">
-											<%= f.text_field :max_value,placeholder: "最大值",class: "form-control inputnumber",maxlength: "6" %>
+											<%= f.text_field :max_value,placeholder: "最大值",class: "form-control inputnumber",maxlength: "6",disabled: (p.is_inherit? ? 'true' : nil)  %>
 										</div>
 									</div>
 								</div>
@@ -54,27 +57,27 @@
 								<div class="form-group">
 									<div class="row" >
 										<div class="col-xs-6">
-											<%= f.text_field :front_ext,placeholder: "前导字符",class: "form-control",maxlength: "6" %>
+											<%= f.text_field :front_ext,placeholder: "前导字符",class: "form-control",maxlength: "6",disabled: (p.is_inherit? ? 'true' : nil)  %>
 										</div>
 										<div class="col-xs-6">
-											<%= f.text_field :back_ext,placeholder: "后导字符",class: "form-control",maxlength: "6" %>
+											<%= f.text_field :back_ext,placeholder: "后导字符",class: "form-control",maxlength: "6",disabled: (p.is_inherit? ? 'true' : nil)  %>
 										</div>
 									</div>
 								</div>
 								<% end %>
 								<% if [:string,:text].include? p.type %>
 								<div class="form-group">
-									<%= f.text_field :string_format,placeholder: "字符串匹配格式",class: "form-control",maxlength: "500"%>
+									<%= f.text_field :string_format,placeholder: "字符串匹配格式",class: "form-control",maxlength: "500",disabled: (p.is_inherit? ? 'true' : nil) %>
 								</div>
 								<% end %>
 								<% if [:enum,:muli_enum].include? p.type %>
 								<div class="form-group">
-									<%= f.text_field :enum_option,placeholder: "选择项（逗号或回车分割）",class: "form-control modify_property_enum_options",maxlength: "20"%>
+									<%= f.text_field :enum_option,placeholder: "选择项（逗号或回车分割）",class: "form-control modify_property_enum_options",maxlength: "20",disabled: (p.is_inherit? ? 'true' : nil) %>
 								</div>
-									<% if :muli_enum == p.type %>
+									<% if :muli_enum == p.type && !p.is_inherit? %>
 									<div class="form-group">
 										<label class="checkbox">
-											<%= f.check_box :be_identify%>
+											<%= f.check_box :be_identify %>
 											认证属性
 										</label>
 									</div>
@@ -86,17 +89,17 @@
 								<% end %>
 								<% if :file == p.type %>
 								<div class="form-group">
-									<%= f.text_field :file_type,placeholder: "可以接受的文件后缀",class: "form-control modify_property_file_type",maxlength: "10"%>
+									<%= f.text_field :file_type,placeholder: "可以接受的文件后缀",class: "form-control modify_property_file_type",maxlength: "10",disabled: (p.is_inherit? ? 'true' : nil)%>
 								</div>
 								<% end %>
 								<% if :data_sheet == p.type %>
 								<div class="form-group">
 									<div class="row" >
 										<div class="col-xs-6">
-											<%= f.text_field :data_x,placeholder: "列数",class: "form-control inputnumber",maxlength: "4" %>
+											<%= f.text_field :data_x,placeholder: "列数",class: "form-control inputnumber",maxlength: "4",disabled: (p.is_inherit? ? 'true' : nil) %>
 										</div>
 										<div class="col-xs-6">
-											<%= f.text_field :data_y,placeholder: "行数",class: "form-control inputnumber",maxlength: "4" %>
+											<%= f.text_field :data_y,placeholder: "行数",class: "form-control inputnumber",maxlength: "4",disabled: (p.is_inherit? ? 'true' : nil) %>
 										</div>
 									</div>
 								</div>
@@ -110,19 +113,19 @@
 							<div class="modify_property_adv_pane" style="-moz-border-radius: 5px;  -webkit-border-radius: 5px; border: 1.5px solid #600; padding: 10px;">	
 								<div class="control-group">								
 									<label class="checkbox">
-										<%= f.check_box :require%>
+										<%= f.check_box :require,disabled: (p.is_inherit? ? 'true' : nil)%>
 										必填属性
 									</label>
 									<label class="checkbox">
-										<%= f.check_box :static%>
+										<%= f.check_box :static,disabled: (p.is_inherit? ? 'true' : nil)%>
 										静态属性
 									</label>
 									<label class="checkbox">
-										<%= f.check_box :view_in_grid%>
+										<%= f.check_box :view_in_grid,disabled: (p.is_inherit? ? 'true' : nil)%>
 										数据库列表可见
 									</label>
 									<label class="checkbox">
-										<%= f.check_box :edit_in_grid%>
+										<%= f.check_box :edit_in_grid,disabled: (p.is_inherit? ? 'true' : nil)%>
 										数据库列表可编辑
 									</label>
 									<!-- 
@@ -132,17 +135,17 @@
 									</label> 
 								    -->
 									<label class="checkbox">
-										<%= f.check_box :disable%>
+										<%= f.check_box :disable,disabled: (p.is_inherit? ? 'true' : nil)%>
 										禁用属性
 									</label>
 								</div>
 								<div class="control-group">
-									<%= f.text_area :description, placeholder: "属性说明",class: "form-control",maxlength: "1000" %>
+									<%= f.text_area :description, placeholder: "属性说明",class: "form-control",maxlength: "1000",disabled: (p.is_inherit? ? 'true' : nil) %>
 								</div>
 							</div>
 						</div>
 						<div class="box-footer property-box" style="display:none">
-							<button type="submit" class="btn btn-lg btn-primary btn-block" onclick = "if($(this).closest('form').valid() == false){return false;}">修改属性</button>
+							<button type="button" class="btn btn-lg btn-primary btn-block <%= 'disabled' if p.is_inherit? %>" onclick = "if($(this).closest('form').valid() == true){$(this).closest('form').submit();}">修改属性</button>
 						</div>
 						<% end %>
 					</div><!-- /.box -->
@@ -171,7 +174,7 @@
 						<%= f.text_field :show_name, placeholder: "属性显示名称", class: "form-control", id: "add_property_showname",'check-type' => "required", 'required-message' => "请填写属性显示名", maxlength: "30" %>
 					</div>
 					<div class="form-group">
-						<%= f.collection_select :type, PropertyType.all, :type_view, :name, {},{id: "add_property_type",class: "select2 form-control" } %>
+						<%= f.collection_select :type, PropertyType.all, :type_view, :name, {},{id: "add_property_type",class: "select2 form-control"} %>
 					</div>
 					<div class="form-group">
 						<label class="control-label push-left">属性类型选项:</label>

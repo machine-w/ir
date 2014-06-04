@@ -25,8 +25,8 @@
 							<th>类型</th>
 							<th>可用方法</th>
 						</tr>
-						<% if !document.all_properties.blank? %>
-						<% for item in document.all_properties %>
+						<% if !document.all_enable_properties.blank? %>
+						<% for item in document.all_enable_properties %>
 						<tr>
 							<td><%= raw "<a class='btn btn-#{item.get_color} btn-xs' onclick=\"document.execCommand('insertHTML',false,'&nbsp;<button id=\\'#{item.name}\\' type=\\'button\\' class=\\'btn btn-#{item.get_color} btn-sm is-a-property #{item.static_css}\\' data-toggle=\\'tooltip\\' data-placement=\\'top\\' title=\\'#{item.show_name}\\'><i class=\\'fa #{item.type_image}\\'></i></button>&nbsp;');$('##{item.name}').tooltip({container: 'body'});return true;\">#{item.name}</a>" %></td>
 							<td><%= item.show_name %></td>

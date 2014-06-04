@@ -44,7 +44,7 @@ class Document
   def all_dynamic_properties
     self.folder.properties.enable_not_static
   end
-  def all_properties
+  def all_enable_properties
     self.folder.properties.enable_all
   end
   def all_identify_properties

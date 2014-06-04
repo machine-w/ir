@@ -71,11 +71,7 @@ class Admin::FoldersController < ApplicationController
 	def config_property
 		@property=@folder.properties.build
 		@query_key=params[:q]
-		if @query_key.blank?
-			@properties=@folder.properties.all
-		else
-			@properties=@folder.properties.where(name: /.*#{@query_key}.*/)
-		end
+		@properties = @folder.all_all_properties(@query_key)
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
 		drop_breadcrumb("配置文档属性", config_property_admin_folder_path(@folder))
 	end
