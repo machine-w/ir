@@ -27,7 +27,7 @@ class Attritube
   	msg =  case property.type
 		  	when :string,:email,:link
 		  		if val.blank?
-		  			property.req? ? "#{property.show_name}不可以为空字符串;" : ''
+		  			property.req? ? "#{property.show_name}不可以为空字符串;" : self.string_value=''
 		  		elsif property.max_value && (val.length > property.max_value)
 					"#{property.show_name}长度大于规定长度;"
 				elsif property.min_value && (val.length < property.min_value)
@@ -213,7 +213,7 @@ class Attritube
   def get_value
   	case self.type
   	when :string,:email,:link,:text,:enum
-  		self.string_value
+  		self.string_value || ''
   	when :integer
   		self.int_value
   	when :number
@@ -280,7 +280,7 @@ class Attritube
   def get_content_value
   	case self.type
   	when :string,:text,:enum
-		self.string_value
+		self.string_value || ''
   	when :link
   		link_to self.string_value,"http://#{self.string_value}"
   		#"<a href ='http://#{self.string_value}'>#{truncate(self.string_value, :length => 10)}</a>".html_safe

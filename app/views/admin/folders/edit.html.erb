@@ -8,7 +8,7 @@
 		<div class="nav-tabs-custom">
 			<div class="tab-content">
 				<div class="box-header">
-					<h3 class="box-title">修改目录基本信息</h3>
+					<h3 class="box-title"><%= @folder.parent_folder.nil? ? "非继承目录" : "继承自：#{@folder.parent_folder.name}（#{@folder.parent_folder.user.username}）" %></h3>
 				</div><!-- /.box-header -->
 				<%= form_for @folder, url: admin_folder_path(@folder), html: {role: "form",class: "form_w_val"} do |f| %>
 				<div class="box-body">
