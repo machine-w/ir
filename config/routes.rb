@@ -65,7 +65,7 @@ InstitutionalRepos::Application.routes.draw do
     namespace 'admin' do
       resources :folders, only: [:show, :edit, :update, :destroy] do
           member do
-            get :config_property,:config_doc_view,:config_static_properties,:config_permission,:config_share_permission,:config_share_property
+            get :children_folder,:config_property,:config_doc_view,:config_static_properties,:config_permission,:config_share_permission,:config_share_property
             put :update_doc_view,:update_static_properties,:update_permission,:update_share_permission
           end
           resources :properties do
@@ -73,7 +73,11 @@ InstitutionalRepos::Application.routes.draw do
               put :update_share
             end
           end
-          resources :documents, only: [:index, :new, :create]
+          resources :documents, only: [:index, :new, :create] do
+            collection do
+              get :children_folder
+            end
+          end
       end
       resources :documents, only: [:show, :edit, :update, :destroy] do
           resources :attritubes

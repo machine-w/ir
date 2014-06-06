@@ -2,7 +2,7 @@
 <% provide(:page_name, @folder.name) %>
 <% provide(:page_summary, @folder.description) %>
 <%= render partial: 'shared/show_navbar',locals: {folder: @folder,query_key: @query_key,my_doc: @my_doc} %>
-<%= config_tab(1) %>
+<%= config_tab(3) %>
 <div class="row">
 	<div class="col-xs-12">
 		<div class="box">
@@ -34,42 +34,35 @@
 					<tr>
 						<th><input type="checkbox" /></th>
 						<th>文档标题</th>
-						<% if !@folder.all_grid_show_properties.blank? %>
-						  <% for p in @folder.all_grid_show_properties %>
+						<th>作者</th>
+						  <% @folder.all_grid_show_properties.each do |p| %>
 						    <th><%= truncate p.show_name, :length => 10 %></th>
 						  <% end %>
-						<% else %>
-						<% end %>
 						<th>操作</th>
 					</tr>
 					<% if !@documents.blank? %>
 					  <% for doc in @documents %>
 					    <tr>
 					    	<td class="small-col"><input type="checkbox" /></td>
-					    	<td><%= link_to truncate(doc.title, :length => 20), admin_document_path(doc) %></td>
-					    	<% if !@folder.all_grid_show_properties.blank? %>
-					    	<% for p in @folder.all_grid_show_properties %>
+					    	<td><%= link_to truncate(doc.title, :length => 20), admin_document_path(doc,folder: @folder) %></td>
+					    	<td><%= link_to doc.folder.user.username, user_path(doc.folder.user.loginname) %></td>
+					    	<% @folder.all_grid_show_properties.each do |p| %>
 					    		<td><%= doc.table_attr_value(p.name) %></td>
-					    	<% end %>
-					    	<% else %>
 					    	<% end %>
 					    	<td class="control-col">
 					    		<div class="btn-toolbar">
-					    			
-					    			
-					    			 
-					    			<%= link_to edit_admin_document_path(doc),class: "btn btn-success btn-xs" do %>
+					    			<%= link_to edit_admin_document_path(doc,folder: @folder),class: "btn btn-success btn-xs" do %>
 					    				<i class="fa fa-edit"></i>
 					    			<% end %>					    			
 					    			<%= link_to document_path(doc),class: "btn btn-primary btn-xs" do %>
 					    			<i class="fa fa-eye"></i>
 					    			<% end %>
-<!-- 					    			<button type="button" class="btn btn-info btn-xs"><i class="fa fa-save"></i></button>
+<!-- 					    			<button type="button" class="btn btn-info btn-xs"><i class="fa fa-save"></i></button> 
 					    			<button class="btn btn-primary btn-xs"><i class="fa fa-long-arrow-left"></i></button>
-					    			<button class="btn btn-primary btn-xs"><i class="fa fa-long-arrow-right"></i></button> -->
+					    			<button class="btn btn-primary btn-xs"><i class="fa fa-long-arrow-right"></i></button>
 					    			<%= link_to admin_document_path(doc), method: :delete, data: { confirm: "文档#{doc.title}将被删除" },class: "btn btn-danger btn-xs" do %>
 					    				<i class="fa fa-times"></i>
-					    			<% end %>
+					    			<% end %> -->
 					    		</div>
 					    	</td>
 						</tr>

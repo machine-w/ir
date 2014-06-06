@@ -5,7 +5,7 @@
         <div class="box box-info">
             <div class="box-header">
                 <h1 class="box-title big-title">
-                  <%= link_to doc.title, admin_document_path(doc) %>
+                  <%= link_to doc.title, admin_document_path(doc,folder: @folder) %>
                 </h1>
                 <% identify_properties.each do |pro| %>
                   <% (doc.attr_value(pro.name) || []).each do |i| %>
@@ -13,29 +13,21 @@
                     <% end %>
                 <% end %>
                 <div class="box-tools pull-right">
-                  <%= link_to edit_admin_document_path(doc),class: "btn btn-success btn-xs" do %>
+                  <%= link_to edit_admin_document_path(doc,folder: @folder),class: "btn btn-success btn-xs" do %>
                       <i class="fa fa-edit"></i>
                   <% end %>
                   <%= link_to document_path(doc),class: "btn btn-primary btn-xs " do %>
                   <i class="fa fa-eye"></i>
                   <% end %>
-                  <!-- <a class="btn btn-warning btn-xs" href="<%= permission_model_admin_document_path(doc) %>" data-toggle="modal" data-target="#permission-modal"><i class="fa fa-cog"></i></a> -->
-                  <button class="btn btn-primary btn-xs "><i class="fa fa-share-square-o"></i></button>
                   <button class="btn btn-primary btn-xs" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                  
-                  <!-- <button class="btn btn-primary btn-xs" data-widget="remove" onclick = "$(this).next().submit()"><i class="fa fa-times"></i></button> -->
-                  <%= link_to admin_document_path(doc) , method: :delete, data: { confirm: "文档#{doc.title}将被删除" },class: "btn btn-danger btn-xs" do %>
-                    <i class="fa fa-times"></i>
-                  <% end %>
                 </div>
             </div>
             <div class="box-body">
                 <%= raw doc.get_summary_content %>
             </div>
             <div class="box-footer">
+                <a href="<%= user_path(doc.folder.user.loginname) %>"><img src="<%= doc.folder.user.avatar_url('small') %>" class="img-circle"><code><%= doc.folder.user.username %></code></a>
                 <div class ="pull-right">
-                  <div class="label bg-aqua">标签</div>
-                  <div class="label bg-aqua">标签</div>
                 </div>
             </div>
         </div>

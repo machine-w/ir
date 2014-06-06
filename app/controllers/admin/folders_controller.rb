@@ -2,7 +2,7 @@ class Admin::FoldersController < ApplicationController
 	include NotificationsHelper
 	before_filter :authenticate_user!
 	before_filter :set_user
-	before_filter :set_folder, only: [:show, :edit, :update, :destroy, :config_property,:config_doc_view,:update_doc_view,:config_static_properties,:config_permission,:update_permission,:update_static_properties,:config_share_permission,:update_share_permission,:config_share_property]
+	before_filter :set_folder, only: [:show, :edit, :update, :destroy,:children_folder, :config_property,:config_doc_view,:update_doc_view,:config_static_properties,:config_permission,:update_permission,:update_static_properties,:config_share_permission,:update_share_permission,:config_share_property]
 	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
 	layout "admin_layout"
 	def create
@@ -49,6 +49,7 @@ class Admin::FoldersController < ApplicationController
 
 	def show
 		#@folder = Folder.find(params[:id])
+		@my_doc = true
 		@document=@folder.documents.new
 		@query_key=params[:q]
 		if @query_key.blank?
@@ -57,6 +58,15 @@ class Admin::FoldersController < ApplicationController
 			@documents=@folder.documents.where(title: /.*#{@query_key}.*/).page(params[:page]).per(12)
 		end
 		
+		@properties =@folder.all_dynamic_properties
+		@identify_properties = @folder.all_identify_properties
+		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
+	end
+	def children_folder
+		@document=@folder.documents.new
+		@my_doc = false
+		@query_key=params[:q]
+		@documents=Kaminari.paginate_array(@folder.children_folder_documents(@query_key)).page(params[:page]).per(12)
 		@properties =@folder.all_dynamic_properties
 		@identify_properties = @folder.all_identify_properties
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))

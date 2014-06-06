@@ -1,5 +1,5 @@
-<%= form_for document,url: (document.new_record? ? admin_folder_documents_path(document.folder) : admin_document_path(document)),html: {role: "form",class: "form_w_val",:multipart => true}  do |f| %>
-<% unless document.new_record? %>
+<%= form_for document,url: (document.new_record? ? admin_folder_documents_path(document.folder) : admin_document_path(document,folder: parent_folder)),html: {role: "form",class: "form_w_val",:multipart => true}  do |f| %>
+<% if !document.new_record? && parent_folder.nil? %>
 <div class="form-group">
 	<a class="btn btn-warning btn-block btn-flat btn-lg" data-toggle="modal" data-target="#permission-modal">修改访问权限</a>
 </div>

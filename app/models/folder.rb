@@ -34,6 +34,32 @@ class Folder
     folder.tile = (folder.tile == "1") ? true : false
     true
   end
+  def allow_parent_edit?(folder)
+    if self.parent_folder
+      if self.parent_folder == folder
+        true
+      else
+        self.parent_folder.allow_parent_edit?(folder)
+      end
+    else
+      false
+    end
+  end
+  def children_folder_documents(key)
+    @all_docs = []
+    self.child_folders.each do |f|  
+      if key.blank?
+        @all_docs += f.documents.all.entries
+      else
+        @all_docs += f.documents.all.where(title: /.*#{key}.*/).entries
+      end
+      @all_docs += f.children_folder_documents(key) if f.child_folders.all.exists?
+      # @all_docs.each do |doc| 
+      #   documents.push doc if doc.visiable?(current_user)
+      # end
+    end
+    @all_docs
+  end
   def tree_properties(key)
     properties=[]
     if key.blank?

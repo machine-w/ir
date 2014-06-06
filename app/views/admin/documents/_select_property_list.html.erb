@@ -25,16 +25,14 @@
 							<th>类型</th>
 							<th>可用方法</th>
 						</tr>
-						<% if !document.all_enable_properties.blank? %>
-						<% for item in document.all_enable_properties %>
+						<% properties = parent_folder.nil? ? document.all_enable_properties : parent_folder.all_enable_properties %>
+						<% properties.each do |item| %>
 						<tr>
 							<td><%= raw "<a class='btn btn-#{item.get_color} btn-xs' onclick=\"document.execCommand('insertHTML',false,'&nbsp;<button id=\\'#{item.name}\\' type=\\'button\\' class=\\'btn btn-#{item.get_color} btn-sm is-a-property #{item.static_css}\\' data-toggle=\\'tooltip\\' data-placement=\\'top\\' title=\\'#{item.show_name}\\'><i class=\\'fa #{item.type_image}\\'></i></button>&nbsp;');$('##{item.name}').tooltip({container: 'body'});return true;\">#{item.name}</a>" %></td>
 							<td><%= item.show_name %></td>
 							<td><%= item.type_name %></td>
 							<td><%= raw item.all_oper.map { |e| "<a class='btn btn-info btn-xs'>#{e.name}</a> " }.join(" ") %></td>
 						</tr>
-						<% end %>
-						<% else %>
 						<% end %>
 					</table>
 				</div><!-- /.box-body -->
