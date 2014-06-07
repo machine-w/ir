@@ -101,7 +101,7 @@ class Admin::FoldersController < ApplicationController
 		drop_breadcrumb("配置文档视图", config_doc_view_admin_folder_path(@folder))
 	end
 	def config_static_properties
-		@static_properties=@folder.properties.enable_static
+		@static_properties=@folder.all_static_properties
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
 		drop_breadcrumb("配置静态属性", config_doc_view_admin_folder_path(@folder))
 	end
@@ -181,7 +181,7 @@ class Admin::FoldersController < ApplicationController
 		error_msg='错误：'
 		@folder.doc_default_content=folders_params[:doc_default_content]
 		if @folder.save
-			@folder.documents.each { |e| e.set_dirty_flag } #目录中全部文档治脏。
+			@folder.set_dirty_all_documents #目录中全部文档治脏。
 			modify_view_folder_notification(@user,@folder)
 			flash[:success] = "修改文档视图成功"
 		else
@@ -194,7 +194,7 @@ class Admin::FoldersController < ApplicationController
 	end
 	def update_static_properties
 		error_msg=''
-		@folder.properties.enable_static.each do |property|
+		@folder.all_static_properties.each do |property|
 			if @folder.attritubes.where(property_name: property.name).exists?
 				attritube=@folder.attritubes.where(property_name: property.name).first
 			else
@@ -208,7 +208,7 @@ class Admin::FoldersController < ApplicationController
 			end 
 		end
 		if  error_msg == '' && @folder.save
-			@folder.documents.each { |e| e.set_dirty_flag } #目录中全部文档治脏。
+			@folder.set_dirty_all_documents #目录中全部文档治脏。
 			modify_static_folder_notification(@user,@folder)
 			redirect_to :back, notice: '成功修改静态属性。'
 		else
@@ -256,13 +256,13 @@ class Admin::FoldersController < ApplicationController
 		results
 	end
 	def property_params
-		all_array=@folder.properties.enable_static.map { |i| i.muli_enum? ? {i.name => [] } : i.name }
+		all_array=@folder.all_static_properties.map { |i| i.muli_enum? ? {i.name => [] } : i.name }
 		result_hash=if params.has_key?(:properties)
 					 	params.require(:properties).permit(all_array) 
 					else 
 						{}
 					end
-		hidden_array=@folder.all_dynamic_properties.map { |i| i.name if i.array? }
+		hidden_array=@folder.all_static_properties.map { |i| i.name if i.array? }
 		#logger.info hidden_array.to_s
 		hidden_hash=if params.has_key?('hidden-properties')
 						params.require('hidden-properties').permit(hidden_array.compact)

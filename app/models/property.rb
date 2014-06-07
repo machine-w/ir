@@ -50,13 +50,13 @@ class Property
 	validates_uniqueness_of :name,message: "同一目录属性重名！"
 	validate :val_name
 	before_save do |property|
-		property.static = (property.static == "1") ? true : false
-		property.disable = (property.disable == "1") ? true : false
-		property.require = (property.require == "1") ? true : false
-		property.onlyread = (property.onlyread == "1") ? true : false
-		property.view_in_grid = (property.view_in_grid == "1") ? true : false
-		property.edit_in_grid = (property.edit_in_grid == "1") ? true : false
-		property.be_identify = (property.be_identify == "1") ? true : false
+		property.static = (property.static == "1" || property.static == true) ? true : false
+		property.disable = (property.disable == "1" || property.disable == true) ? true : false
+		property.require = (property.require == "1" || property.require == true) ? true : false
+		property.onlyread = (property.onlyread == "1" || property.onlyread == true) ? true : false
+		property.view_in_grid = (property.view_in_grid == "1" || property.view_in_grid == true) ? true : false
+		property.edit_in_grid = (property.edit_in_grid == "1" || property.edit_in_grid == true) ? true : false
+		property.be_identify = (property.be_identify == "1" || property.be_identify == true) ? true : false
 		#html_safe
 		property.name = strip_tags property.name
 		property.show_name = strip_tags property.show_name

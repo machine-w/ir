@@ -19,8 +19,10 @@
                   <%= link_to document_path(doc),class: "btn btn-primary btn-xs " do %>
                   <i class="fa fa-eye"></i>
                   <% end %>
-                  <!-- <a class="btn btn-warning btn-xs" href="<%= permission_model_admin_document_path(doc) %>" data-toggle="modal" data-target="#permission-modal"><i class="fa fa-cog"></i></a> -->
-                  <button class="btn btn-primary btn-xs "><i class="fa fa-share-square-o"></i></button>
+                  <!-- <a class="btn btn-warning btn-xs" href="<%= permission_model_admin_document_path(doc) %>" data-toggle="modal" data-target="#permission-modal"><i class="fa fa-cog"></i></a> 
+                        <button class="btn btn-primary btn-xs "><i class="fa fa-share-square-o"></i></button>
+                 -->
+                  
                   <button class="btn btn-primary btn-xs" data-widget="collapse"><i class="fa fa-minus"></i></button>
                   
                   <!-- <button class="btn btn-primary btn-xs" data-widget="remove" onclick = "$(this).next().submit()"><i class="fa fa-times"></i></button> -->
@@ -33,9 +35,11 @@
                 <%= raw doc.get_summary_content %>
             </div>
             <div class="box-footer">
+              <div class="label bg-aqua">标签</div>
+                  <div class="label bg-aqua">标签</div>
+             
                 <div class ="pull-right">
-                  <div class="label bg-aqua">标签</div>
-                  <div class="label bg-aqua">标签</div>
+                   <div class="label bg-blue"><%= distance_of_time_in_words_to_now(doc.created_at) %></div>
                 </div>
             </div>
         </div>

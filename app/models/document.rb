@@ -80,7 +80,7 @@ class Document
   end
   def get_original_content
     if self.content_have_attr.gsub(/\&nbsp;/, '').strip.blank?
-      self.folder.doc_default_content
+      self.folder.get_original_content
     else
       self.content_have_attr
     end

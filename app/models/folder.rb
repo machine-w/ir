@@ -8,7 +8,7 @@ class Folder
   field :sort, :type => Integer, :default => 0
   field :doc_count, :type => Integer, :default => 0
   field :markdown_or_html, :type => Boolean, :default => true #文章视图使用markdown还是富文本
-  field :doc_default_content #目录文档的默认内容
+  field :doc_default_content, :default => '' #目录文档的默认内容
   field :folder_item_view #目录在发布页面的中列表中每个item的内容
 
   field :tile, :type => Boolean, :default => false #是否显示到主页动态磁贴
@@ -108,6 +108,19 @@ class Folder
     properties=[]
     properties = self.properties.enable_not_static.entries
     properties = properties + self.parent_folder.tree_dynamic_properties  unless self.parent_folder.nil?
+    properties
+  end
+  def tree_static_properties
+    properties=[]
+      properties = self.properties.tree_public_property.enable_static.entries
+      properties.each { |e| e.set_inherit }
+      properties = self.parent_folder.tree_static_properties + properties unless self.parent_folder.nil?
+    properties
+  end
+  def all_static_properties
+    properties=[]
+    properties = self.properties.enable_static.entries
+    properties = properties + self.parent_folder.tree_static_properties  unless self.parent_folder.nil?
     properties
   end
   def tree_enable_properties
@@ -210,6 +223,19 @@ class Folder
         end
         false
       end
+    end
+  end
+  def set_dirty_all_documents
+    self.documents.each { |e| e.set_dirty_flag } #目录中全部文档治脏。
+    self.child_folders.each do |f|  
+      f.set_dirty_all_documents
+    end
+  end
+  def get_original_content
+    if self.doc_default_content.gsub(/\&nbsp;/, '').strip.blank? && self.parent_folder
+       self.parent_folder.get_original_content
+    else
+      self.doc_default_content
     end
   end
   protected
