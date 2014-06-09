@@ -219,12 +219,19 @@ class Admin::FoldersController < ApplicationController
 	def destroy
 		error_msg='错误：'
 		folder_group=@folder.folder_group
+		properties=@folder.all_all_properties('')
+		children = @folder.child_folders.all
 		if @folder.destroy
 			#如果目录集中没有别的目录了，就删除目录集合
 			unless folder_group.nil?
 				unless folder_group.folders.exists?
 					folder_group.destroy
 				end
+			end
+			#子目录添加父目录属性
+			children.each do |f|  
+				#properties.each { |e| f.properties.push(e) } 
+				f.properties.concat(properties)
 			end
 			del_folder_notification(@user,@folder)
 			flash[:success] = "删除目录成功"

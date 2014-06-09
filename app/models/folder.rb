@@ -31,9 +31,17 @@ class Folder
   validates_presence_of :name
   before_save :set_permission
   before_save do |folder|
-    folder.tile = (folder.tile == "1") ? true : false
+    folder.tile = (folder.tile == "1") || (folder.tile == true) ? true : false
     true
   end
+  # before_destroy do |folder|
+  #   properties=folder.all_all_properties('')
+  #   folder.child_folders.each do |f|  
+  #     properties.each { |e| f.properties.push(e) } 
+  #     logger.debug { f.properties.to_s }
+  #     f.save
+  #   end
+  # end
   def allow_parent_edit?(folder)
     if self.parent_folder
       if self.parent_folder == folder
