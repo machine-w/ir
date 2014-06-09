@@ -151,5 +151,27 @@ module NotificationsHelper
 		make_notification(user,title,content,footer,:logout_group,true)
 		make_notification(group.user,title,content,footer2,:logout_group,true)
 	end
+	def child_share_doc_notification(child_user,child_folder,document,parent_folder,parent_user)
+		unless child_user == parent_user
+			title = "#{child_user.username}增加新的共享文档'#{document.title}' "
+			content = "<a href='#{user_path(child_user.loginname)}'>#{child_user.username}</a>的目录'#{child_folder.name}'增加新的共享文档'#{document.title}'继承自您的目录<a href='#{children_folder_admin_folder_path(parent_folder)}'>#{parent_folder.name}</a>"
+			footer ="<a class='btn btn-danger btn-flat btn-xs' href='#{admin_document_path(document,folder: parent_folder)}'>前往查看</a>"
+			make_notification(parent_user,title,content,footer,:child_share_doc,true)
+		end
+		if parent_folder.parent_folder
+			child_share_doc_notification(parent_user,parent_folder,document,parent_folder.parent_folder,parent_folder.parent_folder.user)
+		end
+	end
+	def child_modify_doc_notification(child_user,child_folder,document,parent_folder,parent_user)
+		unless child_user == parent_user
+			title = "#{child_user.username}修改了共享文档'#{document.title}' "
+			content = "<a href='#{user_path(child_user.loginname)}'>#{child_user.username}</a>的目录'#{child_folder.name}'修改了共享文档'#{document.title}'继承自您的目录<a href='#{children_folder_admin_folder_path(parent_folder)}'>#{parent_folder.name}</a>"
+			footer ="<a class='btn btn-danger btn-flat btn-xs' href='#{admin_document_path(document,folder: parent_folder)}'>前往查看</a>"
+			make_notification(parent_user,title,content,footer,:child_modify_doc,true)
+		end
+		if parent_folder.parent_folder
+			child_modify_doc_notification(parent_user,parent_folder,document,parent_folder.parent_folder,parent_folder.parent_folder.user)
+		end
+	end
 
 end

@@ -66,6 +66,8 @@ class Notification
   		'bg-red'
   	when :firend_to_me,:open_doc_to_me
   		'bg-blue'
+    when :child_modify_doc,:child_share_doc
+      'bg-orange'
   	else
   		'bg-yellow'
   	end

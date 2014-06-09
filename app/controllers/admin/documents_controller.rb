@@ -80,6 +80,9 @@ class Admin::DocumentsController < ApplicationController
 		end
 		if  error_msg == '' && @document.save
 			modify_doc_notification(@user,@document)
+			if @document.folder.parent_folder && @document.view_in_parent
+				child_modify_doc_notification(@user,@document.folder,@document,@document.folder.parent_folder,@document.folder.parent_folder.user)
+			end
 			redirect_to :back, notice: '成功修改文档。'
 		else
 			#redirect_to edit_admin_document_path(@document), alert: error_msg
@@ -114,6 +117,7 @@ class Admin::DocumentsController < ApplicationController
 		error_msg=''
 		status=true
 		if @document.update_attribute(:view_in_parent, params[:visiable] == 'true' ? true : false)
+			child_share_doc_notification(@user,@document.folder,@document,@document.folder.parent_folder,@document.folder.parent_folder.user)
 			error_msg="成功配置#{truncate(@document.title, :length => 10)}"
 			status=true
 		else
