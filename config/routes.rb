@@ -82,7 +82,7 @@ InstitutionalRepos::Application.routes.draw do
       resources :documents, only: [:show, :edit, :update, :destroy] do
           resources :attritubes
           member do
-           patch :config_permission
+           patch :config_permission,:config_parent_visiable
            get :permission_model
           end
       end

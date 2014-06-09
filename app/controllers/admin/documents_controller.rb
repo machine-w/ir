@@ -3,7 +3,7 @@ class Admin::DocumentsController < ApplicationController
 	before_filter :authenticate_user!
 	before_filter :set_user
 	before_filter :set_folder, only: [:index,:create,:new,:children_folder]
-	before_filter :set_document, only: [:edit,:update,:show,:destroy,:config_permission,:permission_model]
+	before_filter :set_document, only: [:edit,:update,:show,:destroy,:config_permission,:permission_model,:config_parent_visiable]
 	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
 	layout "admin_layout"
 	def create
@@ -40,7 +40,8 @@ class Admin::DocumentsController < ApplicationController
 	def children_folder
 		@my_doc = false
 		@query_key=params[:q]
-		@documents=Kaminari.paginate_array(@folder.children_folder_documents(@query_key)).page(params[:page]).per(12)
+		@query_child=params[:child]
+		@documents=Kaminari.paginate_array(@folder.children_folder_documents(@query_key,@query_child)).page(params[:page]).per(12)
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
 	end
 	def new
@@ -108,6 +109,24 @@ class Admin::DocumentsController < ApplicationController
 		else
 			redirect_to :back, alert: error_msg
 		end
+	end
+	def config_parent_visiable
+		error_msg=''
+		status=true
+		if @document.update_attribute(:view_in_parent, params[:visiable] == 'true' ? true : false)
+			error_msg="成功配置#{truncate(@document.title, :length => 10)}"
+			status=true
+		else
+			@document.errors.full_messages.each do |msg|
+   				error_msg += msg + '|'
+   			end
+   			status=false
+		end
+		respond_to do |format|
+			format.html
+            msg = { status: status.to_s, message: error_msg }
+            format.json  { render :json => msg }
+        end	
 	end
 	def permission_model
 		render :layout => 'blank'

@@ -53,18 +53,16 @@ class Folder
       false
     end
   end
-  def children_folder_documents(key)
+  def children_folder_documents(key,child)
     @all_docs = []
-    self.child_folders.each do |f|  
+    self.child_folders.each do |f|
+      next if !child.blank? && f._id.to_s != child
       if key.blank?
-        @all_docs += f.documents.all.entries
+        @all_docs += f.documents.parent_visiable.entries
       else
-        @all_docs += f.documents.all.where(title: /.*#{key}.*/).entries
+        @all_docs += f.documents.parent_visiable.where(title: /.*#{key}.*/).entries
       end
       @all_docs += f.children_folder_documents(key) if f.child_folders.all.exists?
-      # @all_docs.each do |doc| 
-      #   documents.push doc if doc.visiable?(current_user)
-      # end
     end
     @all_docs
   end

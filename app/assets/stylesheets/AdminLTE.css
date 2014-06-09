@@ -23,7 +23,9 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   -webkit-font-smoothing: antialiased;
   min-height: 100%;
-  /*background: #f9f9f9;*/
+}
+.defaultback {
+  background: url(/images/back/noise-wall.jpg) repeat;
 }
 body.skin-blue {
   background: #f9f9f9;

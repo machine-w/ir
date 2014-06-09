@@ -206,9 +206,29 @@ $ ->
     					message: result['message'],
     					type: 'error',
     					showCloseButton: true
-    			
-    			
+
     	false
+
+    $('.set-parent-visiable').on "switch-change", (e, data) ->
+      $.ajax
+        url: $(this).data('url')
+        type: "patch"
+        data: {visiable: data.value}
+        success: (result) ->
+          if result['status'] == 'true'
+            Messenger().post
+              message: result['message'],
+              type: 'success',
+              showCloseButton: true
+          else
+            Messenger().post
+              message: result['message'],
+              type: 'error',
+              showCloseButton: true
+
+      false
+
+    true
  
 
 

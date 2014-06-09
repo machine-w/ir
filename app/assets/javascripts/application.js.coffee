@@ -79,7 +79,7 @@ $ ->
 	$('.inputnumber').inputmask("integer");
 	$('.inputdecimal').inputmask("decimal");
 	# 设置选择框（admincommon移过来）
-	$('.select2').select2({allowClear: true});
+	$('.select2').select2({allowClear: true,width: 'resolve'});
 	$('.select2-with-pic').select2({formatResult: format,formatSelection: format});
 	# 所有sel_color类的录入框全都选颜色
 	$(".sel_color").colorpicker();

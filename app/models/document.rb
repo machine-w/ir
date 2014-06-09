@@ -12,9 +12,9 @@ class Document
   field :content_html_summary
   field :dirty_flag, :type => Boolean , :default => false #判断是否有属性被修改，如果被修改，则看内容时需要重新编译
   field :sort, :type => Integer, :default => 0
-
+  field :view_in_parent, :type => Boolean , :default => false #是否父目录可见
   default_scope desc(:created_at)
-
+  scope :parent_visiable, where(view_in_parent: true)
   # scope :browse, ->(visitor) do  
   #   result = []
   #   where(name: name).each do  |e|  

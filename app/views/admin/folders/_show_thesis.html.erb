@@ -35,12 +35,14 @@
                 <%= raw doc.get_summary_content %>
             </div>
             <div class="box-footer">
-              <div class="label bg-aqua">标签</div>
-                  <div class="label bg-aqua">标签</div>
-             
-                <div class ="pull-right">
-                   <div class="label bg-blue"><%= distance_of_time_in_words_to_now(doc.created_at) %></div>
-                </div>
+              <div class="label bg-aqua">标签位置</div>
+              
+              <% if folder && folder.parent_folder %>
+                <input type="checkbox" class="switch switch-small set-parent-visiable" data-on="success" data-off="default" data-on-label="推送" data-off-label="屏蔽" data-url="<%= config_parent_visiable_admin_document_path(doc,:format => :json) %>" <%= "checked='checked'" if doc.view_in_parent %> />
+                <% end %>
+              <div class ="pull-right">
+                <div class="label bg-blue"><%= distance_of_time_in_words_to_now(doc.created_at) %></div>
+              </div>
             </div>
         </div>
     </div>
