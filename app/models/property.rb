@@ -106,9 +106,29 @@ class Property
 	def get_color
 		color='primary'
 		color='success' if self.view_in_grid
+		color='danger' if self.require
 		color='warning' if self.static
 		color='info' if self.disable
 		color='default' if  self.is_inherit?
+
+		color
+	end
+	def get_input_color
+		color='primary'
+		color='default' if  self.is_inherit?
+		color='success' if self.view_in_grid
+		#color='warning' if self.static
+		#color='info' if self.disable
+		color='danger' if self.require
+		color
+	end
+	def get_select_color
+		color='primary'
+		color='default' if  self.is_inherit?
+		color='success' if self.view_in_grid
+		color='warning' if self.static
+		#color='info' if self.disable
+		color='danger' if self.require
 		color
 	end
 	def is_identify?
