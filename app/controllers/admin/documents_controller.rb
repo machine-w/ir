@@ -50,9 +50,15 @@ class Admin::DocumentsController < ApplicationController
 		begin
 			@org_doc=Document.find(params[:doc_id])
 			#@folder.documents.push(@org_doc.dup)
+			if @org_doc.content_have_attr.gsub(/\&nbsp;/, '').strip.blank? && @org_doc.get_original_content == @folder.get_original_content
+				content=''
+			else
+				content= @org_doc.get_original_content
+			end
+			@org_doc.get_original_content
 			if doc=@folder.documents.create(title: @org_doc.title,
 				summary: @org_doc.summary,
-				content_have_attr: @org_doc.content_have_attr,
+				content_have_attr: content,
 				content_html: @org_doc.content_html,
 				content_html_summary: @org_doc.content_html_summary,
 				attritubes: @org_doc.attritubes
