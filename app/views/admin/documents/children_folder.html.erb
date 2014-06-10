@@ -51,10 +51,11 @@
 					    	<% end %>
 					    	<td class="control-col">
 					    		<div class="btn-toolbar">
+					    			<button class="btn btn-warning btn-xs copy_child_doc" data-url="<%= copy_document_admin_folder_documents_path(@folder,:format => :json) %>" data-docid="<%= doc._id %>"><i class="fa fa-copy"></i></button>
 					    			<%= link_to edit_admin_document_path(doc,folder: @folder),class: "btn btn-success btn-xs" do %>
 					    				<i class="fa fa-edit"></i>
 					    			<% end %>					    			
-					    			<%= link_to document_path(doc),class: "btn btn-primary btn-xs" do %>
+					    			<%= link_to document_path(doc),class: "btn btn-info btn-xs" do %>
 					    			<i class="fa fa-eye"></i>
 					    			<% end %>
 <!-- 					    			<button type="button" class="btn btn-info btn-xs"><i class="fa fa-save"></i></button> 

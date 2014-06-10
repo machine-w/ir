@@ -76,6 +76,7 @@ InstitutionalRepos::Application.routes.draw do
           resources :documents, only: [:index, :new, :create] do
             collection do
               get :children_folder
+              post :copy_document
             end
           end
       end

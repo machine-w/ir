@@ -5,7 +5,7 @@
         <div class="box box-info">
             <div class="box-header">
                 <h1 class="box-title big-title">
-                  <%= link_to doc.title, admin_document_path(doc,folder: @folder) %>
+                  <%= link_to doc.title, admin_document_path(doc,folder: folder) %>
                 </h1>
                 <% identify_properties.each do |pro| %>
                   <% (doc.attr_value(pro.name) || []).each do |i| %>
@@ -13,10 +13,11 @@
                     <% end %>
                 <% end %>
                 <div class="box-tools pull-right">
-                  <%= link_to edit_admin_document_path(doc,folder: @folder),class: "btn btn-success btn-xs" do %>
+                  <button class="btn btn-warning btn-xs copy_child_doc" data-url="<%= copy_document_admin_folder_documents_path(folder,:format => :json) %>" data-docid="<%= doc._id %>"><i class="fa fa-copy"></i></button>
+                  <%= link_to edit_admin_document_path(doc,folder: folder),class: "btn btn-success btn-xs" do %>
                       <i class="fa fa-edit"></i>
                   <% end %>
-                  <%= link_to document_path(doc),class: "btn btn-primary btn-xs " do %>
+                  <%= link_to document_path(doc),class: "btn btn-info btn-xs " do %>
                   <i class="fa fa-eye"></i>
                   <% end %>
                   <button class="btn btn-primary btn-xs" data-widget="collapse"><i class="fa fa-minus"></i></button>

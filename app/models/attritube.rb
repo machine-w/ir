@@ -83,10 +83,10 @@ class Attritube
 					''
 		  		end
 			when :bool
-				if val == 'on'
+				if val == 'on' || val == true
 					self.bool_value = true
 					''
-				elsif val == 'off'
+				elsif val == 'off' || val == false
 					self.bool_value = false
 					''
 				else
@@ -94,7 +94,13 @@ class Attritube
 				end
 			when :enum
 				if val.blank?
-		  			property.req? ? "#{property.show_name}不可以为空字符串;" : ''
+					if property.req?
+						"#{property.show_name}不可以为空字符串;"
+					else
+						self.string_value = val
+						''
+					end
+		  			#property.req? ? "#{property.show_name}不可以为空字符串;" : ''
 		  		elsif !property.enum_option.empty? && !property.enum_option.include?(val)
 					"#{property.show_name}只能选择已有选项;"
 		  		else #没有测试
@@ -103,7 +109,13 @@ class Attritube
 		  		end
 			when :muli_enum
 				if val.empty?
-		  			property.req? ? "#{property.show_name}不可以为空字符串;" : ''
+					if property.req?
+						"#{property.show_name}不可以为空字符串;"
+					else
+						self.array_value = val
+						''
+					end
+		  			#property.req? ? "#{property.show_name}不可以为空字符串;" : ''
 		  		elsif !property.enum_option.empty? && (property.enum_option & val) != val
 					"#{property.show_name}只能选择已有选项;"
 		  		else #没有测试

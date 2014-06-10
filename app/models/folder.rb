@@ -53,7 +53,7 @@ class Folder
       false
     end
   end
-  def children_folder_documents(key,child)
+  def children_folder_documents(key,child=nil)
     @all_docs = []
     self.child_folders.each do |f|
       next if !child.blank? && f._id.to_s != child

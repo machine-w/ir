@@ -2,7 +2,7 @@ class Admin::DocumentsController < ApplicationController
 	include NotificationsHelper
 	before_filter :authenticate_user!
 	before_filter :set_user
-	before_filter :set_folder, only: [:index,:create,:new,:children_folder]
+	before_filter :set_folder, only: [:index,:create,:new,:children_folder,:copy_document]
 	before_filter :set_document, only: [:edit,:update,:show,:destroy,:config_permission,:permission_model,:config_parent_visiable]
 	before_filter lambda  { drop_breadcrumb("后台", admin_user_path(@user.loginname)) }
 	layout "admin_layout"
@@ -14,7 +14,7 @@ class Admin::DocumentsController < ApplicationController
 			 	attritube=@doc.attritubes.build(property_id: property._id,property_name: property.name,type: property.type)
 			 	error_msg += attritube.save_value(property,property_params[property.name])
 			else
-				@doc.attritubes.build(property_id: property._id,property_name: property.name,type: property.type,bool_value: false) if property.bool? #如果类型类bool特殊对待，设定属性为否
+				#@doc.attritubes.build(property_id: property._id,property_name: property.name,type: property.type,bool_value: false) if property.bool? #如果类型类bool特殊对待，设定属性为否
 				error_msg += "#{property.show_name}为必填字段;" if property.req?
 			end 
 		end
@@ -43,6 +43,37 @@ class Admin::DocumentsController < ApplicationController
 		@query_child=params[:child]
 		@documents=Kaminari.paginate_array(@folder.children_folder_documents(@query_key,@query_child)).page(params[:page]).per(12)
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
+	end
+	def copy_document
+		error_msg=''
+		status=true
+		begin
+			@org_doc=Document.find(params[:doc_id])
+			#@folder.documents.push(@org_doc.dup)
+			if @folder.documents.create(title: @org_doc.title,
+				summary: @org_doc.summary,
+				content_have_attr: @org_doc.content_have_attr,
+				content_html: @org_doc.content_html,
+				content_html_summary: @org_doc.content_html_summary,
+				attritubes: @org_doc.attritubes
+				)
+			else
+				@document.errors.full_messages.each do |msg|
+					error_msg += msg + '|'
+				end
+				status=false
+			end
+			error_msg="成功复制#{truncate(@org_doc.title, :length => 10)}"
+			status=true
+		rescue 
+			status=false
+			error_msg='无法找到源文档'
+		end
+		respond_to do |format|
+			format.html
+            msg = { status: status.to_s, message: error_msg }
+            format.json  { render :json => msg }
+        end	
 	end
 	def new
 		@document=@folder.documents.new
@@ -73,7 +104,7 @@ class Admin::DocumentsController < ApplicationController
 			if property_params.has_key? property.name
 			 	error_msg += attritube.save_value(property,property_params[property.name])
 			else
-				attritube.bool_value = false if property.bool? #如果类型类bool特殊对待，设定属性为否
+				#attritube.bool_value = false if property.bool? #如果类型类bool特殊对待，设定属性为否
 				#@document.attritubes.build(property_id: property._id,property_name: property.name,type: property.type,bool_value: false) if property.bool? && !@document.attritubes.where(property_name: property.name).exists? #如果类型类bool特殊对待，设定属性为否
 				error_msg += "#{property.show_name}为必填字段;" if property.req?
 			end 
@@ -179,6 +210,16 @@ class Admin::DocumentsController < ApplicationController
 					end
 		#logger.info hidden_hash.to_s
 		hidden_hash.each { |k,v| result_hash[k] = v unless v.blank? }
+		@properties.each do |i| 
+			if i.muli_enum?
+				result_hash["#{i.name}"] = result_hash["#{i.name}"] || []
+			elsif i.enum?
+				result_hash["#{i.name}"] = result_hash["#{i.name}"] || ''
+			elsif i.bool?
+				result_hash["#{i.name}"] = result_hash["#{i.name}"] || false
+			end
+		end
+		logger.debug { result_hash.to_s }
 		result_hash
 	end
 end

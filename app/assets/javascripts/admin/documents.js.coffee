@@ -1,4 +1,21 @@
 $ ->
+  $('.copy_child_doc').click ->
+      #alert $(this).data('docid')
+      $.ajax
+        url: $(this).data('url')
+        type: "post"
+        data: {doc_id: $(this).data('docid')}
+        success: (result) ->
+          if result['status'] == 'true'
+            Messenger().post
+              message: result['message'],
+              type: 'success',
+              showCloseButton: true
+          else
+            Messenger().post
+              message: result['message'],
+              type: 'error',
+              showCloseButton: true
   # to set summernote object
   summer_note = $('#document_content_have_attr')
   summer_note.summernote
