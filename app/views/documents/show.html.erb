@@ -12,11 +12,18 @@
 				<h1 class="box-title big-title"><%= @document.title %></h1>
 				
 				<div class="box-tools pull-right">
-				<% @document.all_identify_properties.each do |pro| %>
-                  <% (@document.attr_value(pro.name) || []).each do |i| %>
-                      <small class="badge" style="background-color: <%= pro.identify_color %> !important;"><%= i %></small>
-                    <% end %>
-                <% end %>
+					<% if current_user %>
+					<div class="btn-group">
+						<button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
+							 收藏 <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<% current_user.folders.each do |f| %>
+							<li><a class="copy_doc" data-url="<%= copy_document_admin_folder_documents_path(f,:format => :json) %>" data-docid="<%= @document._id %>" onclick="copy_document($(this).data('url'),$(this).data('docid'));"><%= f.name %></a></li>
+							<% end %>
+						</ul>
+					</div>
+					<% end %>
 				</div>
 			</div>
 			<div class="box-body">
@@ -25,7 +32,12 @@
 			<div class="box-footer">
 				<%= distance_of_time_in_words_to_now(@document.created_at) %>
 				<div class ="pull-right">
-					<div class="label bg-aqua">标签</div>
+					
+					<% @document.all_identify_properties.each do |pro| %>
+					<% (@document.attr_value(pro.name) || []).each do |i| %>
+					<small class="badge" style="background-color: <%= pro.identify_color %> !important;"><%= i %></small>
+					<% end %>
+					<% end %>
 				</div>
 			</div>
 		</div>

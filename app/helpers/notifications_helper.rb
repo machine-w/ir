@@ -162,6 +162,17 @@ module NotificationsHelper
 			child_share_doc_notification(parent_user,parent_folder,document,parent_folder.parent_folder,parent_folder.parent_folder.user)
 		end
 	end
+	def child_shield_doc_notification(child_user,child_folder,document,parent_folder,parent_user)
+		unless child_user == parent_user
+			title = "#{child_user.username}取消了共享文档'#{document.title}' "
+			content = "<a href='#{user_path(child_user.loginname)}'>#{child_user.username}</a>的目录'#{child_folder.name}'取消了共享文档'#{document.title}'继承自您的目录<a href='#{children_folder_admin_folder_path(parent_folder)}'>#{parent_folder.name}</a>"
+			footer =""
+			make_notification(parent_user,title,content,footer,:child_shield_doc,true)
+		end
+		if parent_folder.parent_folder
+			child_shield_doc_notification(parent_user,parent_folder,document,parent_folder.parent_folder,parent_folder.parent_folder.user)
+		end
+	end
 	def child_modify_doc_notification(child_user,child_folder,document,parent_folder,parent_user)
 		unless child_user == parent_user
 			title = "#{child_user.username}修改了共享文档'#{document.title}' "
@@ -172,6 +183,12 @@ module NotificationsHelper
 		if parent_folder.parent_folder
 			child_modify_doc_notification(parent_user,parent_folder,document,parent_folder.parent_folder,parent_folder.parent_folder.user)
 		end
+	end
+	def copy_doc_notification(user,doc,folder)
+		title = "收藏文档'#{truncate(doc.title, length: 10)}'到目录'#{truncate(folder.name, length: 10)}'"
+		content = "<a href='#{admin_user_path(user.loginname)}'>#{user.username}</a>收藏文档'#{doc.title}'到目录<a href='#{admin_folder_path(folder)}'>#{folder.name}</a>"
+		footer ="<a class='btn btn-primary btn-flat btn-xs' href='#{admin_document_path(doc)}'>前往文档</a>"
+		make_notification(user,title,content,footer,:copy_doc,true)
 	end
 
 end

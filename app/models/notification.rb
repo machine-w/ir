@@ -18,7 +18,7 @@ class Notification
           :m_folder_view => 19,:m_folder_static => 20,:modify_user => 21,
           :modify_group => 22,:add_group_member => 23,:del_group_member => 24,
           :modify_group_member => 25,:group_del_me => 26,:group_modify_me => 27,
-          :logout_group =>28
+          :logout_group =>28,:child_shield_doc =>29,:copy_doc => 30
   scope :un_read, where(unread: true).desc('create_at').limit(99)
 
   #belongs_to :ind_document, class_name: "Document", inverse_of: nil
@@ -43,7 +43,7 @@ class Notification
   		'ion ion-person-stalker'
   	when :open_doc_to_me
   		'ion ion-eye'
-  	when :child_share_doc
+  	when :child_share_doc,:child_shield_doc
   		'fa fa-share-square-o'
   	when :child_modify_doc
   		'fa fa-share-square'
@@ -52,21 +52,23 @@ class Notification
     when :add_group_member,:del_group_member,:modify_group_member
       'ion ion-ios7-people'
     when :logout_group
-        'ion ion-android-hand'
+      'ion ion-android-hand'
+    when :copy_doc
+      'fa fa-copy'
   	end
   end
   def type_color
   	case self.type
-  	when :add_group,:add_contact,:add_folder,:add_doc,:add_property,:add_group_member,:group_to_me
+  	when :add_group,:add_contact,:add_folder,:add_doc,:add_property,:add_group_member,:group_to_me,:child_share_doc,:copy_doc
   		'bg-green'
   	when :modify_folder,:modify_doc,:child_modify_doc,:modify_property,:modify_user,
          :modify_group,:modify_group_member,:group_modify_me
   		'bg-aqua'
-  	when :del_folder,:del_group,:del_contact,:del_doc,:del_property,:del_group_member,:group_del_me,:logout_group
+  	when :del_folder,:del_group,:del_contact,:del_doc,:del_property,:del_group_member,:group_del_me,:logout_group,:child_shield_doc
   		'bg-red'
   	when :firend_to_me,:open_doc_to_me
   		'bg-blue'
-    when :child_modify_doc,:child_share_doc
+    when :child_modify_doc
       'bg-orange'
   	else
   		'bg-yellow'

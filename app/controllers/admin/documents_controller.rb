@@ -50,21 +50,23 @@ class Admin::DocumentsController < ApplicationController
 		begin
 			@org_doc=Document.find(params[:doc_id])
 			#@folder.documents.push(@org_doc.dup)
-			if @folder.documents.create(title: @org_doc.title,
+			if doc=@folder.documents.create(title: @org_doc.title,
 				summary: @org_doc.summary,
 				content_have_attr: @org_doc.content_have_attr,
 				content_html: @org_doc.content_html,
 				content_html_summary: @org_doc.content_html_summary,
 				attritubes: @org_doc.attritubes
 				)
+				copy_doc_notification(@user,doc,@folder)
+				error_msg="成功复制#{truncate(@org_doc.title, :length => 10)}到'#{truncate(@folder.name, :length => 10)}'"
+				status=true
 			else
-				@document.errors.full_messages.each do |msg|
+				@folder.errors.full_messages.each do |msg|
 					error_msg += msg + '|'
 				end
 				status=false
 			end
-			error_msg="成功复制#{truncate(@org_doc.title, :length => 10)}"
-			status=true
+			
 		rescue 
 			status=false
 			error_msg='无法找到源文档'
@@ -148,7 +150,12 @@ class Admin::DocumentsController < ApplicationController
 		error_msg=''
 		status=true
 		if @document.update_attribute(:view_in_parent, params[:visiable] == 'true' ? true : false)
-			child_share_doc_notification(@user,@document.folder,@document,@document.folder.parent_folder,@document.folder.parent_folder.user)
+			if @document.view_in_parent
+				child_share_doc_notification(@user,@document.folder,@document,@document.folder.parent_folder,@document.folder.parent_folder.user)
+			else
+				child_shield_doc_notification(@user,@document.folder,@document,@document.folder.parent_folder,@document.folder.parent_folder.user)
+			end
+			
 			error_msg="成功配置#{truncate(@document.title, :length => 10)}"
 			status=true
 		else
@@ -184,6 +191,7 @@ class Admin::DocumentsController < ApplicationController
 				@parent_folder = Folder.find(parent_folder_id)
 				@properties =@parent_folder.all_dynamic_properties
 				@identify_properties = @parent_folder.all_identify_properties
+				render_404 unless @document.view_in_parent
 				render_404 unless @document.folder.allow_parent_edit?(@parent_folder)
 				render_404 unless @parent_folder.user == @user
 			end

@@ -92,3 +92,26 @@ function switch_pubu() {
         }
       );
 }
+function copy_document(url,id) {
+    $.ajax({
+        url: url,
+        type: "post",
+        data: {doc_id: id},
+        success: function(result) {
+            if (result['status'] === 'true') {
+                Messenger().post({
+                    message: result['message'],
+                    type: 'success',
+                    showCloseButton: true
+                });
+            } else {
+                Messenger().post({
+                    message: result['message'],
+                    type: 'error',
+                    showCloseButton: true
+                });
+            }
+        }
+    });
+    return true;
+}
