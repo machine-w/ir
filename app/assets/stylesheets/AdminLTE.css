@@ -3043,6 +3043,7 @@ tr > td.control-col {
 
 .pitem img { max-width: 100%; }
 .pitem.w2 img { max-width: 100%; }
+.user-img { max-width: 100%; }
 /**/
 /*.loading{display:none;margin-bottom:15px;padding:15px 0;text-align:center;font-weight:700;border:double rgba(34,25,25,.14);border-width:3px 0 0 0}
 .loading img{display:inline-block;margin-right:6px}

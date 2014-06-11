@@ -2,9 +2,10 @@ class PropertyOper
   include Mongoid::Document
   
 	field :name
+	field :function_name
 	field :description
 	field :sort, :type => Integer, :default => 0
-	field :function_name
+	field :params,:type => Array
 	field :function_context
 
 
