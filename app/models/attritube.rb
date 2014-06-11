@@ -139,6 +139,7 @@ class Attritube
 					"#{property.show_name}文件类型不合法;"
 		  		else #缺少匹配字符串验证
 		  			self.file_value = val
+		  			self.float_value = val.size
 		  			self.string_value = val.original_filename
 					''
 		  		end
@@ -153,6 +154,7 @@ class Attritube
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
 		  			self.file_value = val
+		  			self.float_value = val.size
 		  			self.string_value = val.original_filename
 					''
 		  		end
@@ -163,6 +165,7 @@ class Attritube
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
 		  			self.file_value = val
+		  			self.float_value = val.size
 		  			self.string_value = val.original_filename
 					''
 		  		end
@@ -173,6 +176,7 @@ class Attritube
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
 		  			self.file_value = val
+		  			self.float_value = val.size
 		  			self.string_value = val.original_filename
 					''
 		  		end
@@ -183,6 +187,7 @@ class Attritube
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
 		  			self.file_value = val
+		  			self.float_value = val.size
 		  			self.string_value = val.original_filename
 					''
 		  		end
@@ -317,16 +322,16 @@ class Attritube
 		#{}"数据表（#{self.array_value.size}）" unless self.array_value.nil?
 		"<p><div class='handsontable-view'></div><input type='hidden' value='#{self.int_value}'/><input type='hidden' value='#{self.float_value.to_i}'/><input type='hidden' value='#{self.array_value || '[]'}'/></p>"
 	when :file
-		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-file'></i>#{self.string_value}</button></a>".html_safe
+		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-primary'><i class='fa fa-file'></i>#{self.string_value}</button></a>".html_safe
 	when :picture
-		# "<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-picture-o'></i>#{self.string_value}</button></a>".html_safe
-		"<a href='#{self.file_value}'><img src='#{self.file_value}' title='#{self.string_value}' alt='#{self.string_value}没有显示' class='user-img'></a>".html_safe
+		 "<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-warning'><i class='fa fa-picture-o'></i>#{self.string_value}</button></a>".html_safe
+		#"<a href='#{self.file_value}'><img src='#{self.file_value}' title='#{self.string_value}' alt='#{self.string_value}没有显示' class='user-img'></a>".html_safe
 	when :video
 		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-video-camera'></i>#{self.string_value}</button></a>".html_safe
 	when :music
-		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-music'></i>#{self.string_value}</button></a>".html_safe
+		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-danger'><i class='fa fa-music'></i>#{self.string_value}</button></a>".html_safe
 	when :pdf
-		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-file-text'></i>#{self.string_value}</button></a>".html_safe
+		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-success'><i class='fa fa-file-text'></i>#{self.string_value}</button></a>".html_safe
 	when :date
 		self.date_value.strftime("%Y年%m月%d日") unless self.date_value.nil?
 	when :time
@@ -340,46 +345,27 @@ class Attritube
   	return '' if pro_oper.nil?
   	
   	case self.type
-  	when :string,:text,:enum
+  	when :string,:text,:enum,:link,:email,:embed_html
 		"#{eval(pro_oper.function_context).call(self.string_value)}" || ''
-  	when :link
-  		link_to self.string_value,"http://#{self.string_value}"
-  		#"<a href ='http://#{self.string_value}'>#{truncate(self.string_value, :length => 10)}</a>".html_safe
-  	when :email
-  		mail_to self.string_value,self.string_value
-  		#"<a href ='mailto:#{self.string_value}'>#{truncate(self.string_value, :length => 10)}</a>".html_safe
   	when :integer
-  		self.int_value.to_s
+  		"#{eval(pro_oper.function_context).call(self.int_value)}" || ''
   	when :number
-  		self.float_value.to_s
-  	when :embed_html
-  		self.string_value.html_safe
+  		"#{eval(pro_oper.function_context).call(self.float_value)}" || ''
 	when :bool
-		self.bool_value ? '是' : '否'
-	# when :enum
-	# 	"<span class='label label-success'>#{truncate(self.string_value, :length => 10)}</span> ".html_safe
+		"#{eval(pro_oper.function_context).call(self.bool_value)}" || ''
 	when :muli_enum,:array
-		result=''
-		self.array_value.each{ |a| result += "<span class='label label-success'>#{a}</span> " } unless self.array_value.nil?
-		result.html_safe
+		"#{eval(pro_oper.function_context).call(self.array_value)}" || ''
 	when :data_sheet
-		#{}"数据表（#{self.array_value.size}）" unless self.array_value.nil?
-		"<p><div class='handsontable-view'></div><input type='hidden' value='#{self.int_value}'/><input type='hidden' value='#{self.float_value.to_i}'/><input type='hidden' value='#{self.array_value || '[]'}'/></p>"
-	when :file
-		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-file'></i>#{self.string_value}</button></a>".html_safe
-	when :picture
-		# "<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-picture-o'></i>#{self.string_value}</button></a>".html_safe
-		"<a href='#{self.file_value}'><img src='#{self.file_value}' title='#{self.string_value}' alt='#{self.string_value}没有显示' class='user-img'></a>".html_safe
-	when :video
-		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-video-camera'></i>#{self.string_value}</button></a>".html_safe
-	when :music
-		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-music'></i>#{self.string_value}</button></a>".html_safe
-	when :pdf
-		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-info'><i class='fa fa-file-text'></i>#{self.string_value}</button></a>".html_safe
+		"#{eval(pro_oper.function_context).call(self.int_value,self.float_value,self.array_value)}" || ''
+		#"<p><div class='handsontable-view'></div><input type='hidden' value='#{self.int_value}'/><input type='hidden' value='#{self.float_value.to_i}'/><input type='hidden' value='#{self.array_value || '[]'}'/></p>"
+	when :file,:picture,:video,:music,:pdf
+		"#{eval(pro_oper.function_context).call(self.string_value,self.file_value,self.float_value)}" || ''
 	when :date
-		self.date_value.strftime("%Y年%m月%d日") unless self.date_value.nil?
+		"#{eval(pro_oper.function_context).call(self.date_value)}" || ''
+		#self.date_value.strftime("%Y年%m月%d日") unless self.date_value.nil?
 	when :time
-		self.time_value.strftime("%I:%M %p") unless self.time_value.nil?				  		
+		"#{eval(pro_oper.function_context).call(self.time_value)}" || ''
+		#self.time_value.strftime("%I:%M %p") unless self.time_value.nil?				  		
   	end
   end
   private

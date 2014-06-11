@@ -184,9 +184,9 @@ class Document
     doc = Nokogiri::HTML original_content
     doc.css('.is-a-property').each do |p|
       if p['class'].include?('is-static')
-        p.replace  self.folder.content_attr_value(p["id"],p["oper"])
+        p.replace  self.folder.content_attr_value(p["pid"],p["oper"])
       else
-        p.replace  self.content_attr_value(p["id"],p["oper"])
+        p.replace  self.content_attr_value(p["pid"],p["oper"])
       end
     end
     doc.css('#summary_line').each do |p|

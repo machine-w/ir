@@ -43,3 +43,5 @@ $ ->
   summer_note.closest('form').submit ->
     summer_note.val summer_note.code()
     true
+
+  $('.is-a-property').tooltip({container: 'body'})

@@ -186,7 +186,7 @@ $ ->
      summer_note.closest('form').submit ->
        summer_note.val summer_note.code()
      true
-
+    $('.is-a-property').tooltip({container: 'body'})
     #配置共享属性开放权限
     $('.select-share-property').select2()
     $(".select-share-property").on "change", (e) ->
