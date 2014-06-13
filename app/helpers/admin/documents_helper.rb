@@ -11,7 +11,8 @@ module Admin::DocumentsHelper
 		file_size = "#{'最大:'+property.max_value.to_s+'M' if property.have_max?} #{'最小:'+property.min_value.to_s+'M' if property.have_min?}"
 		if !property.file_type.nil? && !property.file_type.empty?
 			show_file_type ='文件类型：'
-			property.file_type.each { |e| show_file_type += "<small class='badge bg-yellow'>#{e}</small>" }
+			property.file_type.each { |e| show_file_type += "#{e}," }
+			# property.file_type.each { |e| show_file_type += "<small class='badge bg-yellow'>#{e}</small>" }
 		end
 		num_range = "range='#{property.have_min? ? property.min_value : 'min'}~#{property.have_max? ? property.max_value : 'max'}'"
 		front = "<span class='input-group-addon'>#{property.front_ext}</span>" if property.have_front?
@@ -42,20 +43,25 @@ module Admin::DocumentsHelper
 					when :email
 						"<input type='text' #{req_mail} name='properties[#{property.name}]' class='form-control' id='#{property._id}' placeholder='#{property.description}...' value='#{exist_val}'/>"
 					when :file #客户端验证没有做
-						 (exist_val.nil? ? '' : "<a href='#{exist_val[1].url}' class='btn btn-info'><i class='fa fa-file'></i>#{exist_val[0]}</a>") +
-						 "<div class='btn btn-success btn-file' id='#{property._id}'><i class='fa fa-paperclip'></i> #{property.get_show_name} #{file_field_tag "properties[#{property.name}]"}</div><p class='help-block'>#{file_size}</p><p class='help-block'>#{show_file_type || ''}</p>"
+						 # (exist_val.nil? ? '' : "<a href='#{exist_val[1].url}' class='btn btn-info'><i class='fa fa-file'></i>#{exist_val[0]}</a>") +
+						 # "<div class='btn btn-success btn-file' id='#{property._id}'><i class='fa fa-paperclip'></i> #{property.get_show_name} #{file_field_tag "properties[#{property.name}]"}</div><p class='help-block'>#{file_size}</p><p class='help-block'>#{show_file_type || ''}</p>"
+						 file_field_tag "properties[#{property.name}]", id: property._id,class: 'input-file','data-file' => (exist_val.nil? || exist_val.empty? ? '' : exist_val[0]),'data-url' => (exist_val.nil? || exist_val.empty? ? '' : exist_val[1].url ),'data-size' => file_size+' '+(show_file_type || ''),'data-name' => property.get_show_name
 					when :pdf
-						(exist_val.nil? ? '' : "<a href='#{exist_val[1].url}' class='btn btn-info'><i class='fa fa-file-text'></i>#{exist_val[0]}</a>") +
-						"<div class='btn btn-success btn-file' id='#{property._id}'><i class='fa fa-paperclip'></i> #{property.get_show_name} #{file_field_tag "properties[#{property.name}]", id: property._id, accept: 'application/pdf'}</div><p class='help-block'>#{file_size}</p>"
+						# (exist_val.nil? ? '' : "<a href='#{exist_val[1].url}' class='btn btn-info'><i class='fa fa-file-text'></i>#{exist_val[0]}</a>") +
+						# "<div class='btn btn-success btn-file' id='#{property._id}'><i class='fa fa-paperclip'></i> #{property.get_show_name} #{file_field_tag "properties[#{property.name}]", id: property._id, accept: 'application/pdf'}</div><p class='help-block'>#{file_size}</p>"
+						file_field_tag "properties[#{property.name}]", id: property._id, accept: 'application/pdf',class: 'input-pdf','data-pdf' => (exist_val.nil? || exist_val.empty? ? '' : exist_val[0]),'data-url' => (exist_val.nil? || exist_val.empty? ? '' : exist_val[1].url ),'data-size' => file_size,'data-name' => property.get_show_name
 					when :picture
-						(exist_val.nil? || exist_val.empty? ? '' : "<a href='#{exist_val[1].url}' class='btn btn-info'><i class='fa fa-picture-o'></i>#{exist_val[0]}</a>") +
-						"<div class='btn btn-success btn-file' id='#{property._id}'><i class='fa fa-paperclip'></i> #{property.get_show_name} #{file_field_tag "properties[#{property.name}]", id: property._id, accept: 'image/png,image/gif,image/jpeg'}</div><p class='help-block'>#{file_size}</p>"
+						# (exist_val.nil? || exist_val.empty? ? '' : "<a href='#{exist_val[1].url}' class='btn btn-info'><i class='fa fa-picture-o'></i>#{exist_val[0]}</a>") +
+						# "<div class='btn btn-success btn-file' id='#{property._id}'><i class='fa fa-paperclip'></i> #{property.get_show_name} #{file_field_tag "properties[#{property.name}]", id: property._id, accept: 'image/png,image/gif,image/jpeg'}</div><p class='help-block'>#{file_size}</p>"
+						file_field_tag "properties[#{property.name}]", id: property._id, accept: 'image/png,image/gif,image/jpeg',class: 'input-picture','data-pic' => (exist_val.nil? || exist_val.empty? ? '' : exist_val[1].url),'data-size' => file_size,'data-name' => property.get_show_name
 					when :video
-						(exist_val.nil? ? '' : "<a href='#{exist_val[1].url}' class='btn btn-info'><i class='fa fa-video-camera'></i>#{exist_val[0]}</a>") +
-						"<div class='btn btn-success btn-file' id='#{property._id}'><i class='fa fa-paperclip'></i> #{property.get_show_name} #{file_field_tag "properties[#{property.name}]", id: property._id, accept: 'video/mpeg,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv'}</div><p class='help-block'>#{file_size}</p>"
+						# (exist_val.nil? ? '' : "<a href='#{exist_val[1].url}' class='btn btn-info'><i class='fa fa-video-camera'></i>#{exist_val[0]}</a>") +
+						# "<div class='btn btn-success btn-file' id='#{property._id}'><i class='fa fa-paperclip'></i> #{property.get_show_name} #{file_field_tag "properties[#{property.name}]", id: property._id, accept: 'video/mpeg,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv'}</div><p class='help-block'>#{file_size}</p>"
+						file_field_tag "properties[#{property.name}]", id: property._id, accept: 'video/mpeg,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv',class: 'input-video','data-video' => (exist_val.nil? || exist_val.empty? ? '' : exist_val[0]),'data-url' => (exist_val.nil? || exist_val.empty? ? '' : exist_val[1].url ),'data-random' => rand(999999).to_s,'data-size' => file_size,'data-name' => property.get_show_name
 					when :music
-						(exist_val.nil? ? '' : "<a href='#{exist_val[1].url}' class='btn btn-info'><i class='fa fa-music'></i>#{exist_val[0]}</a>") +
-						"<div class='btn btn-success btn-file' id='#{property._id}'><i class='fa fa-paperclip'></i> #{property.get_show_name} #{file_field_tag "properties[#{property.name}]", id: property._id, accept: 'audio/basic,auido/L24,audio/mpeg,audio/mid,audio/mp4,audio/x-aiff,audio/x-mpegurl,audio/vnd.rn-realaudio,audio/ogg,audio/vorbis,audio/vnd.wav'}</div><p class='help-block'>#{file_size}</p>"
+						# (exist_val.nil? ? '' : "<a href='#{exist_val[1].url}' class='btn btn-info'><i class='fa fa-music'></i>#{exist_val[0]}</a>") +
+						# "<div class='btn btn-success btn-file' id='#{property._id}'><i class='fa fa-paperclip'></i> #{property.get_show_name} #{file_field_tag "properties[#{property.name}]", id: property._id, accept: 'audio/basic,auido/L24,audio/mpeg,audio/mid,audio/mp4,audio/x-aiff,audio/x-mpegurl,audio/vnd.rn-realaudio,audio/ogg,audio/vorbis,audio/vnd.wav'}</div><p class='help-block'>#{file_size}</p>"
+						file_field_tag "properties[#{property.name}]", id: property._id, accept: 'audio/basic,auido/L24,audio/mpeg,audio/mid,audio/mp4,audio/x-aiff,audio/x-mpegurl,audio/vnd.rn-realaudio,audio/ogg,audio/vorbis,audio/vnd.wav',class: 'input-music','data-music' => (exist_val.nil? || exist_val.empty? ? '' : exist_val[0]),'data-url' => (exist_val.nil? || exist_val.empty? ? '' : exist_val[1].url ),'data-size' => file_size,'data-name' => property.get_show_name
 					when :date
 						"<input type='text' #{req} name='properties[#{property.name}]' class='form-control sel_date' id='#{property._id}' value='#{exist_val.strftime("%Y年%m月%d日") if !exist_val.nil? && exist_val.class == Date}'/>"
 					when :time

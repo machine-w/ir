@@ -65,6 +65,9 @@
 #= require imagesloaded.pkgd.min
 #pdfobject
 #= require pdfobject.min
+#fileinput
+#= require fileinput.min
+
 format = (state) ->
 	originalOption = state.element;
 	"<img class='flag' width='100' src='" + $(originalOption).data('img') + "'/>" + state.text
@@ -92,6 +95,86 @@ $ ->
 	$(".datepicker").css("z-index", "9999");
 	# 所有sel_time类的录入框全都选时间
 	$('.sel_time').clockface({});
+	$("#user_avatar").fileinput
+		showUpload: false
+		browseLabel: "上传头像"
+		showRemove: false
+		initialCaption: "当前头像"
+		#showCaption: false
+		browseClass: "btn btn-success"
+		initialPreview: ["<img src='"+$("#user_avatar").data('avatar')+"' class='file-preview-image'>"]
+	$(".input-picture").each ->
+		if $(this).data('pic') == ''
+			preview = ["<div class='file-preview-text'><h2><i class='fa fa-square-o'></i></h2>尚未上传图片</div>"]
+		else
+			preview = ["<img src='"+$(this).data('pic')+"' class='file-preview-image'>"] 
+		$(this).fileinput
+			showUpload: false
+			browseLabel: $(this).data('name')
+			browseIcon: "<i class='fa fa-picture-o'></i>"
+			showRemove: false
+			initialCaption: $(this).data('size')
+			#showCaption: false
+			browseClass: "btn btn-success"
+			initialPreview: preview
+	$(".input-pdf").each ->
+		if $(this).data('pdf') == ''
+			preview = ["<div class='file-preview-text'><h2><i class='fa fa-file-text-o'></i></h2>尚未上传pdf文件</div>"]
+		else
+			preview = ["<div class='file-preview-text'><a href='" + $(this).data('url') + "'><h2><i class='fa fa-file-text'></i></h2>" + $(this).data('pdf') + "</a></div>"] 
+		$(this).fileinput
+			showUpload: false
+			browseLabel: $(this).data('name')
+			browseIcon: "<i class='fa fa-file-text'></i>"
+			showRemove: false
+			initialCaption: $(this).data('size')
+			#showCaption: false
+			browseClass: "btn btn-success"
+			initialPreview: preview
+	$(".input-file").each ->
+		if $(this).data('file') == ''
+			preview = ["<div class='file-preview-text'><h2><i class='fa fa-file-o'></i></h2>尚未上传文件</div>"]
+		else
+			preview = ["<div class='file-preview-text'><a href='" + $(this).data('url') + "'><h2><i class='fa fa-file'></i></h2>" + $(this).data('file') + "</a></div>"] 
+		$(this).fileinput
+			showUpload: false
+			browseLabel: $(this).data('name')
+			browseIcon: "<i class='fa fa-file'></i>"
+			showRemove: false
+			initialCaption: $(this).data('size')
+			#showCaption: false
+			browseClass: "btn btn-success"
+			initialPreview: preview
+	$(".input-video").each ->
+		if $(this).data('video') == ''
+			preview = ["<div class='file-preview-text'><h2><i class='fa fa-youtube-play'></i></h2>尚未上传视频</div>"]
+		else
+			#preview = ["<div class='file-preview-text'><a href='" + $(this).data('url') + "'><h2><i class='fa fa-video-camera'></i></h2>" + $(this).data('video') + "</a></div>"] 
+			preview = ["<video src='"+$(this).data('url')+"?random="+$(this).data('random')+"' controls='controls' class='small-video'>你的浏览器不支持播放视频,<a href='"+$(this).data('url')+"'>点击下载</a></video>"] 
+		$(this).fileinput
+			showUpload: false
+			browseLabel: $(this).data('name')
+			browseIcon: "<i class='fa fa-video-camera'></i>"
+			showRemove: false
+			initialCaption: $(this).data('size')
+			#showCaption: false
+			browseClass: "btn btn-success"
+			initialPreview: preview
+	$(".input-music").each ->
+		if $(this).data('music') == ''
+			preview = ["<div class='file-preview-text'><h2><i class='fa fa-headphones'></i></h2>尚未上传音频</div>"]
+		else
+			#preview = ["<div class='file-preview-text'><a href='" + $(this).data('url') + "'><h2><i class='fa fa-video-camera'></i></h2>" + $(this).data('video') + "</a></div>"] 
+			preview = ["<audio controls><source src='"+$(this).data('url')+"'>你的浏览器不支持播放音频,<a href='"+$(this).data('url')+"'>点击下载</a></audio>"] 
+		$(this).fileinput
+			showUpload: false
+			browseLabel: $(this).data('name')
+			browseIcon: "<i class='fa fa-music'></i>"
+			showRemove: false
+			initialCaption: $(this).data('size')
+			#showCaption: false
+			browseClass: "btn btn-success"
+			initialPreview: preview
 	$(".tags").each ->
 		$(this).tagsManager({prefilled: fill_array_options($(this))})
 	$('.summernote-input').each ->
@@ -152,7 +235,7 @@ $ ->
 
 
 	$('.view-pdf').each ->
-	   	pdf= new PDFObject({ url: $(this).data('url'),pdfOpenParams: {navpanes: 1, view: "FitV",pagemode: "thumbs"} }).embed($(this).attr('id'))
+	   	pdf= new PDFObject({ url: $(this).data('url'),pdfOpenParams: {navpanes: 1,toolbar: 0,statusbar: 0,view: "FitV"} }).embed($(this).attr('id'))
 	   	#alert $(this).attr('id')
 	   	true
 

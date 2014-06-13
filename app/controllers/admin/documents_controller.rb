@@ -114,7 +114,10 @@ class Admin::DocumentsController < ApplicationController
 			else
 				#attritube.bool_value = false if property.bool? #如果类型类bool特殊对待，设定属性为否
 				#@document.attritubes.build(property_id: property._id,property_name: property.name,type: property.type,bool_value: false) if property.bool? && !@document.attritubes.where(property_name: property.name).exists? #如果类型类bool特殊对待，设定属性为否
-				error_msg += "#{property.show_name}为必填字段;" if property.req?
+				if property.req?
+					#如果是文件类型的字段，如果已经存在了属性，则可以为空
+					error_msg += "#{property.show_name}为必填字段;" unless [:file,:pdf,:picture,:video,:music].include?(property.type) && !attritube.new_record?
+			    end 
 			end 
 		end
 		if  error_msg == '' && @document.save
