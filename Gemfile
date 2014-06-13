@@ -90,6 +90,9 @@ gem 'truncate_html', '~> 0.9.2'
 # websocket
 gem 'websocket-rails', :git => 'git://github.com/DanKnox/websocket-rails.git'
 
+# pdf reader
+gem 'pdf-reader'
+
 # by star
 gem 'by_star', :git => "git://github.com/radar/by_star"
 group :doc do

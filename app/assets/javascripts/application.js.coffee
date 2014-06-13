@@ -63,6 +63,8 @@
 #瀑布流
 #= require masonry.pkgd.min
 #= require imagesloaded.pkgd.min
+#pdfobject
+#= require pdfobject.min
 format = (state) ->
 	originalOption = state.element;
 	"<img class='flag' width='100' src='" + $(originalOption).data('img') + "'/>" + state.text
@@ -101,6 +103,9 @@ $ ->
    			this_summernote.val this_summernote.code()
    			true
    		return
+   	$('.view-pdf').each ->
+	   	pdf2 = new PDFObject({ url: $(this).data('url') })
+		pdf2.embed($(this).attr('id'))
 	# to set handsontable
 	get_array_data = (data,rows,cols) ->
     arr = []
