@@ -45,7 +45,7 @@ class AddPropertyOper < Mongoid::Migration
   	
     file.property_opers.create!(name: "文件大小",description: "文件大小",function_name:"size",params: [],function_context: %Q{property_oper = lambda{ |name,file,size| (size/1024).floor.to_s+'K' }})
     
-    pdf.property_opers.create!(name: "嵌入查看",description: "嵌入查看",function_name:"origin",params: [],function_context: %Q{property_oper = lambda{ |name,file,size| "<div class='view-pdf' data-url='"+file.to_s+"' id='"+name+rand(999999).to_s+"'>你的浏览器没有安装pdf查看器，<a href='"+file.to_s+"'>点击下载</a></audio>" }})
+    pdf.property_opers.create!(name: "嵌入查看",description: "嵌入查看",function_name:"origin",params: [],function_context: %Q{property_oper = lambda{ |name,file,size| "<div class='view-pdf' data-url='"+file.to_s+"' id='"+"pdf"+rand(999999).to_s+"'>你的浏览器没有安装pdf查看器，<a href='"+file.to_s+"'>点击下载</a></audio>" }})
   	pdf.property_opers.create!(name: "文件大小",description: "文件大小",function_name:"size",params: [],function_context: %Q{property_oper = lambda{ |name,file,size| (size/1024).floor.to_s+'K' }})
 
   end

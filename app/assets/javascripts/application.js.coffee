@@ -103,9 +103,7 @@ $ ->
    			this_summernote.val this_summernote.code()
    			true
    		return
-   	$('.view-pdf').each ->
-	   	pdf2 = new PDFObject({ url: $(this).data('url') })
-		pdf2.embed($(this).attr('id'))
+
 	# to set handsontable
 	get_array_data = (data,rows,cols) ->
     arr = []
@@ -151,5 +149,11 @@ $ ->
 	  title: "你确定吗？"
 	  commit: "继续"
 	  cancel: "取消"
+
+
+	$('.view-pdf').each ->
+	   	pdf= new PDFObject({ url: $(this).data('url'),pdfOpenParams: {navpanes: 1, view: "FitV",pagemode: "thumbs"} }).embed($(this).attr('id'))
+	   	#alert $(this).attr('id')
+	   	true
 
 
