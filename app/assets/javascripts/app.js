@@ -18,12 +18,12 @@ $(function() {
             $('.left-side').removeClass("collapse-left");
             $(".right-side").removeClass("strech");
             $('.row-offcanvas').toggleClass("relative");
-            $('#front-header-search').hide();
+            //$('#front-header-search').hide();
         } else {
             //Else, enable content streching
             $('.left-side').toggleClass("collapse-left");
             $(".right-side").toggleClass("strech");
-            $('#front-header-search').show();
+            //$('#front-header-search').show();
         }
     });
 

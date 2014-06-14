@@ -4,6 +4,7 @@ InstitutionalRepos::Application.routes.draw do
   #post ":user_id/search"  => "search#index"
   post ":user_id/admin/search" => "admin/search#index"
   post "fixview/pubu"
+  post "fixview/fixheader"
   #get "upload/serve"
   get "/upload/grid/*path" => "upload#serve"
   # get "documents/create"

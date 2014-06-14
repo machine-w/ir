@@ -5,13 +5,13 @@ class FixviewController < ApplicationController
   		current_user.update_attribute(:view_pubu, 'pubu') if current_user
   		session[:view_pubu] = 'pubu'
   	else
-  		current_user.update_attribute(:view_pubu,'pubu') if current_user
+  		current_user.update_attribute(:view_pubu,'list') if current_user
   		session[:view_pubu] = 'list'
   	end
   	respond_to do |format|
 			format.html
 			format.json  { render :json => msg }
-	end
+	  end
   end
   def fixheader
   	msg="{}"

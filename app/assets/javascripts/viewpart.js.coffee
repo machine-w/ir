@@ -11,3 +11,7 @@ $ ->
 	# $("#home_visit_group").on "change", (e) ->
 	# 	if e.added
 	# 		window.location.href = '/group/'+e.added.id
+	if $(window).width() <= 992
+		$("#front-header-search").hide()
+	else
+		$("#front-header-search").show()

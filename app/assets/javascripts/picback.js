@@ -1,7 +1,7 @@
 $(function() {
 	if ($("body").data('backpicture') == '' || $("body").data('backpicture') == [] ) 
 	{
-		$.backstretch("/images/back/default8.jpg");
+		$.backstretch("/images/back/default.jpg");
         //$("body").addClass('defaultback');
     }
     else
