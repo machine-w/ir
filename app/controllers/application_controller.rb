@@ -49,8 +49,8 @@ class ApplicationController < ActionController::Base
       results[:third_disciplines].map! { |e| ThirdDiscipline.find(e) unless e.blank? }
 
       results[:backpictures].map! { |e| Backpicture.new(type_cd: 1,picture: Picture.find(e)) unless e.blank? }
-      logger.debug results[:backpictures]
-      logger.debug results[:third_disciplines]
+      #logger.debug results[:backpictures]
+      #logger.debug results[:third_disciplines]
       results[:backpictures]=[] if results[:backpictures].count == 1 && results[:backpictures][0].nil?
       results
     end
@@ -83,7 +83,7 @@ class ApplicationController < ActionController::Base
           scope.array_value = result[:sel_contact] || []
           auto_send_message(host,scope.array_value) if result.has_key?(:send_message) && host.class == Document
         when 'user_list'
-          logger.debug result[:member_list]
+          #logger.debug result[:member_list]
           scope.array_value = JSON.parse(result[:member_list])
           auto_send_message(host,scope.array_value) if result.has_key?(:send_message) && host.class == Document
         end
@@ -136,7 +136,7 @@ class ApplicationController < ActionController::Base
           scope.array_value = result[:sel_contact] || []
           auto_send_message(host,scope.array_value) if result.has_key?(:send_message) && host.class == Document
         when 'user_list'
-          logger.debug result[:member_list]
+          #logger.debug result[:member_list]
           scope.array_value = JSON.parse(result[:member_list])
           auto_send_message(host,scope.array_value) if result.has_key?(:send_message) && host.class == Document
         end

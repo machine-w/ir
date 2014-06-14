@@ -115,12 +115,12 @@ class Document
       ''
     end
   end
-  def content_attr_value(property_name,oper=nil)
+  def content_attr_value(property_name,oper=nil,origin_doc=nil)
     if self.attritubes.where(property_name: property_name).exists?
       if oper.blank?
-        self.attritubes.where(property_name: property_name).first.get_content_value
+        self.attritubes.where(property_name: property_name).first.get_content_value(origin_doc)
       else
-        self.attritubes.where(property_name: property_name).first.get_content_oper_value(oper)
+        self.attritubes.where(property_name: property_name).first.get_content_oper_value(oper,origin_doc)
       end  
     else
       ''
@@ -184,9 +184,9 @@ class Document
     doc = Nokogiri::HTML original_content
     doc.css('.is-a-property').each do |p|
       if p['class'].include?('is-static')
-        p.replace  self.folder.content_attr_value(p["pid"],p["oper"])
+        p.replace  self.folder.content_attr_value(p["pid"],p["oper"],self)
       else
-        p.replace  self.content_attr_value(p["pid"],p["oper"])
+        p.replace  self.content_attr_value(p["pid"],p["oper"],self)
       end
     end
     doc.css('#summary_line').each do |p|

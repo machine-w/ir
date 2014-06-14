@@ -178,16 +178,16 @@ class Folder
       nil
     end
   end
-  def content_attr_value(property_name,oper=nil)
+  def content_attr_value(property_name,oper=nil,origin_doc=nil)
     if self.attritubes.where(property_name: property_name).exists?
       if oper.blank?
-        self.attritubes.where(property_name: property_name).first.get_content_value
+        self.attritubes.where(property_name: property_name).first.get_content_value(origin_doc)
       else
-        self.attritubes.where(property_name: property_name).first.get_content_oper_value(oper)
+        self.attritubes.where(property_name: property_name).first.get_content_oper_value(oper,origin_doc)
       end
       
     elsif self.parent_folder
-        self.parent_folder.content_attr_value(property_name,oper)
+        self.parent_folder.content_attr_value(property_name,oper,origin_doc)
     else
       ''
     end

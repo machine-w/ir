@@ -294,7 +294,8 @@ class Attritube
 		self.time_value.strftime("%I:%M %p") unless self.time_value.nil?				  		
   	end
   end
-  def get_content_value
+  def get_content_value(origin_doc=nil)
+  	
   	case self.type
   	when :string,:text,:enum
 		self.string_value || ''
@@ -309,7 +310,8 @@ class Attritube
   	when :number
   		self.float_value.to_s
   	when :embed_html
-  		self.string_value.html_safe
+  		self.embed_html_fill_properties(origin_doc).html_safe
+  		#self.string_value.html_safe
 	when :bool
 		self.bool_value ? '是' : '否'
 	# when :enum
@@ -333,20 +335,22 @@ class Attritube
 	when :pdf
 		"<a href='#{self.file_value}'><button type='button' title='#{self.string_value}' class='btn btn-success'><i class='fa fa-file-text'></i>#{self.string_value}</button></a>".html_safe
 	when :date
-		self.date_value.strftime("%Y年%m月%d日") unless self.date_value.nil?
+		self.date_value.blank? ? "" : self.date_value.strftime("%Y年%m月%d日")
 	when :time
-		self.time_value.strftime("%I:%M %p") unless self.time_value.nil?				  		
+		self.time_value.blank? ? "" : self.time_value.strftime("%I:%M %p")
   	end
   end
-  def get_content_oper_value(oper)
+  def get_content_oper_value(oper,origin_doc=nil)
   	pro_type = PropertyType.where(type_view_cd: self.type_cd).first
   	return '' if pro_type.nil?
   	pro_oper=pro_type.property_opers.where(function_name: oper).first
   	return '' if pro_oper.nil?
   	
   	case self.type
-  	when :string,:text,:enum,:link,:email,:embed_html
-		"#{eval(pro_oper.function_context).call(self.string_value)}" || ''
+  	when :string,:text,:enum,:link,:email
+  		"#{eval(pro_oper.function_context).call(self.string_value)}" || ''
+  	when :embed_html
+		"#{eval(pro_oper.function_context).call(self.embed_html_fill_properties(origin_doc))}" || ''
   	when :integer
   		"#{eval(pro_oper.function_context).call(self.int_value)}" || ''
   	when :number
@@ -368,17 +372,25 @@ class Attritube
 		#self.time_value.strftime("%I:%M %p") unless self.time_value.nil?				  		
   	end
   end
-  private
-  # def div_arr(arr, div_len)  
-  # 	if div_len <= 0 or div_len == 1 or div_len >= arr.size  
-  # 		return [arr]  
-  # 	end  
-  # 	res = []  
-  # 	arr.each_index{ |i|  
-  # 		x,y = i / div_len,i % div_len  
-  # 		res[x] = [] if not res[x]  
-  # 		res[x][y] = arr[i]  
-  # 	}
-  # 	res  
-  # end  
+  #private
+  def embed_html_fill_properties(origin_doc=nil)
+  	if origin_doc.nil?
+  		"（嵌套嵌入式文档）"
+  	else
+  		doc = Nokogiri::HTML self.string_value
+  		doc.css('.is-a-property').each do |p|
+  			#logger.debug { "#{p["pid"]} + #{p["oper"]}" }
+  			if p['class'].include?('is-static')
+  				p.replace  origin_doc.folder.content_attr_value(p["pid"],p["oper"],nil)
+  			else
+  				p.replace  origin_doc.content_attr_value(p["pid"],p["oper"],nil)
+  			end
+  		end
+  		doc.css('#summary_line').each do |p|
+  			p.replace  '<!-- truncate -->'
+  		end
+  		doc.to_html
+  	end
+    
+  end 
 end

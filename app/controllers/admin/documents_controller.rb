@@ -236,7 +236,7 @@ class Admin::DocumentsController < ApplicationController
 				result_hash["#{i.name}"] = result_hash["#{i.name}"] || false
 			end
 		end
-		logger.debug { result_hash.to_s }
+		#logger.debug { result_hash.to_s }
 		result_hash
 	end
 end
