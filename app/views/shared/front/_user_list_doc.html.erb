@@ -1,0 +1,41 @@
+<div class="doc_item">
+<div class="col-md-11">
+	<div class="box box-success ">
+		<div class="box-header">
+			<h1 class="box-title big-title">
+				<%= link_to truncate(doc.title, :length => 20), document_path(doc) %>
+				
+			</h1>
+			<div class="box-tools pull-right">
+				
+				<%= distance_of_time_in_words_to_now(doc.created_at) %>
+			</div>
+		</div>
+		<div class="box-body">
+			<%= raw doc.get_summary_content %>
+		</div>
+		<div class="box-footer">
+			<% if current_user %>
+			<div class="btn-group">
+				<button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
+					收藏 <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+					<% current_user.folders.each do |f| %>
+						<li><a class="copy_doc" data-url="<%= copy_document_admin_folder_documents_path(f,:format => :json) %>" data-docid="<%= doc._id %>" onclick="copy_document($(this).data('url'),$(this).data('docid'));"><%= f.name %></a></li>
+					<% end %>
+				</ul>
+			</div>
+			<% end %>
+			<%= link_to truncate(doc.folder.name, :length => 20), folder_path(doc.folder),class: "btn btn-default btn-xs" %>
+			<div class ="pull-right">
+				<% doc.all_identify_properties.each do |pro| %>
+                  <% (doc.attr_value(pro.name) || []).each do |i| %>
+                      <small class="badge" style="background-color: <%= pro.identify_color %> !important;"><%= i %></small>
+                    <% end %>
+            	<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+</div>

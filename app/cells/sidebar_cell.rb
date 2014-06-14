@@ -1,5 +1,11 @@
 class SidebarCell < Cell::Rails
 
+  def userinfo(args)
+    @home_user=args[:huser]
+    @current_user=args[:cuser]
+    @query_key=args[:query_key]
+    render
+  end
   def search(args)
   	@home_user=args[:huser]
     @current_user=args[:cuser]

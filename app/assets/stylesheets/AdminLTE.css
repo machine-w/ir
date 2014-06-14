@@ -3071,3 +3071,31 @@ tr > td.control-col {
   border: 3px solid #cccccc;
 }
 
+/*用户主页信息*/
+.user-info {
+  /*height: 200px;*/
+  padding: 10px;
+  /*background: #3c8dbc;*/
+  text-align: center;
+}
+.user-info > a > img {
+  z-index: 5;
+  height: 150px;
+  width: 150px;
+  border: 8px solid;
+  border-color: transparent;
+  border-color: rgba(200, 200, 200, 0.5);
+}
+.user-info > p {
+  z-index: 5;
+  /*color: #f9f9f9;
+  color: rgba(255, 255, 255, 0.8);*/
+  font-size: 20px;
+  text-shadow: 2px 2px 3px #333333;
+  margin-top: 10px;
+}
+.user-info > p > small {
+  display: block;
+  font-size: 12px;
+}
+

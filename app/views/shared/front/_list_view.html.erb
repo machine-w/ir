@@ -1,11 +1,11 @@
-<div class="col-md-7" id="doc_container">
-	<%= render :partial => '/shared/front/list_doc',collection: docs,as: :doc%>
-</div>
-<div class="col-md-5">
+<div class="col-md-4">
+	<%= render_cell :sidebar, :userinfo,:huser => @home_user,:cuser => current_user%>
 	<%= render_cell :sidebar, :search,:huser => @home_user,:cuser => current_user,:query_key => @query_key %>
 	<%= render_cell :sidebar, :folders,:huser => @home_user,:cuser => current_user,:cur_folder => @folder%>
-	<%= render_cell :sidebar, :topusers,:huser => @home_user,:cuser => current_user%>
-	<%= render_cell :sidebar, :topdocs,:huser => @home_user,:cuser => current_user%>
 	<%= render_cell :sidebar, :tags,:huser => @home_user,:cuser => current_user%>
 </div>
+<div class="col-md-8" id="doc_container">
+	<%= render :partial => '/shared/front/user_list_doc',collection: docs,as: :doc%>
+</div>
+
 

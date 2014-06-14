@@ -1,0 +1,28 @@
+<% if @home_user %>
+<div class="col-md-11 col-md-offset-1">
+	<div class="box box-danger ">
+		<div class="box-header">
+			<h1 class="box-title">
+				用户信息
+			</h1>
+			<div class="box-tools pull-right">
+			</div>
+		</div>
+		<div class="box-body user-info">
+					<%= link_to user_path(@home_user.loginname) do %>
+					<%= image_tag(@home_user.avatar_url(:sobig),class: "img-circle") %>
+					<% end %>
+					<p>
+						<%= @home_user.username%> - <%= @home_user.department.institution.name if @home_user.department %>
+						<small>单位： <%= @home_user.department.name if @home_user.department%></small>
+						<small>学科： <%= @home_user.third_disciplines.all.map { |e| e.name }.join('，') %> </small>
+					</p>
+		</div>
+		<div class="box-footer">
+			<% if @current_user && @current_user != @home_user %>
+			<%= link_to "交谈", user_admin_contacts_path(@current_user.loginname,:firend => @home_user.loginname),class: "btn btn-primary navbar-btn" %>
+			<% end %>
+		</div>
+	</div>
+</div>
+<% end %>

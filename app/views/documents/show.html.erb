@@ -6,46 +6,51 @@
 	<br>
 </div>
 <div class="row opacity95">
-	<div class="col-md-7 col-md-offset-1">
-		<div class="box box-success">
-			<div class="box-header">
-				<h1 class="box-title big-title"><%= @document.title %></h1>
-				
-				<div class="box-tools pull-right">
-					<% if current_user %>
-					<div class="btn-group">
-						<button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
-							 收藏 <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" role="menu">
-							<% current_user.folders.each do |f| %>
-							<li><a class="copy_doc" data-url="<%= copy_document_admin_folder_documents_path(f,:format => :json) %>" data-docid="<%= @document._id %>" onclick="copy_document($(this).data('url'),$(this).data('docid'));"><%= f.name %></a></li>
+	<div class="col-md-4">
+		<%= render_cell :sidebar, :userinfo,:huser => @home_user,:cuser => current_user%>
+		<%= render_cell :sidebar, :search,:huser => @home_user,:cuser => current_user,:query_key => @query_key %>
+		<%= render_cell :sidebar, :folders,:huser => @home_user,:cuser => current_user,:cur_folder => @folder%>
+		<%= render_cell :sidebar, :tags,:huser => @home_user,:cuser => current_user%>
+	</div>
+	<div class="col-md-8">
+		<div class="doc_item">
+			<div class="col-md-11">
+				<div class="box box-warning ">
+					<div class="box-header">
+						<h1 class="box-title big-title"><%= @document.title %></h1>
+
+						<div class="box-tools pull-right">
+							<% if current_user %>
+							<div class="btn-group">
+								<button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
+									收藏 <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<% current_user.folders.each do |f| %>
+									<li><a class="copy_doc" data-url="<%= copy_document_admin_folder_documents_path(f,:format => :json) %>" data-docid="<%= @document._id %>" onclick="copy_document($(this).data('url'),$(this).data('docid'));"><%= f.name %></a></li>
+									<% end %>
+								</ul>
+							</div>
 							<% end %>
-						</ul>
+						</div>
 					</div>
-					<% end %>
-				</div>
-			</div>
-			<div class="box-body">
-				<%= raw @document.get_content %>
-			</div>
-			<div class="box-footer">
-				<%= distance_of_time_in_words_to_now(@document.created_at) %>
-				<div class ="pull-right">
-					
-					<% @document.all_identify_properties.each do |pro| %>
-					<% (@document.attr_value(pro.name) || []).each do |i| %>
-					<small class="badge" style="background-color: <%= pro.identify_color %> !important;"><%= i %></small>
-					<% end %>
-					<% end %>
+					<div class="box-body">
+						<%= raw @document.get_content %>
+					</div>
+					<div class="box-footer">
+						<%= distance_of_time_in_words_to_now(@document.created_at) %>
+						<div class ="pull-right">
+
+							<% @document.all_identify_properties.each do |pro| %>
+							<% (@document.attr_value(pro.name) || []).each do |i| %>
+							<small class="badge" style="background-color: <%= pro.identify_color %> !important;"><%= i %></small>
+							<% end %>
+							<% end %>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="col-md-4">
-		<%= render_cell :sidebar, :search,:user => @home_user %>
-		<%= render_cell :sidebar, :folders,:user => @home_user %>
-		<%= render_cell :sidebar, :tags,:user => @home_user %>
-	</div>
 </div>

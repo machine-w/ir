@@ -9,7 +9,7 @@
 	<% if session[:view_pubu] == 'pubu' %>
 		<%= render :partial => '/shared/front/pubu_view',locals: {docs: @docs}%>
 	<% else %>
-		<%= render :partial => '/shared/front/list_view',locals: {docs: @docs}%>
+		<%= render :partial => '/shared/front/home_list_view',locals: {docs: @docs}%>
 	<% end %>
 </div>
 
