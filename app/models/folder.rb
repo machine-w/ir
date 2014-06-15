@@ -30,6 +30,7 @@ class Folder
 
   validates_presence_of :name
   before_save :set_permission
+  before_save :set_default_property
   before_save do |folder|
     folder.tile = (folder.tile == "1") || (folder.tile == true) ? true : false
     true
@@ -263,6 +264,23 @@ class Folder
           self.build_permission({inherit: false,privated: true}) 
         when :blog,
           self.build_permission({inherit: false,privated: false,public_type: :all})
+        end
+      end
+    end
+    true
+  end
+  def set_default_property
+    if self.new_record?
+      if self.parent_folder.nil?
+        case self.folder_type.list_view
+        when :picture
+          self.properties.build({name: 'default',show_name: '预设图片', description: '建立图片目录自动添加的图片属性', type_cd: 10,require: true})
+        when :video
+          self.properties.build({name: 'default',show_name: '预设视频', description: '建立视频目录自动添加的视频属性', type_cd: 11,require: true})
+        when :music
+          self.properties.build({name: 'default',show_name: '预设音乐', description: '建立音乐目录自动添加的音乐属性', type_cd: 12,require: true})
+        when :file
+          self.properties.build({name: 'default',show_name: '预设文件', description: '建立文件目录自动添加的文件属性', type_cd: 8,require: true})
         end
       end
     end
