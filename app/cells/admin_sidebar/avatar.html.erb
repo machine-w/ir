@@ -1,6 +1,6 @@
 <div class="user-panel">
 	<div class="pull-left image">
-		<%= gravatar_for @user,:large %>
+		<a href="<%= edit_user_registration_path %>"><%= gravatar_for @user,:large %></a>
 	</div>
 	<div class="pull-left info">
 		<p>你好,&nbsp;<%= @user.username %></p>

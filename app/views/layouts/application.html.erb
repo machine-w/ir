@@ -22,6 +22,11 @@
                 <div class="navbar-right">
                     <% if current_user %>
                     <ul class="nav navbar-nav">
+                        <li class="dropdown messages-menu">
+                            <a href="<%= admin_user_url(current_user.loginname) %>">
+                                <i class="glyphicon glyphicon-log-in"></i>
+                            </a>
+                        </li>
                         <!-- Messages: style can be found in dropdown.less-->
                         <%= render_cell :admin_header, :messages,:user => current_user %>
                         <!-- groups: style can be found in dropdown.less-->

@@ -14,6 +14,7 @@
 					<% end %>
 					<p>
 						<%= @home_user.username%> - <%= @home_user.department.institution.name if @home_user.department %>
+						<small>类型： <%= @home_user.user_type.name if @home_user.user_type %></small>
 						<small>单位： <%= @home_user.department.name if @home_user.department%></small>
 						<small>学科： <%= @home_user.third_disciplines.all.map { |e| e.name }.join('，') %> </small>
 					</p>
