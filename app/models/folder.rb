@@ -275,12 +275,16 @@ class Folder
         case self.folder_type.list_view
         when :picture
           self.properties.build({name: 'default',show_name: '预设图片', description: '建立图片目录自动添加的图片属性', type_cd: 10,require: true})
+          self.doc_default_content = %Q{&nbsp;<button pid="default" type="button" class="btn btn-info btn-sm is-a-property " oper="origin" data-toggle="tooltip" data-placement="top" title="预设图片-原始大小"><i class="fa fa-picture-o"></i></button>&nbsp;}
         when :video
           self.properties.build({name: 'default',show_name: '预设视频', description: '建立视频目录自动添加的视频属性', type_cd: 11,require: true})
+          self.doc_default_content = %Q{&nbsp;<button pid="default" type="button" class="btn btn-info btn-sm is-a-property " oper="origin" data-toggle="tooltip" data-placement="top" title="预设视频-原始播放"><i class="fa fa-video-camera"></i></button>&nbsp;}
         when :music
           self.properties.build({name: 'default',show_name: '预设音乐', description: '建立音乐目录自动添加的音乐属性', type_cd: 12,require: true})
+          self.doc_default_content = %Q{&nbsp;<button pid="default" type="button" class="btn btn-info btn-sm is-a-property " oper="play" data-toggle="tooltip" data-placement="top" title="预设音乐-嵌入播放"><i class="fa fa-music"></i></button>&nbsp;}
         when :file
           self.properties.build({name: 'default',show_name: '预设文件', description: '建立文件目录自动添加的文件属性', type_cd: 8,require: true})
+          self.doc_default_content = %Q{&nbsp;<button pid="default" type="button" class="btn btn-danger btn-sm is-a-property " data-toggle="tooltip" data-placement="top" title="预设文件"><i class="fa fa-file"></i></button>&nbsp;}
         end
       end
     end

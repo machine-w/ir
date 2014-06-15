@@ -34,7 +34,7 @@ class Property
 	field :string_format #字符串匹配的格式，要求正则表达式
 	field :embed_html_markdown, :type => Boolean, :default => true #扩展内容使用markdown还是富文本，预设，先不用
 	field :enum_option, :type => Array
-	field :file_type, :type => Array
+	field :file_type, :type => Array,:default => []
 	field :data_x, :type => Integer #数据表类型的列数
 	field :data_y, :type => Integer #数据表类型的行数
 	scope :enable_not_static, where(static: false,disable: false)
