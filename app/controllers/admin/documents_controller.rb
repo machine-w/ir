@@ -49,20 +49,45 @@ class Admin::DocumentsController < ApplicationController
 		status=true
 		begin
 			@org_doc=Document.find(params[:doc_id])
-			#@folder.documents.push(@org_doc.dup)
 			if @org_doc.content_have_attr.gsub(/\&nbsp;/, '').strip.blank? && @org_doc.get_original_content == @folder.get_original_content
 				content=''
 			else
 				content= @org_doc.get_original_content
 			end
-			@org_doc.get_original_content
+			attritubes=@org_doc.attritubes.map do |e| 
+				Attritube.new(property_id: e.property_id,
+					property_name: e.property_name,
+					type_cd: e.type_cd,
+					string_value: e.string_value,
+					float_value: e.float_value,
+					int_value: e.int_value,
+					bool_value: e.bool_value,
+					array_value: e.array_value,
+					date_value: e.date_value,
+					time_value: e.time_value,
+					file_value: e.file_value)
+			end
 			if doc=@folder.documents.create(title: @org_doc.title,
 				summary: @org_doc.summary,
 				content_have_attr: content,
 				content_html: @org_doc.content_html,
 				content_html_summary: @org_doc.content_html_summary,
-				attritubes: @org_doc.attritubes
+				attritubes: attritubes
 				)
+				# @org_doc.attritubes.each do |e| 
+				# 	doc.attritubes.create(property_id: e.property_id,
+				# 				property_name: e.property_name,
+				# 				type_cd: e.type_cd,
+				# 				string_value: e.string_value,
+				# 				float_value: e.float_value,
+				# 				int_value: e.int_value,
+				# 				bool_value: e.bool_value,
+				# 				array_value: e.array_value,
+				# 				date_value: e.date_value,
+				# 				time_value: e.time_value,
+				# 				file_value: e.file_value.file)
+				# end
+				# doc.save
 				copy_doc_notification(@user,doc,@folder)
 				error_msg="成功复制#{truncate(@org_doc.title, :length => 10)}到'#{truncate(@folder.name, :length => 10)}'"
 				status=true
@@ -79,9 +104,9 @@ class Admin::DocumentsController < ApplicationController
 		end
 		respond_to do |format|
 			format.html
-            msg = { status: status.to_s, message: error_msg }
-            format.json  { render :json => msg }
-        end	
+			msg = { status: status.to_s, message: error_msg }
+			format.json  { render :json => msg }
+		end	
 	end
 	def new
 		@document=@folder.documents.new

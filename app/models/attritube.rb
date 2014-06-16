@@ -138,6 +138,7 @@ class Attritube
 					#logger.info val.original_filename[/\.(.*)$/]
 					"#{property.show_name}文件类型不合法;"
 		  		else #缺少匹配字符串验证
+		  			self.file_value.remove! if self.file_value #更新时删除久文件
 		  			self.file_value = val
 		  			self.float_value = val.size
 		  			self.string_value = val.original_filename
@@ -153,6 +154,7 @@ class Attritube
 				elsif property.min_value && (val.size < property.min_value * 1048576)
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
+		  			self.file_value.remove! if self.file_value #更新时删除久文件
 		  			self.file_value = val
 		  			self.float_value = val.size
 		  			self.string_value = val.original_filename
@@ -164,6 +166,7 @@ class Attritube
 				elsif property.min_value && (val.size < property.min_value * 1048576)
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
+		  			self.file_value.remove! if self.file_value #更新时删除久文件
 		  			self.file_value = val
 		  			self.float_value = val.size
 		  			self.string_value = val.original_filename
@@ -175,6 +178,7 @@ class Attritube
 				elsif property.min_value && (val.size < property.min_value * 1048576)
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
+		  			self.file_value.remove! if self.file_value #更新时删除久文件
 		  			self.file_value = val
 		  			self.float_value = val.size
 		  			self.string_value = val.original_filename
@@ -186,6 +190,7 @@ class Attritube
 				elsif property.min_value && (val.size < property.min_value * 1048576)
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
+		  			self.file_value.remove! if self.file_value #更新时删除久文件
 		  			self.file_value = val
 		  			self.float_value = val.size
 		  			self.string_value = val.original_filename
