@@ -129,6 +129,7 @@ class Admin::DocumentsController < ApplicationController
 		error_msg= ''
 		@document.title = document_params[:title] if document_params.has_key? :title
         @document.content_have_attr = document_params[:content_have_attr] if document_params.has_key? :content_have_attr
+		indentify_properties = @document.all_identify_properties
 		@properties.each do |property|
 			if @document.attritubes.where(property_name: property.name).exists?
 				attritube=@document.attritubes.where(property_name: property.name).first
@@ -136,7 +137,7 @@ class Admin::DocumentsController < ApplicationController
 				attritube=@document.attritubes.build(property_id: property._id,property_name: property.name,type: property.type)
 			end
 			if property_params.has_key? property.name
-			 	error_msg += attritube.save_value(property,property_params[property.name])
+			 	error_msg += attritube.save_value(property,property_params[property.name],indentify_properties)
 			else
 				#attritube.bool_value = false if property.bool? #如果类型类bool特殊对待，设定属性为否
 				#@document.attritubes.build(property_id: property._id,property_name: property.name,type: property.type,bool_value: false) if property.bool? && !@document.attritubes.where(property_name: property.name).exists? #如果类型类bool特殊对待，设定属性为否
@@ -146,6 +147,8 @@ class Admin::DocumentsController < ApplicationController
 			    end 
 			end 
 		end
+		#indentify_properties.each { |e| logger.debug { "#{e.to_s}#{e.clear_indentify?.to_s}" } }
+		@document.clear_indentify(indentify_properties) #清除相关认证属性
 		if  error_msg == '' && @document.save
 			modify_doc_notification(@user,@document)
 			if @document.folder.parent_folder && @document.view_in_parent

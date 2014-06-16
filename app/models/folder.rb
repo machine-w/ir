@@ -109,11 +109,13 @@ class Folder
       properties = self.properties.tree_public_property.enable_not_static.entries
       properties.each { |e| e.set_inherit }
       properties = self.parent_folder.tree_dynamic_properties + properties unless self.parent_folder.nil?
+
     properties
   end
   def all_dynamic_properties
     properties=[]
     properties = self.properties.enable_not_static.entries
+    #self.properties.each { |e| logger.debug { e.name } }
     properties = properties + self.parent_folder.tree_dynamic_properties  unless self.parent_folder.nil?
     properties
   end

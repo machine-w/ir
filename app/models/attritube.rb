@@ -22,28 +22,42 @@ class Attritube
   embedded_in :document
   embedded_in :folder
 
-  def save_value(property,val)
+  def save_value(property,val,identfy_properties=nil)
   	msg=''
   	msg =  case property.type
 		  	when :string,:email,:link
 		  		if val.blank?
-		  			property.req? ? "#{property.show_name}不可以为空字符串;" : self.string_value=''
+		  			if property.req?
+		  				"#{property.show_name}不可以为空字符串;"
+		  			else
+		  				clear_indentify(identfy_properties,self,(self.string_value != ''))
+		  				self.string_value=''
+		  				''
+		  			end
 		  		elsif property.max_value && (val.length > property.max_value)
 					"#{property.show_name}长度大于规定长度;"
 				elsif property.min_value && (val.length < property.min_value)
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
+					clear_indentify(identfy_properties,self,(self.string_value != val))
 		  			self.string_value= val
 					''
 		  		end
 			when :integer #没有测试
 				begin
 					if val.blank?
-		  				property.req? ? "#{property.show_name}不可以为空;" : ''
+						if property.req?
+							"#{property.show_name}不可以为空;"
+						else
+							clear_indentify(identfy_properties,self,(self.int_value != nil))
+							self.int_value=nil
+							''
+						end
 		  			elsif ( property.max_value && val.to_i > property.max_value) ||
 					   ( property.min_value && val.to_i < property.min_value)
 					    "#{property.show_name}超出规定范围;" 
 					else
+						clear_indentify(identfy_properties,self,(self.int_value != val.to_i))
 						self.int_value=val.to_i
 						''
 					end
@@ -53,11 +67,18 @@ class Attritube
 			when :number #没有测试
 				begin
 					if val.blank?
-		  				property.req? ? "#{property.show_name}不可以为空;" : ''
+						if property.req?
+							"#{property.show_name}不可以为空;"
+						else
+							clear_indentify(identfy_properties,self,(self.float_value != nil))
+							self.float_value=nil
+							''
+						end
 		  			elsif ( property.max_value && val.to_f > property.max_value) ||
 					   ( property.min_value && val.to_f < property.min_value)
 					    "#{property.show_name}超出规定范围;" 
 					else
+						clear_indentify(identfy_properties,self,(self.float_value != val.to_f))
 						self.float_value=val.to_f
 						''
 					end
@@ -66,28 +87,45 @@ class Attritube
 				end
 			when :text #没有测试
 				if val.blank?
-		  			property.req? ? "#{property.show_name}不可以为空字符串;" : ''
+					if property.req?
+						"#{property.show_name}不可以为空字符串;"
+					else
+						clear_indentify(identfy_properties,self,(self.string_value != ''))
+						self.string_value=''
+						''
+					end
 		  		elsif property.max_value && (val.length > property.max_value)
 					"#{property.show_name}长度大于规定长度;"
 				elsif property.min_value && (val.length < property.min_value)
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
+					clear_indentify(identfy_properties,self,(self.string_value != val))
 		  			self.string_value = val
 					''
 		  		end
 			when :embed_html
 				if val.blank?
-		  			property.req? ? "#{property.show_name}不可以为空字符串;" : ''
+		  			if property.req?
+		  				"#{property.show_name}不可以为空字符串;"
+		  			else
+		  				clear_indentify(identfy_properties,self,(self.string_value != ''))
+		  				self.string_value=''
+		  				''
+		  			end
 		  		else #缺少匹配字符串验证
+					clear_indentify(identfy_properties,self,(self.string_value != val))
 		  			self.string_value = val
 					''
 		  		end
 			when :bool
+				old = self.bool_value
 				if val == 'on' || val == true
 					self.bool_value = true
+					clear_indentify(identfy_properties,self,(!old.nil? && (self.bool_value != old)))
 					''
 				elsif val == 'off' || val == false
 					self.bool_value = false
+					clear_indentify(identfy_properties,self,(!old.nil? && (self.bool_value != old)))
 					''
 				else
 					"#{property.show_name}为非法字符;"
@@ -97,13 +135,14 @@ class Attritube
 					if property.req?
 						"#{property.show_name}不可以为空字符串;"
 					else
+						clear_indentify(identfy_properties,self,(self.string_value != val))
 						self.string_value = val
 						''
 					end
-		  			#property.req? ? "#{property.show_name}不可以为空字符串;" : ''
 		  		elsif !property.enum_option.empty? && !property.enum_option.include?(val)
 					"#{property.show_name}只能选择已有选项;"
 		  		else #没有测试
+					clear_indentify(identfy_properties,self,(self.string_value != val))
 		  			self.string_value = val
 					''
 		  		end
@@ -112,6 +151,7 @@ class Attritube
 					if property.req?
 						"#{property.show_name}不可以为空字符串;"
 					else
+						clear_indentify(identfy_properties,self,(!(self.array_value == val)))
 						self.array_value = val
 						''
 					end
@@ -119,13 +159,21 @@ class Attritube
 		  		elsif !property.enum_option.empty? && (property.enum_option & val) != val
 					"#{property.show_name}只能选择已有选项;"
 		  		else #没有测试
+					clear_indentify(identfy_properties,self,(!(self.array_value == val)))
 		  			self.array_value = val
 					''
 		  		end
 			when :array
 				if val.blank?
-		  			property.req? ? "#{property.show_name}不可以为空;" : ''
+					if property.req?
+						"#{property.show_name}不可以为空;"
+					else
+						clear_indentify(identfy_properties,self,(!(self.array_value == [] )))
+						self.array_value = []
+						''
+					end
 		  		else #没有测试
+					clear_indentify(identfy_properties,self,(!(self.array_value == val.split(','))))
 		  			self.array_value = val.split(',')
 					''
 		  		end
@@ -138,6 +186,7 @@ class Attritube
 					#logger.info val.original_filename[/\.(.*)$/]
 					"#{property.show_name}文件类型不合法;"
 		  		else #缺少匹配字符串验证
+		  			clear_indentify(identfy_properties,self,true)
 		  			self.file_value.remove! if self.file_value #更新时删除久文件
 		  			self.file_value = val
 		  			self.float_value = val.size
@@ -154,6 +203,7 @@ class Attritube
 				elsif property.min_value && (val.size < property.min_value * 1048576)
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
+		  			clear_indentify(identfy_properties,self,true)
 		  			self.file_value.remove! if self.file_value #更新时删除久文件
 		  			self.file_value = val
 		  			self.float_value = val.size
@@ -166,6 +216,7 @@ class Attritube
 				elsif property.min_value && (val.size < property.min_value * 1048576)
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
+		  			clear_indentify(identfy_properties,self,true)
 		  			self.file_value.remove! if self.file_value #更新时删除久文件
 		  			self.file_value = val
 		  			self.float_value = val.size
@@ -178,6 +229,7 @@ class Attritube
 				elsif property.min_value && (val.size < property.min_value * 1048576)
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
+		  			clear_indentify(identfy_properties,self,true)
 		  			self.file_value.remove! if self.file_value #更新时删除久文件
 		  			self.file_value = val
 		  			self.float_value = val.size
@@ -190,6 +242,7 @@ class Attritube
 				elsif property.min_value && (val.size < property.min_value * 1048576)
 					"#{property.show_name}长度小于规定长度;"
 		  		else #缺少匹配字符串验证
+		  			clear_indentify(identfy_properties,self,true)
 		  			self.file_value.remove! if self.file_value #更新时删除久文件
 		  			self.file_value = val
 		  			self.float_value = val.size
@@ -198,9 +251,16 @@ class Attritube
 		  		end
 			when :date
 				if val.blank?
-		  			property.req? ? "#{property.show_name}不可以为空字符串;" : ''
+					if property.req?
+						"#{property.show_name}不可以为空;"
+					else
+						clear_indentify(identfy_properties,self,(!(date_value == nil )))
+						self.date_value = nil
+						''
+					end
 		  		else
 		  			begin
+						clear_indentify(identfy_properties,self,(!(date_value == Date.strptime(val, "%Y年%m月%d日") )))
 		  				self.date_value=Date.strptime(val, "%Y年%m月%d日")
 						''
 		  			rescue
@@ -209,9 +269,16 @@ class Attritube
 		  		end
 			when :time
 				if val.blank?
-					property.req? ? "#{property.show_name}不可以为空字符串;" : ''
+					if property.req?
+						"#{property.show_name}不可以为空;"
+					else
+						clear_indentify(identfy_properties,self,(!(time_value == nil )))
+						self.time_value = nil
+						''
+					end
 		  		else
 		  			begin
+						clear_indentify(identfy_properties,self,(!(time_value == Time.strptime(val, "%I:%M %p") )))
 		  				self.time_value=Time.strptime(val, "%I:%M %p")
 		  				''
 		  			rescue
@@ -220,8 +287,17 @@ class Attritube
 		  		end
 			when :data_sheet 
 				if val.delete(",").blank?
-		  			property.req? ? "#{property.show_name}不可以为空;" : ''
+					if property.req?
+						"#{property.show_name}不可以为空;"
+					else
+						clear_indentify(identfy_properties,self,(!(self.array_value == [])))
+						self.array_value = []
+						self.int_value = 0
+						self.float_value = 0.0
+						''
+					end
 		  		else #没有测试
+					clear_indentify(identfy_properties,self,(!(self.array_value == val.split(','))))
 		  			self.array_value = val.split(',')
 		  			self.int_value = property.data_y
 		  			self.float_value = property.data_x.to_f
@@ -396,6 +472,10 @@ class Attritube
   		end
   		doc.to_html
   	end
-    
   end 
+  def clear_indentify(identfy_properties,attri,flag)
+  	if identfy_properties && flag
+  		identfy_properties.map! { |p| p.set_clear_indentify_flag(attri.property_id.to_s)}
+  	end
+  end
 end

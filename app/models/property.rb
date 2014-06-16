@@ -74,6 +74,8 @@ class Property
 		PropertyType.where(type_view_cd: self.type_cd).first.name
 	end
 	def type_image
+		#logger.debug { "#{self.name}" }
+		#logger.debug { "!!!!!#{self.name}!!!!!!!!#{self.type_cd}!!!!!!!!!!" } unless PropertyType.where(type_view_cd: self.type_cd).first
 		PropertyType.where(type_view_cd: self.type_cd).first.image_path
 	end
 	def all_oper
@@ -139,6 +141,15 @@ class Property
 	end
 	def static_css
 		self.static ? 'is-static' : ''
+	end
+	def set_clear_indentify_flag(property_id)
+		if !@clear_indentify_flag && self.property_by_identify.include?(property_id)
+			@clear_indentify_flag = true
+		end
+		self
+	end
+	def clear_indentify?
+		@clear_indentify_flag ? true : false
 	end
 	private
 	def val_name

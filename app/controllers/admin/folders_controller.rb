@@ -81,10 +81,10 @@ class Admin::FoldersController < ApplicationController
 		drop_breadcrumb("配置基本信息", edit_admin_folder_path(@folder))
 	end
 	def config_property
+		@identify_propertis=@folder.all_dynamic_properties.map { |p| [p.name,p._id,{'data-img'=> p.type_image()}]}.unshift(['','',{'data-img'=> 'fa-square-o'}])
 		@property=@folder.properties.build
 		@query_key=params[:q]
 		@properties = @folder.all_all_properties(@query_key)
-		@identify_propertis=@folder.all_dynamic_properties.map { |p| [p.name,p._id]}.unshift(['',''])
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
 		drop_breadcrumb("配置文档属性", config_property_admin_folder_path(@folder))
 	end

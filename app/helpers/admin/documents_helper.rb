@@ -65,7 +65,7 @@ module Admin::DocumentsHelper
 					when :date
 						"<input type='text' #{req} name='properties[#{property.name}]' class='form-control sel_date' id='#{property._id}' value='#{exist_val.strftime("%Y年%m月%d日") if !exist_val.nil? && exist_val.class == Date}'/>"
 					when :time
-						"<input type='text' #{req} name='properties[#{property.name}]' class='form-control sel_time' id='#{property._id}' data-format='hh:mm A' value='#{!exist_val.nil? ? exist_val.strftime("%I:%M %p") : Time.now.strftime("%I:%M %p")}'/>"
+						"<input type='text' #{req} name='properties[#{property.name}]' class='form-control sel_time' id='#{property._id}' data-format='hh:mm A' value='#{!exist_val.nil? ? exist_val.strftime("%I:%M %p") : ""}'/>"
 					when :link #暂时没有做格式过滤，和普通字符串没有区别
 						"<span class='input-group-addon'>http://</span><input type='text' #{req} name='properties[#{property.name}]' class='form-control' id='#{property._id}' placeholder='#{property.description}...' value='#{exist_val}'/>"
 					when :data_sheet #值还没有传回

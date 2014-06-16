@@ -87,7 +87,7 @@
 									</div>
 									<div class="form-group">
 										<label class="control-label">认证相关属性</label>
-										<%= f.select :property_by_identify, options_for_select(@identify_propertis.reject { |e| e[1] == p._id  },p.property_by_identify.reject { |e| e.blank? }),{},{class: "form-control select2",multiple: true} %>
+										<%= f.select :property_by_identify, options_for_select(@identify_propertis.reject { |e| e[1] == p._id  },p.property_by_identify.reject { |e| e.blank? }),{},{class: "form-control select2-with-icon",multiple: true} %>
 									</div>
 									<% end %>
 								<% end %>
@@ -228,7 +228,7 @@
 						</div>
 						<div id="add_property_mutleselectproperty_pane" class="form-group">
 							<label for="add_property_identify_property" class="control-label">认证相关属性</label>
-							<%= f.select :property_by_identify, options_for_select(@identify_propertis),{},{class: "form-control select2",multiple: true,id: "add_property_identify_property"} %>
+							<%= f.select :property_by_identify, options_for_select(@identify_propertis),{},{class: "form-control select2-with-icon",multiple: true,id: "add_property_identify_property"} %>
 						</div>
 						<div id="add_property_filetype_pane" class="form-group">
 							<%= f.text_field :file_type,placeholder: "可以接受的文件后缀",id: "file_type",class: "form-control", maxlength: "10"%>

@@ -153,6 +153,13 @@ class Document
       end
     end
   end
+  def clear_indentify(indentify_properties)
+    indentify_properties.each do |p|  
+      if p.clear_indentify? && self.attritubes.where(property_name: p.name).exists?
+        self.attritubes.where(property_name: p.name).first.update_attribute(:array_value,[])
+      end 
+    end
+  end
 
 
   private
