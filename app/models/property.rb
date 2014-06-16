@@ -12,6 +12,7 @@ class Property
 	field :onlyread, :type => Boolean, :default =>false #暂时废弃。属性只读，可以在列表中和view中调用与查看，修改页面中只显示不可以修改。
 	field :view_in_grid, :type => Boolean , :default => false #是否在目录的管理列表中显示
 	field :edit_in_grid, :type => Boolean , :default => false #是否在目录的管理列表中编辑
+	field :find_in_grid, :type => Boolean , :default => false #是否在目录的管理列表中查找
 	field :be_identify,:type => Boolean,:default => false #是否为认证字段，目前只有多选类型可以设置为认证字段
 	field :identify_color, :default => '#f39c12'
 	#属性类型
@@ -56,6 +57,7 @@ class Property
 		property.onlyread = (property.onlyread == "1" || property.onlyread == true) ? true : false
 		property.view_in_grid = (property.view_in_grid == "1" || property.view_in_grid == true) ? true : false
 		property.edit_in_grid = (property.edit_in_grid == "1" || property.edit_in_grid == true) ? true : false
+		property.find_in_grid = (property.find_in_grid == "1" || property.find_in_grid == true) ? true : false
 		property.be_identify = (property.be_identify == "1" || property.be_identify == true) ? true : false
 		#html_safe
 		property.name = strip_tags property.name

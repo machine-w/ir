@@ -26,10 +26,14 @@
     </form> -->
     <%= form_tag("", method: "get",class: "navbar-form form-inline navbar-left navbar-input-group") do %>
     <% unless my_doc %>
-    <div class="input-group">
+    <div class="input-group" style="width: 86px;margin-bottom: inherit;">
+      <input type="checkbox" name="level" class="switch switch-small" data-on="primary" data-off="info" data-on-label="一层" data-off-label="多层" <%= "checked='checked'" if one_level %> />
+    </div>
+    <div class="input-group" >
       <% children =folder.child_folders.map { |i| ["#{i.user.username}:#{i.name}",i._id] }.unshift(['','']) %>
       <%= select_tag("child", options_for_select(children,query_child),{id: "", class: "form-control select2"}) %>
-    </div>
+    </div >
+    <div class="input-group" style="width: 6px;"></div>
     <% end %>
 
     <div class="input-group">

@@ -67,7 +67,8 @@ class Admin::FoldersController < ApplicationController
 		@my_doc = false
 		@query_key=params[:q]
 		@query_child=params[:child]
-		@documents=Kaminari.paginate_array(@folder.children_folder_documents(@query_key,@query_child)).page(params[:page]).per(12)
+		@one_level=params[:level]
+		@documents=Kaminari.paginate_array(@folder.children_folder_documents(@query_key,@query_child,@one_level)).page(params[:page]).per(12)
 		@properties =@folder.all_dynamic_properties
 		@identify_properties = @folder.all_identify_properties
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))

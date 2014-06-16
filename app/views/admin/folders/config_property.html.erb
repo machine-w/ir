@@ -128,6 +128,10 @@
 										<%= f.check_box :edit_in_grid,disabled: (p.is_inherit? ? 'true' : nil)%>
 										数据库列表可编辑
 									</label>
+									<label class="checkbox">
+										<%= f.check_box :find_in_grid,disabled: (p.is_inherit? ? 'true' : nil)%>
+										数据库列表可检索
+									</label>
 									<!-- 
 									<label class="checkbox">
 										<%= f.check_box :onlyread %>
@@ -254,6 +258,10 @@
 							<label class="checkbox">
 								<%= f.check_box :edit_in_grid, {:checked =>false}%>
 								数据库列表可编辑
+							</label>
+							<label class="checkbox">
+								<%= f.check_box :find_in_grid, {:checked =>false}%>
+								数据库列表可检索
 							</label>
 							<!--
 							<label class="checkbox">

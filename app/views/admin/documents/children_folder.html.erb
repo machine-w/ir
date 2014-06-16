@@ -1,7 +1,7 @@
 <% provide(:title, @folder.name) %>
 <% provide(:page_name, @folder.name) %>
 <% provide(:page_summary, @folder.description) %>
-<%= render partial: 'shared/show_navbar',locals: {folder: @folder,query_key: @query_key,query_child: @query_child,my_doc: @my_doc} %>
+<%= render partial: 'shared/show_navbar',locals: {folder: @folder,query_key: @query_key,query_child: @query_child,one_level: @one_level,my_doc: @my_doc} %>
 <%= config_tab(3) %>
 <div class="row">
 	<div class="col-xs-12">

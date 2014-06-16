@@ -54,7 +54,7 @@ class Folder
       false
     end
   end
-  def children_folder_documents(key,child=nil)
+  def children_folder_documents(key,child=nil,one=nil)
     @all_docs = []
     self.child_folders.each do |f|
       next if !child.blank? && f._id.to_s != child
@@ -63,7 +63,7 @@ class Folder
       else
         @all_docs += f.documents.parent_visiable.where(title: /.*#{key}.*/).entries
       end
-      @all_docs += f.children_folder_documents(key) if f.child_folders.all.exists?
+      @all_docs += f.children_folder_documents(key) if f.child_folders.all.exists? && one.blank?
     end
     @all_docs
   end
