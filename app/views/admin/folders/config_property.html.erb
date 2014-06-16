@@ -85,6 +85,10 @@
 										<label class="control-label">认证图标背景</label>
 										<%= f.text_field :identify_color,class: "form-control sel_color",style: "width:100px;"%>
 									</div>
+									<div class="form-group">
+										<label class="control-label">认证相关属性</label>
+										<%= f.select :property_by_identify, options_for_select(@identify_propertis.reject { |e| e[1] == p._id  },p.property_by_identify.reject { |e| e.blank? }),{},{class: "form-control select2",multiple: true} %>
+									</div>
 									<% end %>
 								<% end %>
 								<% if :file == p.type %>
@@ -221,6 +225,10 @@
 						<div id="add_property_mutleselectcolor_pane" class="form-group">
 							<label for="add_property_identify_color" class="control-label">认证图标背景</label>
 							<%= f.text_field :identify_color,class: "form-control sel_color",id: "add_property_identify_color",style: "width:100px;"%>
+						</div>
+						<div id="add_property_mutleselectproperty_pane" class="form-group">
+							<label for="add_property_identify_property" class="control-label">认证相关属性</label>
+							<%= f.select :property_by_identify, options_for_select(@identify_propertis),{},{class: "form-control select2",multiple: true,id: "add_property_identify_property"} %>
 						</div>
 						<div id="add_property_filetype_pane" class="form-group">
 							<%= f.text_field :file_type,placeholder: "可以接受的文件后缀",id: "file_type",class: "form-control", maxlength: "10"%>

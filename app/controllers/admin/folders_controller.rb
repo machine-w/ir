@@ -84,6 +84,7 @@ class Admin::FoldersController < ApplicationController
 		@property=@folder.properties.build
 		@query_key=params[:q]
 		@properties = @folder.all_all_properties(@query_key)
+		@identify_propertis=@folder.all_dynamic_properties.map { |p| [p.name,p._id]}.unshift(['',''])
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
 		drop_breadcrumb("配置文档属性", config_property_admin_folder_path(@folder))
 	end

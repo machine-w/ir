@@ -15,6 +15,7 @@ class Property
 	field :find_in_grid, :type => Boolean , :default => false #是否在目录的管理列表中查找
 	field :be_identify,:type => Boolean,:default => false #是否为认证字段，目前只有多选类型可以设置为认证字段
 	field :identify_color, :default => '#f39c12'
+	field :property_by_identify, :type => Array,:default => []
 	#属性类型
 	as_enum :type, :string => 1, :text => 2, :integer => 3, :number => 4, 
 	:embed_html => 5, :enum => 6, :muli_enum  => 7, :file => 8, 

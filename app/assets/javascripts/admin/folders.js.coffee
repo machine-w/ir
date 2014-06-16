@@ -64,9 +64,10 @@ $ ->
 		$("#add_property_ext_pane").hide();
 		$("#add_property_options_pane").hide();
 		$("#add_property_mutleselect_pane").hide();
-		$("#add_property_mutleselectcolor_pane").hide();
 		$("#add_property_xy_pane").hide();
 		$("#add_property_filetype_pane").hide();
+		$("#add_property_mutleselectcolor_pane").hide();
+		$("#add_property_mutleselectproperty_pane").hide();
 
 	fix_custom_option = (arg) ->
 		hide_option();
@@ -87,6 +88,7 @@ $ ->
 				$("#add_property_options_pane").slideDown();
 				$("#add_property_mutleselect_pane").slideDown();
 				$("#add_property_mutleselectcolor_pane").slideDown();
+				$("#add_property_mutleselectproperty_pane").slideDown();
 			when "file"
 				$("#add_property_maxmin_pane").slideDown();
 				$("#add_property_filetype_pane").slideDown();
