@@ -67,7 +67,8 @@
 #= require pdfobject.min
 #fileinput
 #= require fileinput.min
-
+#daterange
+#= require daterangepicker/daterangepicker
 format = (state) ->
 	originalOption = state.element;
 	"<img class='flag' width='100' src='" + $(originalOption).data('img') + "'/>" + state.text
@@ -94,6 +95,8 @@ $ ->
 	$(".sel_color").colorpicker();
 	# 所有sel_date类的录入框全都选日期
 	$('.sel_date').datepicker({language: 'zh-CN',todayHighlight: true});
+	# 所有sel_date_range类的录入框全都选日期范围
+	$('.sel_date_range').daterangepicker({format: 'YYYY年MM月DD日'});
 	# input-daterange选择日期范围
 	$('.input-daterange').datepicker({language: 'zh-CN',todayHighlight: true});
 	$(".datepicker").css("z-index", "9999");

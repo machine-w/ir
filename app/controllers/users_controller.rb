@@ -21,6 +21,7 @@ class UsersController < ApplicationController
   def admin
      @user=current_user
      drop_breadcrumb("后台", admin_user_path(@user.loginname))
+     @todolist = @user.todolists.build
      @tile_folders=@user.folders.has_tile
   end
   def index

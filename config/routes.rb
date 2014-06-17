@@ -45,6 +45,7 @@ InstitutionalRepos::Application.routes.draw do
             get :read_all
           end
         end
+        resources :todolists
       end
       resources :conversations do
         collection do

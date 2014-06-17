@@ -72,6 +72,7 @@ class User
   has_many :contacts,:dependent => :destroy
   has_many :groups,:dependent => :destroy
   has_many :notifications,:dependent => :destroy
+  has_many :todolists, :dependent => :destroy
   #has_many :contacted, class_name: "Contact", inverse_of: :firend
   has_and_belongs_to_many :third_disciplines
   has_and_belongs_to_many :conversations,:dependent => :destroy

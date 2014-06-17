@@ -32,7 +32,7 @@ $(function() {
             y = date.getFullYear();
     //Calendar
     $('#calendar').fullCalendar({
-        editable: true, //Enable drag and drop
+        //editable: true, //Enable drag and drop
         events: [
             {
                 title: 'All Day Event',
