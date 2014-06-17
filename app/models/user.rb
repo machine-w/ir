@@ -3,6 +3,7 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::BaseModel
+  include SimpleEnum::Mongoid
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -39,6 +40,7 @@ class User
   ##other field
   field :verified, :type => Mongoid::Boolean, :default => false
   field :state, :type => Integer, :default => 1
+  as_enum :level, [:register, :indentified, :vip,:super ], :field => { :type => Integer, :default => 0 }
   field :guest, :type => Mongoid::Boolean, :default => false
   field :view_pubu, :default => 'list'
   field :view_fixheader, :type => Mongoid::Boolean, :default => false
@@ -99,6 +101,20 @@ class User
       end
     end
     pics.to_json
+  end
+  def get_level_view
+    case self.level
+      when :register
+        "fa  fa-linkedin-square fa-2x text-success"
+      when :indentified
+        "fa fa-vimeo-square  fa-2x text-primary"
+      when :vip
+        "fa fa-vimeo-square fa-2x text-warning"
+      when :super
+        "fa fa-vimeo-square fa-2x text-danger"
+      else
+        "fa fa-linkedin-square fa-2x text-info"
+    end
   end
   protected
   # def set_default_depart

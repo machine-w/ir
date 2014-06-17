@@ -4,6 +4,6 @@
 	</div>
 	<div class="pull-left info">
 		<p>你好,&nbsp;<%= @user.username %></p>
-		<a href="#"><i class="fa fa-vimeo-square fa-2x text-danger"></i> <%= @user.user_type.name if @user.user_type %></a>
+		<a href="#"><i class="<%= @user.get_level_view %>"></i> <%= @user.user_type.name if @user.user_type %></a>
 	</div>
 </div>
