@@ -300,13 +300,54 @@ $(function() {
         return this.each(function() {
             $('input', this).on('ifChecked', function(event) {
                 var ele = $(this).parents("li").first();
-                ele.toggleClass("done");
+                $.ajax({
+                    url: ele.data('url'),
+                    type: 'PUT',
+                    data: {done: true},
+                    success: function(data) {
+                      if (data['status'] == 'true') {
+                        ele.toggleClass("done");
+                        Messenger().post({
+                          message: data['message'],
+                          type: 'success',
+                          showCloseButton: true
+                        });
+                      } else {
+                        Messenger().post({
+                          message: data['message'],
+                          type: 'error',
+                          showCloseButton: true
+                        });
+                      }
+                    }
+                });
+                //console.log($(ele).data('url'))
                 settings.onCheck.call(ele);
             });
 
             $('input', this).on('ifUnchecked', function(event) {
                 var ele = $(this).parents("li").first();
-                ele.toggleClass("done");
+                $.ajax({
+                    url: ele.data('url'),
+                    type: 'PUT',
+                    data: {done: false},
+                    success: function(data) {
+                      if (data['status'] == 'true') {
+                        ele.toggleClass("done");
+                        Messenger().post({
+                          message: data['message'],
+                          type: 'success',
+                          showCloseButton: true
+                        });
+                      } else {
+                        Messenger().post({
+                          message: data['message'],
+                          type: 'error',
+                          showCloseButton: true
+                        });
+                      }
+                    }
+                });
                 settings.onUncheck.call(ele);
             });
         });

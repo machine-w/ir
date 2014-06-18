@@ -11,7 +11,7 @@ class Todolist
   validates_presence_of :content,:start,:end
   belongs_to :user
 
-  default_scope asc(:created_at)
+  default_scope desc(:created_at)
   before_save do |todolist|
   	if todolist.startend.blank?
   		self.start=Date.today
@@ -27,5 +27,24 @@ class Todolist
   		end
   	end
     return true
+  end
+  def done?
+    self.done
+  end
+  def get_color
+    case (self.start-Date.today).to_f
+    when 0...1
+      'danger'
+    when 1...2
+      'warning'
+    when 2...6
+      'success'
+    when 6...30
+      'primary'
+    when 30...9999999
+      'info'
+    else
+      'default'
+    end
   end
 end
