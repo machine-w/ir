@@ -13,6 +13,10 @@
 
                 <!-- tools box -->
                 <div class="pull-right box-tools">
+                    <div class="btn-group" data-toggle="btn-toggle">
+                        <button type="button" id="calendar-view-done" title="查看全部" class="btn btn-default btn-sm active"><i class="fa fa-square text-green"></i></button>                                            
+                        <button type="button" id="calendar-no-done" title="查看未完成" class="btn btn-default btn-sm"><i class="fa fa-square text-yellow"></i></button>
+                    </div>
                     <!-- button with a dropdown -->
                     <!-- <div class="btn-group">
                         <button class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i></button>
@@ -27,7 +31,7 @@
             </div><!-- /.box-header -->
             <div class="box-body no-padding">
                 <!--The calendar -->
-                <div id="calendar"></div>
+                <div id="calendar" data-url="<%= user_admin_todolists_path(@user.loginname,:format => :json) %>"></div>
             </div><!-- /.box-body -->
         </div><!-- /.box -->
     </section>

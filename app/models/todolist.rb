@@ -47,4 +47,20 @@ class Todolist
       'default'
     end
   end
+  def get_color_value
+    case (self.start-Date.today).to_f
+    when 0...1
+      '#f56954'
+    when 1...2
+      '#f39c12'
+    when 2...6
+      '#00a65a'
+    when 6...30
+      '#0073b7'
+    when 30...9999999
+      '#00c0ef'
+    else
+      '#aaaaaa'
+    end
+  end
 end

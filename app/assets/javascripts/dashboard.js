@@ -24,81 +24,82 @@ $(function() {
         forcePlaceholderSize: true,
         zIndex: 999999
     }).disableSelection();;
-
-     //Date for the calendar events (dummy data)
-    var date = new Date();
-    var d = date.getDate(),
-            m = date.getMonth(),
-            y = date.getFullYear();
-    //Calendar
-    $('#calendar').fullCalendar({
-        //editable: true, //Enable drag and drop
-        events: [
-            {
-                title: 'All Day Event',
-                start: new Date(y, m, 1),
-                backgroundColor: "#3c8dbc", //light-blue 
-                borderColor: "#3c8dbc" //light-blue
+    function build_calendar(view_done) {
+        $.ajax({
+            url: $('#calendar').data('url'),
+            type: 'get',
+            data: {},
+            success: function(data) {
+                var events=[];
+                var done_color;
+                $.each(data, function(index, value) {
+                    done_color= (value['done'] == true)? '#dddddd' : value['get_color_value'];
+                    if (view_done || value['done'] != true) {
+                        events.push({
+                            title: value['content'],
+                            start: new Date(Date.parse(value['start'].replace(/-/g,"/"))),
+                            end: new Date(Date.parse(value['end'].replace(/-/g,"/"))),
+                            backgroundColor: done_color, 
+                            borderColor: value['get_color_value'] 
+                        });
+                    }
+                });
+                $('#calendar').fullCalendar( 'destroy' );
+                $('#calendar').fullCalendar({
+                    //editable: true, //Enable drag and drop
+                    events: events,
+                    buttonText: {//This is to add icons to the visible buttons
+                        prev: "<span class='fa fa-caret-left'></span>",
+                        next: "<span class='fa fa-caret-right'></span>",
+                        today: '今天',
+                        month: '月',
+                        week: '星期',
+                        day: '天'
+                    },
+                    header: {
+                        left: 'today',
+                        center: 'title',
+                        right: 'prev,next'
+                        //right: 'month,agendaWeek,agendaDay'
+                    }
+                });
             },
-            {
-                title: 'Long Event',
-                start: new Date(y, m, d - 5),
-                end: new Date(y, m, d - 2),
-                backgroundColor: "#f39c12", //yellow
-                borderColor: "#f39c12" //yellow
-            },
-            {
-                title: 'Meeting',
-                start: new Date(y, m, d, 10, 30),
-                allDay: false,
-                backgroundColor: "#0073b7", //Blue
-                borderColor: "#0073b7" //Blue
-            },
-            {
-                title: 'Lunch',
-                start: new Date(y, m, d, 12, 0),
-                end: new Date(y, m, d, 14, 0),
-                allDay: false,
-                backgroundColor: "#00c0ef", //Info (aqua)
-                borderColor: "#00c0ef" //Info (aqua)
-            },
-            {
-                title: 'Birthday Party',
-                start: new Date(y, m, d + 1, 19, 0),
-                end: new Date(y, m, d + 1, 22, 30),
-                allDay: false,
-                backgroundColor: "#00a65a", //Success (green)
-                borderColor: "#00a65a" //Success (green)
-            },
-            {
-                title: 'Click for Google',
-                start: new Date(y, m, 28),
-                end: new Date(y, m, 29),
-                url: 'http://google.com/',
-                backgroundColor: "#f56954", //red
-                borderColor: "#f56954" //red
-            }
-        ],
-        buttonText: {//This is to add icons to the visible buttons
-            prev: "<span class='fa fa-caret-left'></span>",
-            next: "<span class='fa fa-caret-right'></span>",
-            today: 'today',
-            month: 'month',
-            week: 'week',
-            day: 'day'
-        },
-        header: {
-            left: 'title',
-            center: '',
-            right: 'prev,next'
-        }
+            error: function(){  
+                $('#calendar').fullCalendar({
+                    buttonText: {//This is to add icons to the visible buttons
+                        prev: "<span class='fa fa-caret-left'></span>",
+                        next: "<span class='fa fa-caret-right'></span>",
+                        today: '今天',
+                        month: '月',
+                        week: '星期',
+                        day: '天'
+                    },
+                    header: {
+                        left: 'title',
+                        center: '',
+                        right: 'prev,next'
+                    }
+                });
+            }  
+        });
+    }
+    build_calendar(true);
+    $("#calendar-view-done").click(function(){
+      build_calendar(true);
+    });
+    $("#calendar-no-done").click(function(){
+      build_calendar(false);
     });
     /* The todo list plugin */
     $(".todo-list").todolist({
+
         onCheck: function(ele) {
+            $("#calendar-view-done").hasClass("active") ? true : false
+            build_calendar($("#calendar-view-done").hasClass("active") ? true : false);
             //console.log(jQuery.type($(ele))+"The element has been checked")
         },
         onUncheck: function(ele) {
+            build_calendar($("#calendar-view-done").hasClass("active") ? true : false);
             //console.log("The element has been unchecked")
         }
     });

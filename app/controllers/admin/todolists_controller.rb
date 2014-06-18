@@ -47,6 +47,13 @@ class Admin::TodolistsController < ApplicationController
 			format.json  { render :json => msg }
 		end	
 	end
+	def index
+		@todolists = @user.todolists.all
+		respond_to do |format|
+			format.html
+            format.json  { render :json => @todolists.to_json(:methods => :get_color_value,only: [:_id,:content,:start,:end,:done]) }
+        end
+	end
 	private
 	def todolists_params
 		results = params.require(:todolist).permit(:content,:startend)

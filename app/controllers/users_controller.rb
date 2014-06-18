@@ -22,7 +22,7 @@ class UsersController < ApplicationController
      @user=current_user
      drop_breadcrumb("后台", admin_user_path(@user.loginname))
      @todolist = @user.todolists.build
-     @todolists=@user.todolists.all.page(params[:page]).per(12)
+     @todolists=@user.todolists.all.page(params[:page]).per(15)
      @tile_folders=@user.folders.has_tile
   end
   def index
