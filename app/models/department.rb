@@ -7,7 +7,7 @@ class Department
   field :description
   field :sort, :type => Integer, :default => 0
   field :users_count, :type => Integer, :default => 0
-
+  default_scope desc(:sort)
   has_many :users, dependent: :nullify
   belongs_to :institution
 

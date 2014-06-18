@@ -7,7 +7,7 @@ class Institution
   field :description
   field :sort, :type => Integer, :default => 0
   has_many :departments, :dependent => :destroy
-
+  default_scope desc(:sort)
   validates_presence_of :name
   validates_uniqueness_of :name
 

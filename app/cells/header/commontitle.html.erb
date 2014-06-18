@@ -9,7 +9,7 @@
 <div class="dropdown-menu dropdown-select-menu">
 		<div class='form-group'>
 			<label for='select_department' class='control-label'>查看单位门户: </label>
-			<%= select_tag("sel_department", grouped_options_for_select(Institution.all.inject({}) { |result,i| result[i.name]=i.departments.inject([]) { |mem, e| mem.push([e.name,e._id]) }; result }),{include_blank: true,id: "home_visit_department",class: "form-control"}) %>
+			<%= select_tag("sel_department", grouped_options_for_select(Institution.all.asc('sort').inject({}) { |result,i| result[i.name]=i.departments.asc('sort').inject([]) { |mem, e| mem.push([e.name,e._id]) }; result }),{include_blank: true,id: "home_visit_department",class: "form-control"}) %>
 		</div>
 		<div class='form-group'>
 			<label for='elect_discipline' class='control-label'>查看学科门户: </label>
