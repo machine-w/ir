@@ -54,16 +54,16 @@ class Folder
       false
     end
   end
-  def children_folder_documents(key,child=nil,one=nil)
+  def children_folder_documents(key,property_query=[],child=nil,one=nil)
     @all_docs = []
     self.child_folders.each do |f|
       next if !child.blank? && f._id.to_s != child
       if key.blank?
-        @all_docs += f.documents.parent_visiable.entries
+        @all_docs += f.documents.parent_visiable.and(property_query).entries
       else
-        @all_docs += f.documents.parent_visiable.where(title: /.*#{key}.*/).entries
+        @all_docs += f.documents.parent_visiable.where(title: /.*#{key}.*/).and(property_query).entries
       end
-      @all_docs += f.children_folder_documents(key) if f.child_folders.all.exists? && one.blank?
+      @all_docs += f.children_folder_documents(key,property_query) if f.child_folders.all.exists? && one.blank?
     end
     @all_docs
   end

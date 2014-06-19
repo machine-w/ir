@@ -8,10 +8,25 @@
 		<div class="box">
 			<div class="box-header">
 				<!-- <h3 class="box-title">目录属性表</h3> -->
-				<div class="box-title-small"><%= paginate @documents, :theme => 'twitter-bootstrap-3' %></div>
+				<!-- <div class="box-title-small"><%= paginate @documents, :theme => 'twitter-bootstrap-3' %></div> -->
+
+				<%= form_tag("", method: "get",class: "navbar-form form-inline navbar-left navbar-input-group") do %>
+					<input type="hidden" name="q" value="<%= @query_key %>">
+					<input type="hidden" name="child" value="<%= @query_child %>">
+					<% if @one_level %>
+						<input type="hidden" name="level" value="on">
+					<% end %>
+					
+					<%= render :partial => '/admin/documents/find_property_list',collection: @folder.all_grid_find_properties,as: :property%>
+					<% if @folder.all_grid_find_properties.count !=0 %>
+					<button type='submit' name='seach' id='search-btn' class="btn btn-primary">字段检索</button>
+					<% end %>
+
+				<% end %>
+
 				<div class="box-tools pull-right">
-					<div class="btn-group">
-						<!-- <button class="btn btn-primary"><i class="fa fa-long-arrow-left"></i></button>
+					<!-- <div class="btn-group">
+						<button class="btn btn-primary"><i class="fa fa-long-arrow-left"></i></button>
 						<%= link_to '#', method: :delete, data: { confirm: "所选文档将被删除" },class: "btn btn-danger" do %>
 						<i class="fa fa-times"></i>
 						<% end %>
@@ -25,8 +40,8 @@
 								<li><a href="#">xml</a></li>
 								<li><a href="#">excel</a></li>
 							</ul>
-						</div> -->
-					</div>
+						</div>
+					</div> -->
 				</div>
 			</div>
 			<div class="box-body table-responsive no-padding">
