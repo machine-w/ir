@@ -172,6 +172,20 @@ class Folder
     properties = properties + self.parent_folder.tree_grid_show_properties  unless self.parent_folder.nil?
     properties
   end
+  #数据表检索中没有必要显示静态属性
+  def tree_grid_find_properties
+    properties=[]
+      properties = self.properties.tree_all_property.grid_find.entries
+      properties.each { |e| e.set_inherit }
+      properties = self.parent_folder.tree_grid_find_properties + properties unless self.parent_folder.nil?
+    properties
+  end
+  def all_grid_find_properties
+    properties=[]
+    properties = self.properties.grid_find.entries
+    properties = properties + self.parent_folder.tree_grid_find_properties  unless self.parent_folder.nil?
+    properties
+  end
   def attr_value(property_name)
     if self.attritubes.where(property_name: property_name).exists?
       self.attritubes.where(property_name: property_name).first.get_value

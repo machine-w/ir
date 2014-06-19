@@ -10,7 +10,7 @@ class PropertyType
 	:pdf => 9, :picture => 10, :video => 11, :music => 12, 
 	:time => 13, :date =>14 , :data_sheet => 15, :array => 16,:email => 17,:link => 18,:bool => 19
 	field :user_can_select, :type => Boolean, :default => true
-
+	default_scope where(user_can_select: true).asc('sort')
 	embeds_many :property_opers
 
 	validates_presence_of :name,:type_view,:image_path,:user_can_select

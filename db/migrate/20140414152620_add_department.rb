@@ -33,6 +33,7 @@ class AddDepartment < Mongoid::Migration
   end
 
   def self.down
+    Department.delete_all()
   	Institution.delete_all()
   end
 end

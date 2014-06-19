@@ -29,7 +29,9 @@ class Admin::DocumentsController < ApplicationController
 	end
 	def index
 		@my_doc = true
+		@back_view={}
 		@query_key=params[:q]
+		 logger.debug { "#{find_property_params.to_s}" }
 		if @query_key.blank?
 			@documents=@folder.documents.all.page(params[:page]).per(12)
 		else
@@ -266,6 +268,37 @@ class Admin::DocumentsController < ApplicationController
 			end
 		end
 		#logger.debug { result_hash.to_s }
+		result_hash
+	end
+	def find_property_params
+		find_properties=@folder.all_grid_find_properties
+		all_array=find_properties.map { |i| i.name }
+		result_hash=if params.has_key?(:fp)
+					 	params.require(:fp).permit(all_array) 
+					else 
+						{}
+					end
+		result_hash.reject! { |k,v| v.blank? }
+		# find_properties.each do |property| 
+		# 	case property.type
+		# 		when :string,:text,:embed_html,:link,:email,:file,:music,:pdf,:picture,:video
+		# 			result_hash[property.name] = { 'attritubes.string_value' => /.*#{result_hash[property.name]}.*/} if result_hash.has_key? property.name
+		# 		when :integer
+		# 			result_hash[property.name] = { 'attritubes.int_value' => result_hash[property.name].to_i }if result_hash.has_key? property.name
+		# 		when :number
+		# 			result_hash[property.name] = { 'attritubes.float_value' => result_hash[property.name].to_f }  if result_hash.has_key? property.name
+		# 		when :bool
+		# 			result_hash[property.name] = { 'attritubes.bool_value' => (result_hash[property.name] == 'true') ? true : false } if result_hash.has_key? property.name
+		# 		when :date,:time
+		# 			"<input type='text' name='fp[#{property.name}]' class='form-control sel_date_range' placeholder='#{property.show_name}' value='#{back_view[property.name]}'/>"
+		# 		when :enum
+		# 			result_hash[property.name] = { 'attritubes.string_value' => result_hash[property.name] } if result_hash.has_key? property.name
+		# 		when :muli_enum,:array_value,:data_sheet
+					
+		# 		else
+		# 			""
+		# 	end
+		# end
 		result_hash
 	end
 end

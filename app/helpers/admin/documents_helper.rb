@@ -77,4 +77,26 @@ module Admin::DocumentsHelper
 		input = "<div class='input-group'>#{input}</div>" if !front.nil? || !back.nil? || property.link?
 		label + input
 	end
+	def get_property_find_view(property,back_view)
+
+		input = case property.type
+					when :string,:text,:embed_html,:link,:email,:array,:data_sheet
+						"<input type='text' name='fp[#{property.name}]' class='form-control' placeholder='#{property.show_name}' value='#{back_view[property.name]}'/>"
+					when :integer
+						"<input type='text' name='fp[#{property.name}]' class='form-control inputnumber' placeholder='#{property.show_name}' value='#{back_view[property.name]}'/>"
+					when :number
+						"<input type='text' name='fp[#{property.name}]' class='form-control inputdecimal' placeholder='#{property.show_name}' value='#{back_view[property.name]}'/>"
+					when :bool
+						select_tag("fp[#{property.name}]", options_for_select([['',''],['是', 'true'], ['否', 'false']], back_view[property.name]),{class: "form-control select2",placeholder:"#{property.show_name}"})
+					when :file,:music,:pdf,:picture,:video
+						"<input type='text' name='fp[#{property.name}]' class='form-control' placeholder='#{property.show_name}(文件名)' value='#{back_view[property.name]}'/>"
+					when :date,:time
+						"<input type='text' name='fp[#{property.name}]' class='form-control sel_date_range' placeholder='#{property.show_name}' value='#{back_view[property.name]}'/>"
+					when :enum,:muli_enum
+						select_tag("fp[#{property.name}]", options_for_select(property.enum_option.map { |i| [i,i]  }.unshift(['','']),back_view[property.name]),{class: "form-control select2",placeholder:"#{property.show_name}"})
+					else
+						""
+				 end
+		input
+	end
 end
