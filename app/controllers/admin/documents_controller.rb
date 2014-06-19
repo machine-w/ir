@@ -29,13 +29,12 @@ class Admin::DocumentsController < ApplicationController
 	end
 	def index
 		@my_doc = true
-		@back_view={}
 		@query_key=params[:q]
-		 logger.debug { "#{find_property_params.to_s}" }
+		 #logger.debug { "#{find_property_params.to_s}" }
 		if @query_key.blank?
-			@documents=@folder.documents.all.page(params[:page]).per(12)
+			@documents=@folder.documents.all.and(find_property_params).page(params[:page]).per(12)
 		else
-			@documents=@folder.documents.where(title: /.*#{@query_key}.*/).page(params[:page]).per(12)
+			@documents=@folder.documents.where(title: /.*#{@query_key}.*/).and(find_property_params).page(params[:page]).per(12)
 		end
 		drop_breadcrumb(@folder.name, admin_folder_path(@folder))
 	end
@@ -271,34 +270,49 @@ class Admin::DocumentsController < ApplicationController
 		result_hash
 	end
 	def find_property_params
+		result=[]
 		find_properties=@folder.all_grid_find_properties
-		all_array=find_properties.map { |i| i.name }
-		result_hash=if params.has_key?(:fp)
+		all_array=find_properties.map { |i| i.muli_enum? ? {i.name => [] } : i.name }
+		@result_hash=if params.has_key?(:fp)
 					 	params.require(:fp).permit(all_array) 
 					else 
 						{}
 					end
-		result_hash.reject! { |k,v| v.blank? }
-		# find_properties.each do |property| 
-		# 	case property.type
-		# 		when :string,:text,:embed_html,:link,:email,:file,:music,:pdf,:picture,:video
-		# 			result_hash[property.name] = { 'attritubes.string_value' => /.*#{result_hash[property.name]}.*/} if result_hash.has_key? property.name
-		# 		when :integer
-		# 			result_hash[property.name] = { 'attritubes.int_value' => result_hash[property.name].to_i }if result_hash.has_key? property.name
-		# 		when :number
-		# 			result_hash[property.name] = { 'attritubes.float_value' => result_hash[property.name].to_f }  if result_hash.has_key? property.name
-		# 		when :bool
-		# 			result_hash[property.name] = { 'attritubes.bool_value' => (result_hash[property.name] == 'true') ? true : false } if result_hash.has_key? property.name
-		# 		when :date,:time
-		# 			"<input type='text' name='fp[#{property.name}]' class='form-control sel_date_range' placeholder='#{property.show_name}' value='#{back_view[property.name]}'/>"
-		# 		when :enum
-		# 			result_hash[property.name] = { 'attritubes.string_value' => result_hash[property.name] } if result_hash.has_key? property.name
-		# 		when :muli_enum,:array_value,:data_sheet
-					
-		# 		else
-		# 			""
-		# 	end
-		# end
-		result_hash
+		@result_hash.reject! { |k,v| v.blank? }
+		find_properties.each do |property|
+			case property.type
+				when :string,:text,:embed_html,:link,:email,:file,:music,:pdf,:picture,:video
+					result.push({:attritubes.elem_match => {property_name: property.name,string_value: /.*#{@result_hash[property.name]}.*/}}) if @result_hash.has_key? property.name
+				when :integer
+					result.push({:attritubes.elem_match => {property_name: property.name,int_value: @result_hash[property.name].to_i}}) if @result_hash.has_key? property.name
+				when :number
+					result.push({:attritubes.elem_match => {property_name: property.name,float_value: @result_hash[property.name].to_f}}) if @result_hash.has_key? property.name
+				when :bool
+					result.push({:attritubes.elem_match => {property_name: property.name,bool_value: (@result_hash[property.name] == 'true') ? true : false}}) if @result_hash.has_key? property.name
+				when :date
+					begin
+						se = @result_hash[property.name].split('-')
+  						dstart=Date.strptime(se[0].strip, "%Y年%m月%d日")
+  						dend=Date.strptime(se[1].strip, "%Y年%m月%d日")
+  						result.push({:attritubes.elem_match => {property_name: property.name,:date_value.gte => dstart,:date_value.lte => dend}}) if @result_hash.has_key? property.name
+					rescue
+					end
+				when :time
+					begin
+						se = @result_hash[property.name].split('-')
+  						dstart=Date.strptime(se[0].strip, "%Y年%m月%d日")
+  						dend=Date.strptime(se[1].strip, "%Y年%m月%d日")
+  						result.push({:attritubes.elem_match => {property_name: property.name,:date_value.gte => dstart,:time_value.lte => dend}}) if @result_hash.has_key? property.name
+					rescue
+					end							
+				when :enum
+					result.push({:attritubes.elem_match => {property_name: property.name,string_value: @result_hash[property.name]}}) if @result_hash.has_key? property.name
+				when :array,:data_sheet
+					result.push({:attritubes.elem_match => {property_name: property.name,:array_value.all => [@result_hash[property.name]]}}) if @result_hash.has_key? property.name
+				when :muli_enum
+					result.push({:attritubes.elem_match => {property_name: property.name,:array_value.all => @result_hash[property.name]}}) if @result_hash.has_key? property.name
+			end	
+		end
+		result
 	end
 end
