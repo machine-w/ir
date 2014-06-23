@@ -20,8 +20,8 @@ InstitutionalRepos::Application.configure do
   # config.action_dispatch.rack_cache = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_assets = false
-
+  config.serve_static_assets = true
+  config.assets.precompile += %w(admin/notifications.js admin/search.js admin/registrations.js admin/contacts.js admin/documents.js admin/folders.js admin/groups.js admin/sel_parent_folder.js admin/sel_permission.js admin/todolist.js blank.js pubu.js viewpart.js inscroll.js app.js bottomcommon.js picback.js front.js users.js )
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass

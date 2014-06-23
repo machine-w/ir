@@ -21,18 +21,29 @@
  *= require bootstrap-colorpicker
  *= require bootstrap-datepicker
  *= require summernote
+ *= require bootstrap
+ *= require ionicons.min
+ *= require switch/bootstrap-switch.min
+ *= require fullcalendar/fullcalendar
+ *= require clockface/clockface
+ *= require handsontable/jquery.handsontable.full
+ *= require AdminLTE
+ *= require typeahead.js-bootstrap
+ *= require fileinput.min
+ *= require daterangepicker/daterangepicker-bs3
+
  */
 //@import "font-awesome";
-@import 'bootstrap';
-@import 'ionicons.min';
-@import "switch/bootstrap-switch.min.css";
-@import 'fullcalendar/fullcalendar.css';
-@import 'clockface/clockface.css';
-@import 'handsontable/jquery.handsontable.full.css';
-@import 'AdminLTE';
-@import 'typeahead.js-bootstrap.css';
-@import 'fileinput.min.css';
-@import 'daterangepicker/daterangepicker-bs3.css'
+//@import 'bootstrap';
+//@import 'ionicons.min';
+//@import "switch/bootstrap-switch.min.css";
+// @import 'fullcalendar/fullcalendar.css';
+// @import 'clockface/clockface.css';
+// @import 'handsontable/jquery.handsontable.full.css';
+// @import 'AdminLTE';
+// @import 'typeahead.js-bootstrap.css';
+// @import 'fileinput.min.css';
+// @import 'daterangepicker/daterangepicker-bs3.css'
 
 
 //以前的前台css

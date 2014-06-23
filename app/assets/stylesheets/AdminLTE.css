@@ -2788,7 +2788,7 @@ tr > td.control-col {
   padding: 0;
   width: 18px;
   height: 18px;
-  background: rgba(255, 255, 255, 0.7) url(iCheck/minimal/minimal.png) no-repeat;
+  background: rgba(255, 255, 255, 0.7) url(/img/minimal.png) no-repeat;
   border: none;
   cursor: pointer;
 }
