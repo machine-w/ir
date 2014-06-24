@@ -88,7 +88,7 @@ gem "summernote-rails", github: 'rorlab/summernote-rails'
 gem 'truncate_html', '~> 0.9.2'
 
 # websocket
-gem 'websocket-rails', :git => 'git://github.com/DanKnox/websocket-rails.git'
+gem 'websocket-rails', :git => 'git://github.com/websocket-rails/websocket-rails.git'
 
 # pdf reader
 gem 'pdf-reader'

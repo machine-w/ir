@@ -36,7 +36,10 @@ module ConversationsHelper
 			result[:add_document_content] = message.add_document.get_message_content
 			result[:add_document_url] = document_path(message.add_document)
 		end
-		WebsocketRails[target_user.loginname].trigger(:user_message,result )
+		Fiber.new {
+			WebsocketRails[target_user.loginname].trigger(:user_message,result )
+		}.resume
+		
 	end
 	def save_message(source_id,target_id,content)
 		#p "#{source_id}\n"

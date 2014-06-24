@@ -8,7 +8,9 @@ module Admin::GroupsHelper
 				result[:add_document_content] = message.add_document.get_message_content
 				result[:add_document_url] = document_path(message.add_document)
 			end
-			WebsocketRails[m.user.loginname].trigger(:group_message, result) unless m.user == from_user
+			Fiber.new {
+				WebsocketRails[m.user.loginname].trigger(:group_message, result) unless m.user == from_user
+			}.resume
 		end  
 	end
 	def get_group_unread_messages(user)

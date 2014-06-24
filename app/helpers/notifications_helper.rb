@@ -2,8 +2,10 @@ module NotificationsHelper
 	include ActionView::Helpers::TextHelper
 	def make_notification(user,title,content,footer,type,realmes=false)
 		noti=user.notifications.create(title: title,content: content,footer: footer,type: type)
-		WebsocketRails[user.loginname].trigger(:user_notification, {user_loginname: user.loginname,title: title,content: content,footer: footer,type_img: noti.type_img,type_color: noti.type_color,time: noti.created_at.strftime("%k:%M"),date:noti.created_at.strftime("%Y年%m月%d日")}) if realmes
-	end
+		Fiber.new {
+			WebsocketRails[user.loginname].trigger(:user_notification, {user_loginname: user.loginname,title: title,content: content,footer: footer,type_img: noti.type_img,type_color: noti.type_color,time: noti.created_at.strftime("%k:%M"),date:noti.created_at.strftime("%Y年%m月%d日")}) if realmes
+        }.resume
+			end
 	def add_folder_notification(user,folder)
 		title = "#{user.username} 新建目录‘#{folder.name}’"
 		content = "<a href='#{admin_user_path(user.loginname)}'>#{user.username}</a>新建目录‘#{folder.name}’"

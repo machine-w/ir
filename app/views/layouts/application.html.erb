@@ -9,7 +9,7 @@
         <%= render 'layouts/shim' %>
         <%= javascript_include_tag "application", "data-turbolinks-track" => true %>  
     </head>
-    <body class="<%= bg_skin(yield(:bgclass)) %>" id="ir-body" data-uri="<%= request.host %>:<%= request.port %>/websocket" data-viewpubu="<%= session[:view_pubu] %>" data-fixheader="<%= session[:view_fixheader] %>" data-backpicture='<%= @home_user.get_backpicture if @home_user %>'>
+    <body class="<%= bg_skin(yield(:bgclass)) %>" id="ir-body" data-uri="<%= request.host %>:<%= '8964' %>/websocket" data-viewpubu="<%= session[:view_pubu] %>" data-fixheader="<%= session[:view_fixheader] %>" data-backpicture='<%= @home_user.get_backpicture if @home_user %>'>
         <header class="header opacity95">
             <a href="/" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
