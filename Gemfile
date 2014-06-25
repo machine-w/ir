@@ -75,7 +75,10 @@ gem "messengerjs-rails", "~> 1.3.6.2"
 gem 'data-confirm-modal', github: 'ifad/data-confirm-modal'
 gem 'tagmanager-rails'
 gem 'jquery-inputmask-rails'
-gem 'bootstrap-colorpicker-rails', :require => 'bootstrap-colorpicker-rails',:git => 'git://github.com/alessani/bootstrap-colorpicker-rails.git'
+group :assets do
+  gem 'bootstrap-colorpicker-rails', :require => 'bootstrap-colorpicker-rails',:git => 'git://github.com/alessani/bootstrap-colorpicker-rails.git'
+end
+
 gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
 gem 'fine-uploader-rails', '~> 3.2'
 gem 'twitter-typeahead-rails', :git => "git://github.com/yourabi/twitter-typeahead-rails.git"
