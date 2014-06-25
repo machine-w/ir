@@ -77,4 +77,6 @@ InstitutionalRepos::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  ENV['PATH'] = "/usr/local/bin:#{ENV['PATH']}"
 end
