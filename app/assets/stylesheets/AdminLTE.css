@@ -3091,7 +3091,7 @@ tr > td.control-col {
   /*color: #f9f9f9;
   color: rgba(255, 255, 255, 0.8);*/
   font-size: 20px;
-  text-shadow: 2px 2px 3px #333333;
+  text-shadow: 2px 2px 3px #aaaaaa;
   margin-top: 10px;
 }
 .user-info > p > small {
