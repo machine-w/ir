@@ -278,7 +278,7 @@ class Folder
           self.build_permission({inherit: false,privated: false,public_type: :user})
         when :note, :picture,:video, :music,:file,:data
           self.build_permission({inherit: false,privated: true}) 
-        when :blog,
+        when :blog
           self.build_permission({inherit: false,privated: false,public_type: :all})
         end
       end

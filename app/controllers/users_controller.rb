@@ -8,10 +8,14 @@ class UsersController < ApplicationController
     documents =[]
     #@home_user.folders.each { |e| documents+= e.documents.all.entries.reject { |doc| doc.visiable?(current_user)} }
     @query_key=params[:q]
-    if @query_key.blank?
-      @all_docs=Document.or(@home_user.folders.map { |f| {folder: f} })
+    if @home_user.folders.exists?
+      if @query_key.blank?
+        @all_docs=Document.or(@home_user.folders.map { |f| {folder: f} })
+      else
+        @all_docs=Document.or(@home_user.folders.map { |f| {folder: f} }).where(title: /.*#{@query_key}.*/)
+      end
     else
-      @all_docs=Document.or(@home_user.folders.map { |f| {folder: f} }).where(title: /.*#{@query_key}.*/)
+      @all_docs=[]
     end
     @all_docs.each do |doc| 
       documents.push doc if doc.visiable?(current_user)
