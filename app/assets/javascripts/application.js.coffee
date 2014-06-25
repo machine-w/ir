@@ -110,6 +110,14 @@ $ ->
 		#showCaption: false
 		browseClass: "btn btn-success"
 		initialPreview: ["<img src='"+$("#user_avatar").data('avatar')+"' class='file-preview-image'>"]
+	$("#group_avatar").fileinput
+		showUpload: false
+		browseLabel: "上传群头像"
+		showRemove: false
+		initialCaption: "当前群头像"
+		#showCaption: false
+		browseClass: "btn btn-success"
+		initialPreview: ["<img src='"+$("#group_avatar").data('avatar')+"' class='file-preview-image'>"]
 	$(".input-picture").each ->
 		if $(this).data('pic') == ''
 			preview = ["<div class='file-preview-text'><h2><i class='fa fa-square-o'></i></h2>尚未上传图片</div>"]
