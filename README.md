@@ -13,3 +13,11 @@ bundle install --deployment
 RAILS_ENV=production bundle exec rake websocket_rails:start_server
 3） 启动nginx:
 service nginx start
+
+
+开发启动：
+
+启动 mongodb redis
+rake db:migrate
+rake websocket_rails:start_server
+rails server
